@@ -24,6 +24,7 @@ export default new Vuex.Store({
       localStorage.setItem("token", JSON.stringify(state.token));
     },
     clearUserData() {
+      localStorage.removeItem("token");
       localStorage.removeItem("user");
       location.reload();
     },

@@ -6,6 +6,7 @@ import store from "./store";
 import axios from "axios";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
+import vuetify from "./plugins/vuetify";
 
 Vue.use(Vuetify);
 
@@ -19,14 +20,15 @@ new Vue({
       this.$store.commit("setUser", JSON.parse(userInfo));
     }
     axios.interceptors.response.use(
-        (response) => response,
-        (error) => {
-          if (error.response.status === 401) {
-            this.$store.dispatch("logout");
-          }
-          return Promise.reject(error);
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          this.$store.dispatch("logout");
         }
+        return Promise.reject(error);
+      }
     );
   },
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");

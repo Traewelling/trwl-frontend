@@ -2,9 +2,21 @@
   <div>
     <h1>Login</h1>
     <form @submit.prevent="login">
-      <input type="email" name="email" v-model="email" />
-      <input type="password" name="password" v-model="password" />
-      <button type="submit">Login</button>
+      <v-text-field
+        type="email"
+        name="email"
+        v-model="email"
+        placeholder="User"
+        persistent-placeholder
+      />
+      <v-text-field
+        type="password"
+        name="password"
+        v-model="password"
+        placeholder="Password"
+        persistent-placeholder
+      />
+      <v-btn type="submit">Login</v-btn>
     </form>
   </div>
 </template>
