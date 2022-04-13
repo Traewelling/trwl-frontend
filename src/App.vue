@@ -1,54 +1,56 @@
 <template>
-  <v-app>
-    <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn @click="logout" text>
-        <span class="mr-2">Logout</span>
-        <v-icon>mdi-logout</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+  <router-view></router-view>
 </template>
 
 <script>
-import "@fontsource/roboto";
-import "@mdi/font/css/materialdesignicons.min.css";
+import htmlWebpackPlugin from "@vue/test-utils";
+import "mdb-ui-kit/css/mdb.min.css";
+import "@fortawesome/fontawesome-free/css/all.css";
+import "mdb-ui-kit/js/mdb.min";
 
 export default {
   name: "App",
+  metaInfo() {
+    return {
+      title: "Träwelling",
+      titleTemplate: "%s - " + htmlWebpackPlugin.options.title,
+      htmlAttrs: {
+        lang: this.i18n.getLocale(),
+      },
+      meta: [
+        { name: "charset", content: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "apple-mobile-web-app-capable", content: "yes" },
+        { name: "apple-mobile-web-app-status-bar-style", content: "#c72730" },
+        { name: "mobile-web-app-capable", content: "yes" },
+        { name: "theme-color", content: "#c72730" },
+        { name: "name", content: this.$appName },
 
-  data: () => ({
-    //
-  }),
-  methods: {
-    logout() {
-      this.$store.dispatch("logout");
-    },
+        { name: "copyright", content: "Träwelling Team" },
+        {
+          name: "description",
+          content: this.i18n.get("_.about.block1"),
+          vmid: "description",
+        },
+        {
+          name: "keywords",
+          content:
+            "Träwelling, Twitter, Deutsche, Bahn, Travel, Check-In, Zug, Bus, Tram, Mastodon",
+        },
+        { name: "audience", conent: "Travellers" },
+        { name: "DC.Rights", content: "Träwelling Team" },
+        {
+          name: "DC.Description",
+          content: this.i18n.get("_.about.block1"),
+          vmid: "DC.Description",
+        },
+        { name: "DC.Language", content: this.i18n.getLocale() },
+        { property: "og:title", content: this.$appName, vmid: "og:title" },
+        { property: "og:site_name", content: this.$appName },
+        { property: "og:type", content: "website" },
+        { name: "robots", content: "index,follow", vmid: "robots" },
+      ],
+    };
   },
 };
 </script>

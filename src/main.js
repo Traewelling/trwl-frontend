@@ -62,6 +62,8 @@ axios.interceptors.response.use(
   }
 );
 
+Vue.prototype.$appName = "Träwelling";
+
 new Vue({
   router,
   store,
@@ -82,5 +84,6 @@ new Vue({
     this.$store.dispatch("fetchLocale");
   },
   vuetify,
+  auth: Object(),
   render: (h) => h(App),
 }).$mount("#app");
