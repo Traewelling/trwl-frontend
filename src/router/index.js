@@ -2,23 +2,23 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import WelcomePage from "@/views/WelcomePage";
 import Login from "@/views/Login.vue";
-import Dashboard from "@/views/Dashboard";
-import SingleStatus from "@/views/SingleStatus";
-import ActiveStatuses from "@/views/ActiveStatuses";
-import Profile from "@/views/Profile";
+import Dashboard from "@/views/statuses/Dashboard";
+import SingleStatus from "@/views/statuses/SingleStatus";
+import ActiveStatuses from "@/views/statuses/ActiveStatuses";
+import Profile from "@/views/users/Profile";
 import Event from "@/views/Event";
 import Events from "@/views/Events";
-import Leaderboard from "@/views/Leaderboard";
-import LeaderboardMonth from "@/views/LeaderboardMonth";
-import Trip from "@/views/Trip";
-import Stationboard from "@/views/Stationboard";
-import Statistics from "@/views/Statistics";
-import SearchView from "@/views/SearchView";
-import LegalNotice from "@/views/LegalNotice";
-import PrivacyPolicy from "@/views/PrivacyPolicy";
-import Support from "@/views/Support";
-import Settings from "@/views/Settings";
-import Followers from "@/views/Followers";
+import Leaderboard from "@/views/stats/Leaderboard";
+import LeaderboardMonth from "@/views/stats/LeaderboardMonth";
+import Trip from "@/views/checkin/Trip";
+import Stationboard from "@/views/checkin/Stationboard";
+import Statistics from "@/views/stats/Statistics";
+import SearchView from "@/views/users/SearchView";
+import LegalNotice from "@/views/static/LegalNotice";
+import PrivacyPolicy from "@/views/static/PrivacyPolicy";
+import Support from "@/views/settings/Support";
+import Settings from "@/views/settings/Settings";
+import Followers from "@/views/settings/Followers";
 
 Vue.use(VueRouter);
 
@@ -141,7 +141,7 @@ const routes = [
       auth: true,
     },
     component: () =>
-      import(/* webpackChunkName: "about" */ "@/views/About.vue"),
+      import(/* webpackChunkName: "about" */ "@/views/static/About.vue"),
   },
   {
     name: "settings",
