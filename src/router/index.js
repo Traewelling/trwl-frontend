@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Login from "../views/Login.vue";
 
 Vue.use(VueRouter);
 
@@ -25,8 +26,10 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login.vue"),
+    component: Login,
+    meta: {
+      auth: false,
+    },
   },
 ];
 
@@ -40,6 +43,12 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem("token");
   if (to.matched.some((record) => record.meta.auth) && !loggedIn) {
     next("/login");
+    return;
+  } else if (
+    loggedIn &&
+    to.matched.some((record) => record.meta.auth === false)
+  ) {
+    next("/dashboard");
     return;
   }
   next();
