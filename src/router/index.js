@@ -10,6 +10,9 @@ import Event from "@/views/Event";
 import Events from "@/views/Events";
 import Leaderboard from "@/views/Leaderboard";
 import LeaderboardMonth from "@/views/LeaderboardMonth";
+import Trip from "@/views/Trip";
+import Stationboard from "@/views/Stationboard";
+import Statistics from "@/views/Statistics";
 
 Vue.use(VueRouter);
 
@@ -78,7 +81,7 @@ const routes = [
   {
     name: "trains.stationboard",
     path: "/trains/stationboard",
-    component:Stationboard,
+    component: Stationboard,
     meta: {
       auth: true,
     },
@@ -87,6 +90,14 @@ const routes = [
     name: "trains.trip",
     path: "/trains/trip",
     component: Trip,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    name: "statistics",
+    path: "/statistics",
+    component: Statistics,
     meta: {
       auth: true,
     },
