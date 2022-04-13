@@ -167,7 +167,7 @@
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Event from "@/ApiClient/Event";
 import Spinner from "@/components/Spinner";
-import LoadingButton from "@/components/LoadingButton";
+import LoadingButton from "@/components/buttons/LoadingButton";
 
 export default {
   name: "Events",

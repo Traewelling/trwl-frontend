@@ -60,9 +60,9 @@
 <script>
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import PrivacyPolicy from "@/ApiClient/PrivacyPolicy";
-import DeleteAccountModal from "@/components/DeleteAccountModal";
+import DeleteAccountModal from "@/components/modals/DeleteAccountModal";
 import Spinner from "@/components/Spinner";
-import LoadingButton from "@/components/LoadingButton";
+import LoadingButton from "@/components/buttons/LoadingButton";
 import { marked } from "marked";
 
 export default {

@@ -155,7 +155,7 @@
 
 <script>
 import StationForm from "@/components/StationForm";
-import ModalConfirm from "@/components/ModalConfirm";
+import ModalConfirm from "@/components/modals/ModalConfirm";
 import moment from "moment";
 import { travelImages } from "@/ApiClient/APImodels";
 import LayoutBasic from "@/components/layouts/Basic";

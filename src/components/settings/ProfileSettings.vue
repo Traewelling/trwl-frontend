@@ -177,8 +177,8 @@
 </template>
 
 <script>
-import ModalConfirm from "@/components/ModalConfirm";
-import FADropdown from "@/components/FADropdown";
+import ModalConfirm from "@/components/modals/ModalConfirm";
+import FADropdown from "@/components/buttons/FADropdown";
 import myUpload from "vue-image-crop-upload";
 import { visibility } from "@/ApiClient/APImodels";
 import _debounce from "lodash/debounce";

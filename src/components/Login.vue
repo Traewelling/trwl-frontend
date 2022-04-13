@@ -73,7 +73,7 @@
   </form>
 </template>
 <script>
-import LoadingButton from "@/components/LoadingButton";
+import LoadingButton from "@/components/buttons/LoadingButton";
 export default {
   name: "Login",
   components: { LoadingButton },

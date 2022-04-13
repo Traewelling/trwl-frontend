@@ -192,10 +192,10 @@
 
 <script>
 import { Modal } from "bootstrap";
-import FADropdown from "@/components/FADropdown";
+import FADropdown from "@/components/buttons/FADropdown";
 import { travelReason, visibility } from "@/ApiClient/APImodels";
 import Checkin from "@/ApiClient/Checkin";
-import ModalConfirm from "@/components/ModalConfirm";
+import ModalConfirm from "@/components/modals/ModalConfirm";
 
 export default {
   name: "CheckInModal",

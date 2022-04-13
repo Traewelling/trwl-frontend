@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import ModalConfirm from "@/components/ModalConfirm";
+import ModalConfirm from "@/components/modals/ModalConfirm";
 export default {
   name: "CheckinSuccessModal",
   components: { ModalConfirm },

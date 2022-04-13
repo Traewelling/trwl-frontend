@@ -86,7 +86,7 @@
 
 <script>
 import LayoutBasic from "@/components/layouts/Basic";
-import FollowButton from "@/components/FollowButton";
+import FollowButton from "@/components/buttons/FollowButton";
 import Spinner from "@/components/Spinner";
 import User from "@/ApiClient/User";
 import localizeThousands from "@/helpers/timeHelpers/localizeThousands";

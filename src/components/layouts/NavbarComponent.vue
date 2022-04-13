@@ -144,8 +144,8 @@
 </template>
 
 <script>
-import NotificationsButton from "@/components/NotificationsButton";
-import NotificationsModal from "@/components/NotificationsModal";
+import NotificationsButton from "@/components/buttons/NotificationsButton";
+import NotificationsModal from "@/components/modals/NotificationsModal";
 import Notifications from "@/ApiClient/Notifications";
 
 export default {

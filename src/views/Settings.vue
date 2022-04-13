@@ -55,9 +55,9 @@
 <script>
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import { userProfileSettings, visibility } from "@/ApiClient/APImodels";
-import ProfileSettings from "@/components/Settings/ProfileSettings";
-import AccountSettings from "@/components/Settings/AccountSettings";
-import ConnectivitySettings from "@/components/Settings/ConnectivitySettings";
+import ProfileSettings from "@/components/settings/ProfileSettings";
+import AccountSettings from "@/components/settings/AccountSettings";
+import ConnectivitySettings from "@/components/settings/ConnectivitySettings";
 import Settings from "@/ApiClient/Settings";
 
 export default {

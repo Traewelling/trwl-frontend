@@ -113,9 +113,9 @@
 </template>
 
 <script>
-import MuteButton from "./MuteButton";
-import FollowButton from "./FollowButton";
-import User from "../../../traewelling/resources/js/ApiClient/User";
+import MuteButton from "../buttons/MuteButton";
+import FollowButton from "../buttons/FollowButton";
+import User from "../../../../traewelling/resources/js/ApiClient/User";
 
 export default {
   name: "FollowTable",

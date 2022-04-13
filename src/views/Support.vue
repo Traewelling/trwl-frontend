@@ -89,7 +89,7 @@ import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Spinner from "@/components/Spinner";
 import Support from "@/ApiClient/Support";
 import Settings from "@/ApiClient/Settings";
-import LoadingButton from "@/components/LoadingButton";
+import LoadingButton from "@/components/buttons/LoadingButton";
 
 export default {
   name: "Support",

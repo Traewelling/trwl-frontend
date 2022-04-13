@@ -101,7 +101,7 @@
 
 <script>
 import moment from "moment";
-import LeaderboardTable from "@/components/LeaderboardTable";
+import LeaderboardTable from "@/components/tables/LeaderboardTable";
 import LayoutBasic from "@/components/layouts/Basic";
 import Spinner from "@/components/Spinner";
 import Statistics from "@/ApiClient/Statistics";

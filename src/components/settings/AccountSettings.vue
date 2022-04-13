@@ -173,10 +173,10 @@
 </template>
 
 <script>
-import ChangeLanguageButton from "@/components/ChangeLanguageButton";
-import ModalConfirm from "@/components/ModalConfirm";
+import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
+import ModalConfirm from "@/components/modals/ModalConfirm";
 import Settings from "@/ApiClient/Settings";
-import DeleteAccountModal from "@/components/DeleteAccountModal";
+import DeleteAccountModal from "@/components/modals/DeleteAccountModal";
 
 export default {
   name: "AccountSettings",

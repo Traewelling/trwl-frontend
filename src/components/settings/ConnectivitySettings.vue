@@ -291,7 +291,7 @@
 </template>
 
 <script>
-import ModalConfirm from "@/components/ModalConfirm";
+import ModalConfirm from "@/components/modals/ModalConfirm";
 import Spinner from "@/components/Spinner";
 import Settings from "@/ApiClient/Settings";
 

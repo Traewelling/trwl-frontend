@@ -160,7 +160,7 @@
 import Spinner from "@/components/Spinner";
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Settings from "@/ApiClient/Settings";
-import FollowTable from "@/components/FollowTable";
+import FollowTable from "@/components/tables/FollowTable";
 
 export default {
   name: "Followers",

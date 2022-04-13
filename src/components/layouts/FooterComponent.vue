@@ -70,7 +70,7 @@
 
 <script>
 import { languages } from "@/i18n/translations";
-import ChangeLanguageButton from "@/components/ChangeLanguageButton";
+import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
 
 export default {
   name: "FooterComponent",

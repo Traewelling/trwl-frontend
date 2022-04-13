@@ -161,7 +161,7 @@
 <script>
 import { travelImages } from "@/ApiClient/APImodels";
 import moment from "moment";
-import CheckInModal from "@/components/CheckInModal";
+import CheckInModal from "@/components/modals/CheckInModal";
 import LayoutBasic from "@/components/layouts/Basic";
 import Spinner from "@/components/Spinner";
 import Checkin from "@/ApiClient/Checkin";

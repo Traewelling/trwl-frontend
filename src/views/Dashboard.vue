@@ -105,7 +105,7 @@ import LayoutBasic from "@/components/layouts/Basic";
 import Spinner from "@/components/Spinner";
 import Dashboard from "@/ApiClient/Dashboard";
 import ApiStatus from "@/ApiClient/Status";
-import CheckinSuccessModal from "@/components/CheckinSuccessModal";
+import CheckinSuccessModal from "@/components/modals/CheckinSuccessModal";
 
 export default {
   name: "dashboard",

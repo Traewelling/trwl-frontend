@@ -188,7 +188,7 @@
 </template>
 
 <script>
-import ChangeLanguageButton from "@/components/ChangeLanguageButton";
+import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
 import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
 import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
 import localizeDistance from "@/helpers/timeHelpers/localizeDistance";

@@ -304,10 +304,10 @@
 import moment from "moment";
 import Map from "@/components/Map";
 import { StatusModel, travelReason, visibility } from "@/ApiClient/APImodels";
-import ModalConfirm from "@/components/ModalConfirm";
-import CheckInModal from "@/components/CheckInModal";
-import FollowButton from "@/components/FollowButton";
-import MuteButton from "@/components/MuteButton";
+import ModalConfirm from "@/components/modals/ModalConfirm";
+import CheckInModal from "@/components/modals/CheckInModal";
+import FollowButton from "@/components/buttons/FollowButton";
+import MuteButton from "@/components/buttons/MuteButton";
 import User from "@/ApiClient/User";
 import Status from "@/ApiClient/Status";
 import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
