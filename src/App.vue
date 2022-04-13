@@ -23,10 +23,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-          @click="logout"
-        text
-      >
+      <v-btn @click="logout" text>
         <span class="mr-2">Logout</span>
         <v-icon>mdi-logout</v-icon>
       </v-btn>
@@ -39,6 +36,9 @@
 </template>
 
 <script>
+import "@fontsource/roboto";
+import "@mdi/font/css/materialdesignicons.min.css";
+
 export default {
   name: "App",
 
