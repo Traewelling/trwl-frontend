@@ -23,7 +23,7 @@
                 href="#leaderboard-main"
                 role="tab"
               >
-                {{ $i18n.get("_.leaderboard.top") }} {{ users.length }}
+                {{ $i18n.get("_.leaderboard.top") }} {{ topCnt }}
               </a>
             </li>
             <li class="nav-item">
@@ -138,6 +138,14 @@ export default {
     Spinner,
     LayoutBasic,
     LeaderboardTable,
+  },
+  computed: {
+    topCnt: function () {
+      if (this.users && this.users.length) {
+        return this.users.length;
+      }
+      return 0;
+    },
   },
   methods: {
     fetchData() {
