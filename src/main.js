@@ -10,6 +10,7 @@ import vuetify from "./plugins/vuetify";
 import { Notyf } from "notyf";
 import Lang from "lang.js";
 import { i18nStrings } from "./translations";
+import moment from "moment";
 
 Vue.use(Vuetify);
 
@@ -29,6 +30,9 @@ Vue.prototype.i18n = new Lang({
   locale: currentLocale,
   fallback: "en",
 });
+
+Vue.prototype.moment = moment;
+Vue.prototype.moment.locale(store.state.locale.substr(0, 2));
 
 axios.interceptors.response.use(
   (response) => response,
