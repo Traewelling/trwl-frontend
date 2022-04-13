@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import FooterComponent from "../components/layouts/FooterComponent";
-import Login from "../components/Login";
+import FooterComponent from "@/components/layouts/FooterComponent";
+import Login from "@/components/Login";
 
 export default {
   name: "WelcomePage",
