@@ -90,4 +90,15 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+#about-page {
+  .blockquote,
+  p.lead {
+    margin-bottom: 2em;
+
+    strong {
+      font-weight: 600;
+    }
+  }
+}
+</style>

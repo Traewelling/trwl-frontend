@@ -193,6 +193,7 @@
 import moment from "moment";
 import axios from "axios";
 import autoComplete from "@tarekraafat/autocomplete.js/src/autoComplete";
+import "@tarekraafat/autocomplete.js/dist/css/autoComplete.02.css";
 import Checkin from "@/ApiClient/Checkin";
 
 export default {
@@ -381,4 +382,40 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+#timepicker-wrapper {
+  padding: 2rem 0;
+
+  .btn-rounded:first-child {
+    border-top-left-radius: 10em;
+    border-bottom-left-radius: 10em;
+  }
+
+  .btn-rounded:last-child {
+    border-top-right-radius: 10em;
+    border-bottom-right-radius: 10em;
+  }
+
+  .btn {
+    box-shadow: none !important;
+  }
+
+  .text-white {
+    color: white;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    white-space: normal;
+    font-size: 0.81rem;
+  }
+
+  #timepicker-form {
+    &.opacity-null {
+      display: none;
+
+      &.animated {
+        transition: 0.2s display ease-ease;
+      }
+    }
+  }
+}
+</style>

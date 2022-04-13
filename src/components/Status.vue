@@ -492,4 +492,65 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+@import "/src/sass/variables";
+
+.status {
+  .map {
+    width: 100%;
+    overflow: hidden;
+
+    &.large {
+      height: 280px;
+    }
+  }
+
+  .progress {
+    height: 0.3rem;
+    // background: lighten(rgb(192, 57, 43), 50%);
+    background: $grey;
+    border-radius: 0;
+
+    .progress-bar {
+      background: rgb(192, 57, 43);
+    }
+  }
+
+  .profile-image {
+    height: 2em;
+    border-radius: 50%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  .list-inline {
+    margin-bottom: 0;
+
+    .like {
+      color: #f5a530;
+      cursor: pointer;
+    }
+
+    .list-inline-item:not(:last-child) {
+      margin-right: 0.5rem;
+
+      &::after {
+        content: "|";
+        margin-left: 0.5rem;
+        color: $grey;
+      }
+    }
+  }
+
+  .like-text {
+    line-height: 2em;
+  }
+
+  .visibility-icon {
+    color: #b3b3b3 !important;
+  }
+}
+
+</style>

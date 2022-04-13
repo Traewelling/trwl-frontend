@@ -55,6 +55,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "sass/app";
 // Body
 $body-bg: #f8fafc;
 
@@ -62,26 +63,6 @@ $body-bg: #f8fafc;
 $font-family-sans-serif: "Nunito", sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
-
-// Colors
-$white: #fff;
-$black: #000;
-$dark: #343a40;
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
-$grey: rgba(0, 0, 0, 0.125);
-$bahnrot: rgb(192, 57, 43);
-$text-color: #212529;
-$blueCounterColor: rgb(0, 46, 102);
-$trwlRot: rgb(199, 39, 48);
 
 body {
   background: rgb(248, 250, 252);

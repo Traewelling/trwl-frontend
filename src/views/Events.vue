@@ -224,3 +224,13 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+#event-header {
+  h2 {
+    font-size: 145%;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+}
+</style>

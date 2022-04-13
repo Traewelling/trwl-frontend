@@ -5,6 +5,7 @@
 <script>
 import "leaflet/dist/leaflet.js";
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 export default {
   name: "Map",

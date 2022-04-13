@@ -183,4 +183,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+#leaderboard {
+  #top20 a:hover,
+  #top20k a:hover,
+  #top20f a:hover {
+    text-decoration: underline;
+  }
+}
+</style>

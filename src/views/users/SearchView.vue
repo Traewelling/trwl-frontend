@@ -139,4 +139,14 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+@import "/src/sass/variables";
+
+.navbar.navbar-dark form .md-form input:focus:not([readonly]) {
+  border-color: $blueCounterColor;
+}
+
+.stationSearchButton {
+  border: 1px solid #bdbdbd;
+}
+</style>
