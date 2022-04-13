@@ -11,6 +11,7 @@ import { Notyf } from "notyf";
 import Lang from "lang.js";
 import { i18nStrings } from "./translations";
 import moment from "moment";
+import VueMeta from "vue-meta";
 
 Vue.use(Vuetify);
 
@@ -33,6 +34,11 @@ Vue.prototype.i18n = new Lang({
 
 Vue.prototype.moment = moment;
 Vue.prototype.moment.locale(store.state.locale.substr(0, 2));
+
+Vue.use(VueMeta, {
+  tagIDKeyName: "vmid",
+  refreshOnceOnNavigation: true,
+});
 
 axios.interceptors.response.use(
   (response) => response,
