@@ -401,7 +401,7 @@ export default {
           window.URL.revokeObjectURL(url);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchRecentDays(delta) {
@@ -426,7 +426,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchGlobalData() {
@@ -438,7 +438,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     updatePurpose() {

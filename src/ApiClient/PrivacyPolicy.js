@@ -1,11 +1,11 @@
-import {getBody, getContent, postToApi, putToApi} from "./Helpers";
+import { getContent, putToApi } from "./Helpers";
 
 export default class PrivacyPolicy {
-    static getPolicy() {
-        return getContent("static/privacy");
-    }
+  static getPolicy() {
+    return getContent("static/privacy");
+  }
 
-    static acceptPolicy() {
-        return putToApi("settings/acceptPrivacy");
-    }
+  static acceptPolicy() {
+    return putToApi("settings/acceptPrivacy");
+  }
 }

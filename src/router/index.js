@@ -13,6 +13,10 @@ import LeaderboardMonth from "@/views/LeaderboardMonth";
 import Trip from "@/views/Trip";
 import Stationboard from "@/views/Stationboard";
 import Statistics from "@/views/Statistics";
+import SearchView from "@/views/SearchView";
+import LegalNotice from "@/views/LegalNotice";
+import PrivacyPolicy from "@/views/PrivacyPolicy";
+import Support from "@/views/Support";
 
 Vue.use(VueRouter);
 
@@ -101,6 +105,32 @@ const routes = [
     meta: {
       auth: true,
     },
+  },
+  {
+    name: "search",
+    path: "/search",
+    component: SearchView,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    name: "support",
+    path: "/support",
+    component: Support,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    name: "privacy",
+    path: "/legal/privacy",
+    component: PrivacyPolicy,
+  },
+  {
+    name: "legal",
+    path: "/legal",
+    component: LegalNotice,
   },
   {
     name: "About",

@@ -209,7 +209,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     goToTrip(departure) {
@@ -237,7 +237,7 @@ export default {
           this.i18n.choice("_.user.home-set", 1, { station: this.result.name })
         );
       }).catch((error) => {
-        this.apiErrorHandler(error);
+        console.error(error);
       });
     },
   },

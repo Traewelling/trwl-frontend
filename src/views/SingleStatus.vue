@@ -144,7 +144,7 @@ export default {
         })
         .catch((errors) => {
           this.loading = false;
-          this.apiErrorHandler(errors);
+          console.error(errors);
         });
     },
     fetchPolyline() {

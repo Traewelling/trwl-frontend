@@ -211,14 +211,14 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
       Event.active()
         .then((data) => {
           this.events = data;
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     showModal(stop) {
