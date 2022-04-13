@@ -11,7 +11,7 @@
           {{ $i18n.get("_.menu.about") }}
         </router-link>
         <router-link
-          v-if="$store.getters.isLogged"
+          v-if="$store.state.authenticated"
           :class="{ 'text-white': dashboard }"
           :to="{ name: 'dashboard.global' }"
           class="footer-link"

@@ -78,7 +78,7 @@
             </h2>
             <hr />
             <form
-              v-if="$store.getters.isLogged"
+              v-if="$store.state.authenticated"
               @submit.prevent="submitProposal"
             >
               <div class="form-outline mb-4">

@@ -135,10 +135,10 @@ const routes = [
     component: LegalNotice,
   },
   {
-    name: "About",
+    name: "about",
     path: "/about",
     meta: {
-      auth: true,
+      auth: false,
     },
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/static/About.vue"),
@@ -179,7 +179,7 @@ router.beforeEach((to, from, next) => {
   const authenticated = localStorage.getItem("authenticated");
   const loggedIn = authenticated === "true";
   if (to.matched.some((record) => record.meta.auth === true) && !loggedIn) {
-    next("/login");
+    next("/");
     return;
   } else if (
     loggedIn &&

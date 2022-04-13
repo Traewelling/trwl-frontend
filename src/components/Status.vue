@@ -156,7 +156,7 @@
           >
             <span
               v-if="
-                $store.getters.isLogged &&
+                $store.state.authenticated &&
                 $store.state.user.id === statusData.user
               "
               >{{ $i18n.get("_.user.you") }}</span
@@ -188,7 +188,7 @@
             </router-link>
           </li>
           <li
-            v-if="$store.getters.isLogged"
+            v-if="$store.state.authenticated"
             class="list-inline-item like-text me-1"
             tabindex="0"
             v-on:click="likeStatus"
@@ -283,7 +283,7 @@
       </div>
     </div>
     <ModalConfirm
-      v-if="$store.getters.isLogged && statusData.user === $store.state.user.id"
+      v-if="$store.state.authenticated && statusData.user === $store.state.user.id"
       ref="deleteModal"
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.modals.delete-confirm')"
@@ -292,7 +292,7 @@
       v-on:confirm="deleteStatus"
     ></ModalConfirm>
     <CheckInModal
-      v-if="$store.getters.isLogged && statusData.user === $store.state.user.id"
+      v-if="$store.state.authenticated && statusData.user === $store.state.user.id"
       ref="editModal"
       :status-data="status"
       v-on:updated="updateStatus"
@@ -349,7 +349,7 @@ export default {
   computed: {
     editable() {
       return (
-        this.$store.getters.isLogged &&
+        this.$store.state.authenticated &&
         this.$store.state.user.id === this.statusData.user
       );
     },

@@ -39,7 +39,7 @@
                 {{ $i18n.get("_.leaderboard.distance") }}
               </a>
             </li>
-            <li v-if="$store.getters.isLogged && friends" class="nav-item">
+            <li v-if="$store.state.authenticated && friends" class="nav-item">
               <a
                 id="friends-tab"
                 aria-controls="contact"
@@ -75,7 +75,7 @@
               ></LeaderboardTable>
             </div>
             <div
-              v-if="$store.getters.isLogged && friends"
+              v-if="$store.state.authenticated && friends"
               id="leaderboard-friends"
               class="tab-pane fade table-responsive"
               role="tabpanel"
@@ -169,7 +169,7 @@ export default {
           this.loading = false;
           console.error(error);
         });
-      if (this.$store.getters.isLogged) {
+      if (this.$store.state.authenticated) {
         Statistics.getLeaderBoardFriends()
           .then((data) => {
             this.loading = false;

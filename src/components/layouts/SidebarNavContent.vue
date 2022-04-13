@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link
-      v-if="$store.getters.isLogged"
+      v-if="$store.state.authenticated"
       :to="{
         name: 'profile',
         params: { username: $store.state.user.username },
@@ -19,7 +19,7 @@
       >&nbsp;
       <small class="text-muted">@{{ $store.state.user.username }}</small>
     </router-link>
-    <div v-if="$store.getters.isLogged" class="row text-black-50 mt-1 justify">
+    <div v-if="$store.state.authenticated" class="row text-black-50 mt-1 justify">
       <div class="col">
         <i aria-hidden="true" class="fas fa-dice-d20" />
         <span class="sr-only">{{ $i18n.get("_.leaderboard.points") }}</span>
@@ -38,7 +38,7 @@
     </div>
     <hr />
     <ul
-      v-if="!$store.getters.isLogged"
+      v-if="!$store.state.authenticated"
       class="nav nav-pills flex-column mb-auto"
     >
       <li class="nav-item">
@@ -53,7 +53,7 @@
       </li>
     </ul>
     <ul
-      v-if="$store.getters.isLogged"
+      v-if="$store.state.authenticated"
       class="nav nav-pills flex-column mb-auto"
     >
       <li class="nav-item">
@@ -160,7 +160,7 @@
       <li class="nav-item">
         <ChangeLanguageButton :navbar="true" />
       </li>
-      <li v-if="$store.getters.isLogged" class="nav-item">
+      <li v-if="$store.state.authenticated" class="nav-item">
         <a
           class="nav-link bg-transparent"
           href="#"

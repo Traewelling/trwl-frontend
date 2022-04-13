@@ -20,7 +20,7 @@
       </button>
       <div class="navbar-toggler">
         <NotificationsButton
-          v-if="$store.getters.isLogged"
+          v-if="$store.state.authenticated"
           :notifications-count="notificationsCount"
           :toggler="true"
           @click="showNotifications"
@@ -28,7 +28,7 @@
       </div>
       <div id="navbarCollapse" ref="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
-          <li v-if="$store.getters.isLogged" class="nav-item">
+          <li v-if="$store.state.authenticated" class="nav-item">
             <router-link :to="{ name: 'dashboard' }" class="nav-link"
               >{{ $i18n.get("_.menu.dashboard") }}
             </router-link>
@@ -43,13 +43,13 @@
               {{ $i18n.get("_.menu.active") }}
             </router-link>
           </li>
-          <li v-if="$store.getters.isLogged" class="nav-item">
+          <li v-if="$store.state.authenticated" class="nav-item">
             <router-link :to="{ name: 'statistics' }" class="nav-link">
               {{ $i18n.get("_.stats") }}
             </router-link>
           </li>
         </ul>
-        <ul v-if="!$store.getters.isLogged" class="navbar-nav w-auto">
+        <ul v-if="!$store.state.authenticated" class="navbar-nav w-auto">
           <li class="nav-item">
             <router-link :to="{ name: 'auth.login' }" class="nav-link"
               >{{ $i18n.get("_.menu.login") }}
@@ -161,13 +161,15 @@ export default {
       this.$refs.notifModal.show();
     },
     fetchNotificationsCount() {
-      Notifications.getCount()
-        .then((count) => {
-          this.notificationsCount = parseInt(count);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (this.$store.state.authenticated === true) {
+        Notifications.getCount()
+          .then((count) => {
+            this.notificationsCount = parseInt(count);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     },
   },
   mounted() {
