@@ -12,6 +12,7 @@ export default new Vuex.Store({
     user: null,
     token: null,
     authenticated: false,
+    locale: null,
   },
 
   mutations: {
@@ -36,6 +37,10 @@ export default new Vuex.Store({
       localStorage.removeItem("user");
       location.reload();
     },
+    setLocale(state, locale) {
+      state.locale = locale;
+      localStorage.setItem("locale", locale);
+    },
   },
   actions: {
     login({ commit }, credentials) {
@@ -51,6 +56,11 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit("clearUserData");
+    },
+    fetchLocale({ commit }) {
+      if (!this.state.locale) {
+        commit("setLocale", navigator.language.substr(0, 2));
+      }
     },
   },
   getters: {

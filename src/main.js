@@ -8,6 +8,8 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import vuetify from "./plugins/vuetify";
 import { Notyf } from "notyf";
+import Lang from "lang.js";
+import { i18nStrings } from "./translations";
 
 Vue.use(Vuetify);
 
@@ -15,6 +17,17 @@ Vue.prototype.notyf = new Notyf({
   duration: 5000,
   position: { x: "center", y: "top" },
   dismissible: true,
+});
+
+let currentLocale = "en";
+store.dispatch("fetchLocale").then(() => {
+  currentLocale = store.state.locale;
+});
+
+Vue.prototype.i18n = new Lang({
+  messages: i18nStrings,
+  locale: currentLocale,
+  fallback: "en",
 });
 
 axios.interceptors.response.use(
