@@ -125,7 +125,7 @@ Vue.mixin({
             resolve(returnObject);
           })
           .catch((error) => {
-            this.apiErrorHandler(error);
+            console.error(error);
           });
       });
     },

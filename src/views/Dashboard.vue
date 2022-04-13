@@ -158,7 +158,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
 
       Dashboard.get(this.$route.path === "/dashboard/global")
@@ -176,7 +176,7 @@ export default {
           this.fetchStopovers(this.statuses);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchMore() {
@@ -199,7 +199,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

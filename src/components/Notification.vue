@@ -111,7 +111,7 @@ export default {
           }
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     goToSender() {

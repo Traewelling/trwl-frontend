@@ -75,7 +75,7 @@ export default {
           this.$emit("updateUser", this.userData);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     unfollow() {
@@ -85,7 +85,7 @@ export default {
           this.$emit("updateUser", this.userData);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

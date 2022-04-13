@@ -101,7 +101,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchStopovers() {
@@ -115,7 +115,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchPolyline() {
@@ -129,7 +129,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     startRefresh() {

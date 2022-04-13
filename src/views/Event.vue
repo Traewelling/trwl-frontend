@@ -114,7 +114,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchStatuses() {
@@ -128,7 +128,7 @@ export default {
         })
         .catch((error) => {
           this.statusesLoading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     fetchMore() {

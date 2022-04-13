@@ -90,7 +90,7 @@ export default {
           this.notifications = data;
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     readAll() {
@@ -100,7 +100,7 @@ export default {
           this.$emit("reset");
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

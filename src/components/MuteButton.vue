@@ -59,7 +59,7 @@ export default {
           this.$emit("updateUser", this.userData);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     unmute() {
@@ -69,7 +69,7 @@ export default {
           this.$emit("updateUser", this.userData);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

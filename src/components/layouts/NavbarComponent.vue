@@ -166,7 +166,7 @@ export default {
           this.notificationsCount = parseInt(count);
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

@@ -289,7 +289,7 @@ export default {
               return item;
             });
           } catch (error) {
-            this.apiErrorHandler(error);
+            console.error(error);
           }
         },
         keys: ["name"],
@@ -322,7 +322,7 @@ export default {
           this.history = data;
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     submitStation(travelType = null, time = this.when) {
@@ -360,7 +360,7 @@ export default {
           this.submitStation();
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     getGeoLocation() {

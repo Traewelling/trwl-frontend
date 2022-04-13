@@ -302,7 +302,7 @@ export default {
           } else {
             this.$router.push({ name: "dashboard" });
           }
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     editCheckin() {
@@ -316,7 +316,7 @@ export default {
           this.hide();
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

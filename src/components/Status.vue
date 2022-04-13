@@ -416,7 +416,7 @@ export default {
           this.user = data;
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     likeStatus() {
@@ -428,7 +428,7 @@ export default {
             this.likes.push(this.$store.state.user);
           })
           .catch((error) => {
-            this.apiErrorHandler(error);
+            console.error(error);
           });
       } else {
         Status.dislike(this.statusData.id)
@@ -441,7 +441,7 @@ export default {
             }
           })
           .catch((error) => {
-            this.apiErrorHandler(error);
+            console.error(error);
           });
       }
     },
@@ -451,7 +451,7 @@ export default {
           this.status = null;
         })
         .catch((error) => {
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
     updateStatus() {

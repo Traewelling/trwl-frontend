@@ -215,7 +215,7 @@ export default {
         })
         .catch((error) => {
           this.suggestLoading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
     },
   },

@@ -150,7 +150,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
       Statistics.getLeaderBoardDistance()
         .then((data) => {
@@ -159,7 +159,7 @@ export default {
         })
         .catch((error) => {
           this.loading = false;
-          this.apiErrorHandler(error);
+          console.error(error);
         });
       if (this.$store.getters.isLogged) {
         Statistics.getLeaderBoardFriends()
@@ -172,7 +172,7 @@ export default {
           })
           .catch((error) => {
             this.loading = false;
-            this.apiErrorHandler(error);
+            console.error(error);
           });
       }
     },

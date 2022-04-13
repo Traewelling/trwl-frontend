@@ -32,6 +32,14 @@ const routes = [
     props: true,
   },
   {
+    name: "dashboard.global",
+    path: "/dashboard/global",
+    component: Dashboard,
+    meta: {
+      auth: true,
+    },
+  },
+  {
     name: "singleStatus",
     path: "/status/:id",
     component: SingleStatus,
@@ -66,6 +74,22 @@ const routes = [
     name: "leaderboard.month",
     path: "/leaderboard/:month",
     component: LeaderboardMonth,
+  },
+  {
+    name: "trains.stationboard",
+    path: "/trains/stationboard",
+    component:Stationboard,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    name: "trains.trip",
+    path: "/trains/trip",
+    component: Trip,
+    meta: {
+      auth: true,
+    },
   },
   {
     name: "About",
