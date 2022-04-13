@@ -3,13 +3,14 @@ import VueRouter from "vue-router";
 import WelcomePage from "@/views/WelcomePage";
 import Login from "@/views/Login.vue";
 import Dashboard from "@/views/Dashboard";
+import SingleStatus from "@/views/SingleStatus";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: "/",
-    name: "Wecome",
+    name: "index",
     component: WelcomePage,
     meta: {
       auth: false,
@@ -25,14 +26,17 @@ const routes = [
     props: true,
   },
   {
+    path: "/status/:id",
+    component: SingleStatus,
+    props: true,
+    name: "singleStatus",
+  },
+  {
     path: "/about",
     name: "About",
     meta: {
       auth: true,
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/About.vue"),
   },
