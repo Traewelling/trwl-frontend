@@ -40,17 +40,21 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const loggedIn = localStorage.getItem("token");
-  if (to.matched.some((record) => record.meta.auth) && !loggedIn) {
+  const authenticated = localStorage.getItem("authenticated");
+  const loggedIn = authenticated === "true";
+  if (to.matched.some((record) => record.meta.auth === true) && !loggedIn) {
+    console.log("auth-route without logged in");
     next("/login");
     return;
   } else if (
     loggedIn &&
     to.matched.some((record) => record.meta.auth === false)
   ) {
+    console.log("auth false-route with logged in");
     next("/dashboard");
     return;
   }
+  console.log("else");
   next();
 });
 

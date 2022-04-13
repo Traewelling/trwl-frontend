@@ -15,13 +15,22 @@ new Vue({
   store,
   created() {
     const userInfo = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    const authenticated = localStorage.getItem("authenticated");
 
+    if (!authenticated) {
+      this.$store.dispatch("fetchUserData");
+    }
     if (userInfo) {
-      this.$store.commit("setUser", JSON.parse(userInfo));
+      this.$store.commit("setUserData", JSON.parse(userInfo));
+    }
+    if (token) {
+      this.$store.commit("setUserToken", JSON.parse(token));
     }
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
+        console.log(error);
         if (error.response.status === 401) {
           this.$store.dispatch("logout");
         }

@@ -11,19 +11,27 @@ export default new Vuex.Store({
   state: {
     user: null,
     token: null,
+    authenticated: false,
   },
 
   mutations: {
     setUserData(state, userData) {
       state.user = userData;
       localStorage.setItem("user", JSON.stringify(userData));
+      this.commit("setAuthenticated", true);
     },
     setUserToken(state, token) {
       state.token = token;
       axios.defaults.headers.common.Authorization = `Bearer ${token.token}`;
       localStorage.setItem("token", JSON.stringify(state.token));
+      this.commit("setAuthenticated", true);
+    },
+    setAuthenticated(state, authenticated) {
+      state.authenticated = authenticated;
+      localStorage.setItem("authenticated", authenticated);
     },
     clearUserData() {
+      this.commit("setAuthenticated", false);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       location.reload();
