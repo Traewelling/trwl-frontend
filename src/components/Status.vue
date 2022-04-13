@@ -310,11 +310,15 @@ import FollowButton from "@/components/FollowButton";
 import MuteButton from "@/components/MuteButton";
 import User from "@/ApiClient/User";
 import Status from "@/ApiClient/Status";
+import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
+import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
 
 export default {
   name: "Status.vue",
   data() {
     return {
+      hoursAndMinutes,
+      localizeDistance,
       isSingleStatus: false,
       categories: ["bus", "suburban", "subway", "tram"],
       loading: false,

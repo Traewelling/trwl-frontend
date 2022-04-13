@@ -33,7 +33,7 @@
       <div class="col">
         <i aria-hidden="true" class="fas fa-route" />
         <span class="sr-only">{{ i18n.get("_.leaderboard.distance") }}</span>
-        {{ this.localizeDistance($store.state.user.trainDistance) }}km
+        {{ localizeDistance($store.state.user.trainDistance) }}km
       </div>
     </div>
     <hr />
@@ -189,12 +189,18 @@
 
 <script>
 import ChangeLanguageButton from "@/components/ChangeLanguageButton";
+import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
+import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
+import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
 
 export default {
   name: "SidebarNavContent",
   data() {
     return {
       searchInput: "",
+      localizeThousands,
+      hoursAndMinutes,
+      localizeDistance,
     };
   },
   components: { ChangeLanguageButton },

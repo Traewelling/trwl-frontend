@@ -192,7 +192,7 @@
 <script>
 import moment from "moment";
 import axios from "axios";
-import autoComplete from "@tarekraafat/autocomplete.js";
+import autoComplete from "@tarekraafat/autocomplete.js/src/autoComplete";
 import Checkin from "@/ApiClient/Checkin";
 
 export default {

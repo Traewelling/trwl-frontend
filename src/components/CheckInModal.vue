@@ -97,7 +97,10 @@
                   ></FADropdown>
                 </div>
               </div>
-              <div v-if="events.length > 0" class="row w-100 mx-0 mb-0">
+              <div
+                v-if="events && events.length > 0"
+                class="row w-100 mx-0 mb-0"
+              >
                 {{ i18n.get("_.events.on-my-way-dropdown") }} <br />
                 <div
                   v-if="events.length === 1"
@@ -229,11 +232,13 @@ export default {
     trainData: {
       type: Object,
     },
-    events: [],
+    events: {
+      type: Array,
+    },
   },
   watch: {
     eventCheck() {
-      if (this.eventCheck === true) {
+      if (this.eventCheck === true && this.events) {
         this.selectedEvent = this.events[0].id;
       } else {
         this.selectedEvent = 0;

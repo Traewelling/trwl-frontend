@@ -129,26 +129,5 @@ Vue.mixin({
           });
       });
     },
-    localizeThousands(number, fixed = 0) {
-      return parseFloat(number.toFixed(fixed)).toLocaleString(
-        Vue.prototype.i18n.getLocale()
-      );
-    },
-    localizeDistance(distance) {
-      return this.localizeThousands(distance / 1000, 1);
-    },
-    hoursAndMinutes(duration) {
-      const dur = moment.duration(duration, "minutes").asMinutes();
-      let minutes = dur % 60;
-      let hours = Math.floor(dur / 60);
-
-      return "".concat(
-        hours.toString(),
-        this.i18n.get("_.time.hours.short"),
-        " ",
-        minutes.toString(),
-        this.i18n.get("_.time.minutes.short")
-      );
-    },
   },
 });
