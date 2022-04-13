@@ -52,7 +52,7 @@ export default {
       Settings.deleteAccount(this.confirmDelete)
         .then(() => {
           this.confirmDelete = null;
-          this.$auth.logout();
+          this.$store.dispatch("logout");
           this.notyf.success(
             this.i18n.get("_.settings.delete-account-completed")
           );

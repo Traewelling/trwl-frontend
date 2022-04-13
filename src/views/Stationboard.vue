@@ -232,7 +232,7 @@ export default {
     setHome() {
       Checkin.saveHome((data) => {
         this.result = data;
-        this.$auth.fetch();
+        this.$store.dispatch("fetchUserData");
         this.notyf.success(
           this.i18n.choice("_.user.home-set", 1, { station: this.result.name })
         );

@@ -17,6 +17,8 @@ import SearchView from "@/views/SearchView";
 import LegalNotice from "@/views/LegalNotice";
 import PrivacyPolicy from "@/views/PrivacyPolicy";
 import Support from "@/views/Support";
+import Settings from "@/views/Settings";
+import Followers from "@/views/Followers";
 
 Vue.use(VueRouter);
 
@@ -140,6 +142,22 @@ const routes = [
     },
     component: () =>
       import(/* webpackChunkName: "about" */ "@/views/About.vue"),
+  },
+  {
+    name: "settings",
+    path: "/settings",
+    component: Settings,
+    meta: {
+      auth: true,
+    },
+  },
+  {
+    name: "followers",
+    path: "/settings/followers",
+    component: Followers,
+    meta: {
+      auth: true,
+    },
   },
   {
     name: "Login",
