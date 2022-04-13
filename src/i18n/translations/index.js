@@ -1,11 +1,11 @@
-import en from "../../lang/en.json";
-import fr from "../../lang/fr.json";
-import nl from "../../lang/nl.json";
-import sv from "../../lang/sv.json";
-import pl from "../../lang/pl.json";
-import de from "../../lang/de.json";
-import de_he from "../../lang/de_he.json";
-import de_pfl from "../../lang/de_pfl.json";
+import en from "../../../lang/en.json";
+import fr from "../../../lang/fr.json";
+import nl from "../../../lang/nl.json";
+import sv from "../../../lang/sv.json";
+import pl from "../../../lang/pl.json";
+import de from "../../../lang/de.json";
+import de_he from "../../../lang/de_he.json";
+import de_pfl from "../../../lang/de_pfl.json";
 
 export const i18nStrings = {
   "en._": en,

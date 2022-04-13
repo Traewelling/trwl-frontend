@@ -1,6 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import VuexPersistence from "vuex-persist";
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+});
 
 Vue.use(Vuex);
 
@@ -24,7 +29,7 @@ export default new Vuex.Store({
     setUserToken(state, token) {
       state.token = token;
       axios.defaults.headers.common.Authorization = `Bearer ${token.token}`;
-      localStorage.setItem("token", JSON.stringify(state.token));
+      vuexLocal.saveState("token", JSON.stringify(state.token));
       this.commit("setAuthenticated", true);
     },
     setAuthenticated(state, authenticated) {
@@ -58,7 +63,10 @@ export default new Vuex.Store({
       commit("clearUserData");
     },
     fetchLocale({ commit }) {
-      if (!this.state.locale) {
+      const locale = localStorage.getItem("locale");
+      if (locale.length > 0) {
+        commit("setLocale", locale);
+      } else {
         commit("setLocale", navigator.language.substr(0, 2));
       }
     },
@@ -66,4 +74,5 @@ export default new Vuex.Store({
   getters: {
     isLogged: (state) => !!state.user,
   },
+  plugins: [vuexLocal.plugin],
 });

@@ -10,7 +10,7 @@
 export default {
   methods: {
     test() {
-      this.$router.push("/about2");
+      this.$store.dispatch("fetchUserData");
     },
   },
 };

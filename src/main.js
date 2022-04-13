@@ -8,10 +8,9 @@ import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
 import vuetify from "./plugins/vuetify";
 import { Notyf } from "notyf";
-import Lang from "lang.js";
-import { i18nStrings } from "./translations";
 import moment from "moment";
 import VueMeta from "vue-meta";
+import i18n from "@/i18n";
 
 Vue.use(Vuetify);
 
@@ -21,19 +20,10 @@ Vue.prototype.notyf = new Notyf({
   dismissible: true,
 });
 
-let currentLocale = "en";
-store.dispatch("fetchLocale").then(() => {
-  currentLocale = store.state.locale;
-});
-
-Vue.prototype.i18n = new Lang({
-  messages: i18nStrings,
-  locale: currentLocale,
-  fallback: "en",
-});
+Vue.prototype.i18n = i18n;
 
 Vue.prototype.moment = moment;
-Vue.prototype.moment.locale(store.state.locale.substr(0, 2));
+Vue.prototype.moment.locale(i18n.getLocale().substr(0, 2));
 
 Vue.use(VueMeta, {
   tagIDKeyName: "vmid",
@@ -89,6 +79,7 @@ new Vue({
     if (token) {
       this.$store.commit("setUserToken", JSON.parse(token));
     }
+    this.$store.dispatch("fetchLocale");
   },
   vuetify,
   render: (h) => h(App),
