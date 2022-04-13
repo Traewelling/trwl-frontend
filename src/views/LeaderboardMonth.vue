@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-12">
           <h4>
-            {{ i18n.get("_.leaderboard.month") }}
+            {{ $i18n.get("_.leaderboard.month") }}
             <strong>{{ month.format("MMMM YYYY") }}</strong>
           </h4>
           <hr />
@@ -31,15 +31,19 @@
         <div v-if="users.length === 0" class="col-md-12">
           <div class="card">
             <div class="card-body text-center text-danger text-bold">
-              {{ i18n.get("_.leaderboard.no_data") }}
+              {{ $i18n.get("_.leaderboard.no_data") }}
             </div>
           </div>
         </div>
 
-        <div v-for="(place, index) in users.slice(0, 3)" class="col-md-4" :key="place">
+        <div
+          v-for="(place, index) in users.slice(0, 3)"
+          class="col-md-4"
+          :key="place"
+        >
           <div class="card mb-2">
             <div class="card-header">
-              {{ i18n.get("_.leaderboard.rank") }} {{ index + 1 }}
+              {{ $i18n.get("_.leaderboard.rank") }} {{ index + 1 }}
             </div>
             <div class="card-body text-center">
               <div class="image-box pe-0 d-lg-flex">
@@ -68,7 +72,7 @@
                     <td>
                       <i aria-hidden="true" class="fas fa-dice-d20" />
                       <span class="sr-only">{{
-                        i18n.get("_.leaderboard.points")
+                        $i18n.get("_.leaderboard.points")
                       }}</span>
                       {{ localizeThousands(place.points) }}
                     </td>
@@ -78,14 +82,14 @@
                     >
                       <i aria-hidden="true" class="fas fa-clock" />
                       <span class="sr-only">{{
-                        i18n.get("_.leaderboard.duration")
+                        $i18n.get("_.leaderboard.duration")
                       }}</span>
                       {{ hoursAndMinutes(place.trainDuration) }}
                     </td>
                     <td>
                       <i aria-hidden="true" class="fas fa-route" />
                       <span class="sr-only">{{
-                        i18n.get("_.leaderboard.distance")
+                        $i18n.get("_.leaderboard.distance")
                       }}</span>
                       {{ this.localizeDistance(place.trainDistance) }}km
                     </td>
@@ -102,22 +106,22 @@
           <div class="card">
             <div class="card-body table-responsive p-0">
               <table
-                :aria-label="i18n.get('_.menu.leaderboard')"
+                :aria-label="$i18n.get('_.menu.leaderboard')"
                 class="table table-vertical-center"
               >
                 <thead>
                   <tr>
-                    <th scope="col">{{ i18n.get("_.leaderboard.rank") }}</th>
+                    <th scope="col">{{ $i18n.get("_.leaderboard.rank") }}</th>
                     <th colspan="2" scope="col">
-                      {{ i18n.get("_.leaderboard.user") }}
+                      {{ $i18n.get("_.leaderboard.user") }}
                     </th>
                     <th scope="col">
-                      {{ i18n.get("_.leaderboard.duration") }}
+                      {{ $i18n.get("_.leaderboard.duration") }}
                     </th>
                     <th scope="col">
-                      {{ i18n.get("_.leaderboard.distance") }}
+                      {{ $i18n.get("_.leaderboard.distance") }}
                     </th>
-                    <th scope="col">{{ i18n.get("_.leaderboard.points") }}</th>
+                    <th scope="col">{{ $i18n.get("_.leaderboard.points") }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -210,7 +214,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.leaderboard"),
+      title: this.$i18n.get("_.menu.leaderboard"),
       meta: [
         {
           name: "description",
@@ -259,7 +263,7 @@ export default {
         });
     },
     updateMetadata() {
-      this.metaData.description = this.i18n.choice(
+      this.metaData.description = this.$i18n.choice(
         "_.description.leaderboard.monthly",
         1,
         {

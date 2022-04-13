@@ -5,21 +5,21 @@
     class="tab-pane fade"
     role="tabpanel"
   >
-    <h2>{{ i18n.get("_.settings.tab.connectivity") }}</h2>
+    <h2>{{ $i18n.get("_.settings.tab.connectivity") }}</h2>
     <!-- ToDo -->
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.title-loginservices") }}
+      {{ $i18n.get("_.settings.title-loginservices") }}
     </h6>
     <div class="row">
       <div class="col">
         <i aria-hidden="true" class="fab fa-twitter"></i> Twitter<br />
         <span v-if="value.twitter" class="small text-success">
           <i aria-hidden="true" class="fa fa-check"></i>
-          {{ i18n.get("_.settings.connected") }}
+          {{ $i18n.get("_.settings.connected") }}
         </span>
         <span v-else class="small text-danger">
           <i aria-hidden="true" class="fa fa-times"></i>
-          {{ i18n.get("_.settings.notconnected") }}
+          {{ $i18n.get("_.settings.notconnected") }}
         </span>
       </div>
       <div class="col">
@@ -28,14 +28,14 @@
           class="btn btn-outline-danger float-end"
           @click="notimplemented"
         >
-          {{ i18n.get("_.settings.disconnect") }}
+          {{ $i18n.get("_.settings.disconnect") }}
         </button>
         <button
           v-else
           class="btn btn-primary float-end"
           @click="notimplemented"
         >
-          {{ i18n.get("_.settings.connect") }}
+          {{ $i18n.get("_.settings.connect") }}
         </button>
       </div>
     </div>
@@ -44,11 +44,11 @@
         <i aria-hidden="true" class="fab fa-mastodon"></i> Mastodon<br />
         <span v-if="value.mastodon" class="small text-success">
           <i aria-hidden="true" class="fa fa-check"></i>
-          {{ i18n.get("_.settings.connected") }}
+          {{ $i18n.get("_.settings.connected") }}
         </span>
         <span v-else class="small text-danger">
           <i aria-hidden="true" class="fa fa-times"></i>
-          {{ i18n.get("_.settings.notconnected") }}
+          {{ $i18n.get("_.settings.notconnected") }}
         </span>
       </div>
       <div class="col">
@@ -57,31 +57,31 @@
           class="btn btn-outline-danger float-end"
           @click="notimplemented"
         >
-          {{ i18n.get("_.settings.disconnect") }}
+          {{ $i18n.get("_.settings.disconnect") }}
         </button>
         <div v-else class="input-group">
           <input
-            :placeholder="i18n.get('_.user.mastodon-instance-url')"
+            :placeholder="$i18n.get('_.user.mastodon-instance-url')"
             class="form-control"
             type="text"
           />
           <button class="btn btn-primary float-end" @click="notimplemented">
-            {{ i18n.get("_.settings.connect") }}
+            {{ $i18n.get("_.settings.connect") }}
           </button>
         </div>
       </div>
     </div>
 
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.title-ics") }}
+      {{ $i18n.get("_.settings.title-ics") }}
     </h6>
     <div class="row">
       <div class="col">
-        {{ i18n.get("_.settings.ics.descriptor") }}
+        {{ $i18n.get("_.settings.ics.descriptor") }}
       </div>
       <div class="col-4 col-md-3">
         <button class="btn btn-primary float-end" @click="fetchIcsTokens">
-          {{ i18n.get("_.menu.show-all") }}
+          {{ $i18n.get("_.menu.show-all") }}
         </button>
       </div>
     </div>
@@ -92,40 +92,40 @@
           @click="$refs.newIcs.show()"
         >
           <i aria-hidden="true" class="fas fa-plus"></i>
-          {{ i18n.get("_.settings.create-ics-token") }}
+          {{ $i18n.get("_.settings.create-ics-token") }}
         </button>
       </div>
     </div>
 
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.title-sessions") }}
+      {{ $i18n.get("_.settings.title-sessions") }}
     </h6>
     <div class="row">
       <div class="col">
-        {{ i18n.get("_.settings.title-sessions") }}
+        {{ $i18n.get("_.settings.title-sessions") }}
       </div>
       <div class="col">
         <button class="btn btn-primary float-end" @click="fetchSessions">
-          {{ i18n.get("_.menu.show-all") }}
+          {{ $i18n.get("_.menu.show-all") }}
         </button>
       </div>
     </div>
     <div class="row mt-2">
       <div class="col">
-        {{ i18n.get("_.settings.title-tokens") }}
+        {{ $i18n.get("_.settings.title-tokens") }}
       </div>
       <div class="col">
         <button class="btn btn-primary float-end" @click="fetchTokens">
-          {{ i18n.get("_.menu.show-all") }}
+          {{ $i18n.get("_.menu.show-all") }}
         </button>
       </div>
     </div>
 
     <ModalConfirm
       ref="newIcs"
-      :abort-text="i18n.get('_.menu.abort')"
-      :confirm-text="i18n.get('_.modals.edit-confirm')"
-      :title-text="i18n.get('_.settings.create-ics-token')"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.modals.edit-confirm')"
+      :title-text="$i18n.get('_.settings.create-ics-token')"
       confirm-button-color="btn-primary"
       v-on:confirm="createIcsToken"
     >
@@ -133,21 +133,21 @@
         <input
           id="newIcsName"
           v-model="newIcsName"
-          :placeholder="i18n.get('_.settings.ics.name-placeholder')"
+          :placeholder="$i18n.get('_.settings.ics.name-placeholder')"
           class="form-control"
           required
           type="text"
         />
         <label for="newIcsName">{{
-          i18n.get("_.settings.ics.name-placeholder")
+          $i18n.get("_.settings.ics.name-placeholder")
         }}</label>
       </div>
     </ModalConfirm>
     <ModalConfirm
       ref="allIcs"
-      :confirm-text="i18n.get('_.menu.close')"
+      :confirm-text="$i18n.get('_.menu.close')"
       :large="true"
-      :title-text="i18n.get('_.settings.ics.modal')"
+      :title-text="$i18n.get('_.settings.ics.modal')"
       body-class="p-0"
       confirm-button-color="btn-primary"
     >
@@ -156,17 +156,17 @@
         v-else-if="icsTokens.length === 0"
         class="text-danger text-center pt-3"
       >
-        {{ i18n.get("_.settings.no-ics-tokens") }}
+        {{ $i18n.get("_.settings.no-ics-tokens") }}
       </p>
       <div v-else class="table-responsive p-0">
-        <table :aria-label="i18n.get('_.settings.title-ics')" class="table">
+        <table :aria-label="$i18n.get('_.settings.title-ics')" class="table">
           <thead>
             <tr>
               <th colspan="2" scope="col">
-                {{ i18n.get("_.settings.token") }}
+                {{ $i18n.get("_.settings.token") }}
               </th>
-              <th scope="col">{{ i18n.get("_.settings.created") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.last-accessed") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.created") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.last-accessed") }}</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -178,7 +178,7 @@
               <td v-if="token.lastAccessed">
                 {{ moment(token.lastAccessed).format("lll") }}
               </td>
-              <td v-else>{{ i18n.get("_.settings.never") }}</td>
+              <td v-else>{{ $i18n.get("_.settings.never") }}</td>
               <td>
                 <button
                   class="btn btn-sm btn-danger"
@@ -187,7 +187,7 @@
                 >
                   <i aria-hidden="true" class="fas fa-trash"></i>
                   <span class="sr-only">{{
-                    i18n.get("_.settings.revoke-token")
+                    $i18n.get("_.settings.revoke-token")
                   }}</span>
                 </button>
               </td>
@@ -198,29 +198,29 @@
     </ModalConfirm>
     <ModalConfirm
       ref="sessions"
-      :abort-text="i18n.get('_.menu.abort')"
-      :confirm-text="i18n.get('_.settings.deleteallsessions')"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.settings.deleteallsessions')"
       :large="true"
-      :title-text="i18n.get('_.settings.title-sessions')"
+      :title-text="$i18n.get('_.settings.title-sessions')"
       body-class="p-0"
       confirm-button-color="btn-danger"
       v-on:confirm="deleteSessions"
     >
       <Spinner v-if="sessionLoading"></Spinner>
       <p v-else-if="sessions.length === 0" class="text-danger text-center pt-3">
-        {{ i18n.get("_.settings.no-tokens") }}
+        {{ $i18n.get("_.settings.no-tokens") }}
       </p>
       <div v-else class="table-responsive p-0">
         <table
-          :aria-label="i18n.get('_.settings.title-sessions')"
+          :aria-label="$i18n.get('_.settings.title-sessions')"
           class="table"
         >
           <thead>
             <tr>
-              <th scope="col">{{ i18n.get("_.settings.device") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.platform") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.ip") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.lastactivity") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.device") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.platform") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.ip") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.lastactivity") }}</th>
             </tr>
           </thead>
           <tbody>
@@ -236,7 +236,7 @@
               <td v-if="session.lastActivity">
                 {{ moment(session.lastActivity).format("lll") }}
               </td>
-              <td v-else>{{ i18n.get("_.settings.never") }}</td>
+              <td v-else>{{ $i18n.get("_.settings.never") }}</td>
             </tr>
           </tbody>
         </table>
@@ -244,28 +244,28 @@
     </ModalConfirm>
     <ModalConfirm
       ref="tokens"
-      :abort-text="i18n.get('_.menu.abort')"
-      :confirm-text="i18n.get('_.settings.delete-all-tokens')"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.settings.delete-all-tokens')"
       :large="true"
-      :title-text="i18n.get('_.settings.title-tokens')"
+      :title-text="$i18n.get('_.settings.title-tokens')"
       body-class="p-0"
       confirm-button-color="btn-danger"
       v-on:confirm="revokeTokens"
     >
       <Spinner v-if="tokensLoading"></Spinner>
       <p v-else-if="tokens.length === 0" class="text-danger text-center pt-3">
-        {{ i18n.get("_.settings.no-tokens") }}
+        {{ $i18n.get("_.settings.no-tokens") }}
       </p>
       <div v-else class="table-responsive p-0">
         <table
-          :aria-label="i18n.get('_.settings.title-sessions')"
+          :aria-label="$i18n.get('_.settings.title-sessions')"
           class="table"
         >
           <thead>
             <tr>
-              <th scope="col">{{ i18n.get("_.settings.client-name") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.created") }}</th>
-              <th scope="col">{{ i18n.get("_.settings.expires") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.client-name") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.created") }}</th>
+              <th scope="col">{{ $i18n.get("_.settings.expires") }}</th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -278,7 +278,7 @@
                 <button class="btn btn-danger" @click="revokeToken(token)">
                   <i aria-hidden="true" class="fas fa-trash"></i>
                   <span class="sr-only">{{
-                    i18n.get("_.settings.revoke-token")
+                    $i18n.get("_.settings.revoke-token")
                   }}</span>
                 </button>
               </td>
@@ -319,7 +319,7 @@ export default {
       Settings.createIcsToken(this.newIcsName)
         .then((data) => {
           this.notyf.success({
-            message: this.i18n.choice(
+            message: this.$i18n.choice(
               "_.settings.create-ics-token-success",
               1,
               { link: data }
@@ -353,7 +353,7 @@ export default {
             this.icsTokens.splice(index, 1);
           }
           this.notyf.success(
-            this.i18n.get("_.settings.revoke-ics-token-success")
+            this.$i18n.get("_.settings.revoke-ics-token-success")
           );
         })
         .catch((error) => {
@@ -377,7 +377,7 @@ export default {
       Settings.deleteSessions()
         .then(() => {
           this.sessions = [];
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
         })
         .catch((error) => {
           this.catchError(error);
@@ -390,7 +390,7 @@ export default {
           if (index > -1) {
             this.tokens.splice(index, 1);
           }
-          this.notyf.success(this.i18n.get("_.settings.revoke-token.success"));
+          this.notyf.success(this.$i18n.get("_.settings.revoke-token.success"));
         })
         .catch((error) => {
           this.apiErrorHandler(error);
@@ -414,7 +414,7 @@ export default {
         .then(() => {
           this.sessions = [];
           this.$store.dispatch("logout");
-          this.notyf.success(this.i18n.get("_.settings.revoke-token.success"));
+          this.notyf.success(this.$i18n.get("_.settings.revoke-token.success"));
         })
         .catch((error) => {
           this.apiErrorHandler(error);

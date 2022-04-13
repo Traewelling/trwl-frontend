@@ -28,7 +28,7 @@
           >
             <thead>
               <tr>
-                <th scope="col">{{ i18n.get("_.stationboard.stopover") }}</th>
+                <th scope="col">{{ $i18n.get("_.stationboard.stopover") }}</th>
                 <th scope="col"></th>
                 <th class="ps-0" scope="col"></th>
               </tr>
@@ -52,7 +52,7 @@
                     v-if="stop.arrivalPlanned"
                     class="d-sm-inline d-md-none ms-4"
                   >
-                    {{ i18n.get("_.stationboard.arr") }}&nbsp;
+                    {{ $i18n.get("_.stationboard.arr") }}&nbsp;
                     <span :class="delay(stop.arrivalPlanned, stop.arrivalReal)">
                       {{ moment(stop.arrival).format("LT") }}
                     </span>
@@ -68,7 +68,7 @@
                     v-if="stop.departurePlanned"
                     class="d-sm-inline d-md-none ms-4"
                   >
-                    {{ i18n.get("_.stationboard.dep") }}&nbsp;
+                    {{ $i18n.get("_.stationboard.dep") }}&nbsp;
                     <span
                       :class="delay(stop.departurePlanned, stop.departureReal)"
                     >
@@ -87,14 +87,14 @@
                   v-if="stop.cancelled && stop.arrivalPlatformPlanned === null"
                   class="text-danger"
                 >
-                  {{ i18n.get("_.stationboard.stop-cancelled") }}
+                  {{ $i18n.get("_.stationboard.stop-cancelled") }}
                 </td>
                 <td v-else>
                   <span
                     v-if="stop.arrivalPlanned && stop.arrivalPlatformPlanned"
                     class="d-none d-md-inline"
                   >
-                    {{ i18n.get("_.stationboard.arr") }}&nbsp;
+                    {{ $i18n.get("_.stationboard.arr") }}&nbsp;
                     <span :class="delay(stop.arrivalPlanned, stop.arrivalReal)">
                       {{ moment(stop.arrival).format("LT") }}
                     </span>
@@ -112,7 +112,7 @@
                     "
                     class="d-none d-md-inline"
                   >
-                    {{ i18n.get("_.stationboard.dep") }}&nbsp;
+                    {{ $i18n.get("_.stationboard.dep") }}&nbsp;
                     <span
                       :class="delay(stop.departurePlanned, stop.departureReal)"
                     >

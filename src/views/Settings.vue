@@ -1,6 +1,6 @@
 <template>
   <LayoutBasicNoSidebar footerclass="pt-5">
-    <h1>{{ i18n.get("_.menu.settings") }}</h1>
+    <h1>{{ $i18n.get("_.menu.settings") }}</h1>
     <ul id="settingsTabs" class="nav nav-tabs mb-3" role="tablist">
       <li class="nav-item" role="presentation">
         <a
@@ -12,7 +12,7 @@
           role="tab"
           aria-selected="true"
         >
-          {{ i18n.get("_.settings.tab.profile") }}
+          {{ $i18n.get("_.settings.tab.profile") }}
         </a>
       </li>
       <li class="nav-item" role="presentation">
@@ -25,7 +25,7 @@
           href="#settingsTabs-account"
           aria-selected="false"
         >
-          {{ i18n.get("_.settings.tab.account") }}
+          {{ $i18n.get("_.settings.tab.account") }}
         </a>
       </li>
       <li class="nav-item" role="presentation">
@@ -38,7 +38,7 @@
           href="#settingsTabs-connectivity"
           aria-selected="false"
         >
-          {{ i18n.get("_.settings.tab.connectivity") }}
+          {{ $i18n.get("_.settings.tab.connectivity") }}
         </a>
       </li>
     </ul>

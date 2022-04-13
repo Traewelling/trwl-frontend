@@ -12,7 +12,7 @@
         <div class="card-header">
           <div class="float-end">
             <a
-              :aria-label="i18n.get('_.modals.setHome-title')"
+              :aria-label="$i18n.get('_.modals.setHome-title')"
               href="#"
               v-on:click.prevent="toggleSetHomeModal"
             >
@@ -35,7 +35,7 @@
           v-else-if="!departures || Object.keys(departures).length === 0"
           class="card-body text-center text-danger text-bold"
         >
-          {{ i18n.get("_.stationboard.no-departures") }}
+          {{ $i18n.get("_.stationboard.no-departures") }}
         </div>
         <div v-else class="card-body p-0 table-responsive">
           <table
@@ -45,13 +45,13 @@
             <thead>
               <tr>
                 <th class="ps-2 ps-md-4" scope="col">
-                  {{ i18n.get("_.stationboard.dep-time") }}
+                  {{ $i18n.get("_.stationboard.dep-time") }}
                 </th>
                 <th class="px-0" scope="col">
-                  {{ i18n.get("_.stationboard.line") }}
+                  {{ $i18n.get("_.stationboard.line") }}
                 </th>
                 <th scope="col">
-                  {{ i18n.get("_.stationboard.destination") }}
+                  {{ $i18n.get("_.stationboard.destination") }}
                 </th>
               </tr>
             </thead>
@@ -69,7 +69,7 @@
                 >
                   <td class="py-0" colspan="3">
                     <small>{{
-                      i18n.choice("_.request-time", 1, {
+                      $i18n.choice("_.request-time", 1, {
                         time: requestTime.format("LT"),
                       })
                     }}</small>
@@ -78,7 +78,7 @@
                 <tr v-else :key="index" v-on:click="goToTrip(departure)">
                   <td class="ps-2 ps-md-4">
                     <span v-if="departure.cancelled" class="text-danger">
-                      {{ i18n.get("_.stationboard.stop-cancelled") }}
+                      {{ $i18n.get("_.stationboard.stop-cancelled") }}
                     </span>
                     <span v-else>
                       <span
@@ -139,14 +139,14 @@
     <ModalConfirm
       v-if="!loading && station !== null"
       ref="confirmHomeModal"
-      :abort-text="i18n.get('_.menu.abort')"
+      :abort-text="$i18n.get('_.menu.abort')"
       :body-text="
-        i18n.choice('_.modals.setHome-body', 1, {
+        $i18n.choice('_.modals.setHome-body', 1, {
           stationName: this.station.name,
         })
       "
-      :confirm-text="i18n.get('_.modals.edit-confirm')"
-      :title-text="i18n.get('_.modals.setHome-title')"
+      :confirm-text="$i18n.get('_.modals.edit-confirm')"
+      :title-text="$i18n.get('_.modals.setHome-title')"
       confirm-button-color="btn-success"
       v-on:confirm="setHome"
     ></ModalConfirm>
@@ -234,7 +234,7 @@ export default {
         this.result = data;
         this.$store.dispatch("fetchUserData");
         this.notyf.success(
-          this.i18n.choice("_.user.home-set", 1, { station: this.result.name })
+          this.$i18n.choice("_.user.home-set", 1, { station: this.result.name })
         );
       }).catch((error) => {
         console.error(error);

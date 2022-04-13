@@ -17,12 +17,12 @@
 
           <p>
             <button @click.prevent="fetchData">
-              {{ i18n.get("_.vue.tryAgain") }}
+              {{ $i18n.get("_.vue.tryAgain") }}
             </button>
           </p>
         </div>
         <div v-if="statuses">
-          <h4 class="mt-4">{{ i18n.get("_.menu.active") }}</h4>
+          <h4 class="mt-4">{{ $i18n.get("_.menu.active") }}</h4>
           <Status
             v-for="status in statuses"
             v-bind:key="status.id"
@@ -57,17 +57,17 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.active"),
+      title: this.$i18n.get("_.menu.active"),
       meta: [
         { name: "robots", content: "index", vmid: "robots" },
         {
           name: "description",
-          content: this.i18n.get("_.description.en-route"),
+          content: this.$i18n.get("_.description.en-route"),
           vmid: "description",
         },
         {
           name: "DC.Description",
-          content: this.i18n.get("_.description.en-route"),
+          content: this.$i18n.get("_.description.en-route"),
           vmid: "DC.Description",
         },
       ],

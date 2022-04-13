@@ -9,7 +9,7 @@
       class="d-flex align-items-center link-dark text-decoration-none"
     >
       <img
-        :alt="i18n.get('_.settings.picture')"
+        :alt="$i18n.get('_.settings.picture')"
         :src="$store.state.user.profilePicture"
         class="rounded-circle me-2"
         height="32"
@@ -22,17 +22,17 @@
     <div v-if="$store.getters.isLogged" class="row text-black-50 mt-1 justify">
       <div class="col">
         <i aria-hidden="true" class="fas fa-dice-d20" />
-        <span class="sr-only">{{ i18n.get("_.leaderboard.points") }}</span>
+        <span class="sr-only">{{ $i18n.get("_.leaderboard.points") }}</span>
         {{ localizeThousands($store.state.user.points) }}
       </div>
       <div class="col">
         <i aria-hidden="true" class="fas fa-clock" />
-        <span class="sr-only">{{ i18n.get("_.leaderboard.duration") }}</span>
+        <span class="sr-only">{{ $i18n.get("_.leaderboard.duration") }}</span>
         {{ hoursAndMinutes($store.state.user.trainDuration) }}
       </div>
       <div class="col">
         <i aria-hidden="true" class="fas fa-route" />
-        <span class="sr-only">{{ i18n.get("_.leaderboard.distance") }}</span>
+        <span class="sr-only">{{ $i18n.get("_.leaderboard.distance") }}</span>
         {{ localizeDistance($store.state.user.trainDistance) }}km
       </div>
     </div>
@@ -48,7 +48,7 @@
           class="nav-link bg-transparent"
         >
           <i aria-hidden="true" class="fas fa-calendar me-2"></i>
-          {{ i18n.get("_.events") }}
+          {{ $i18n.get("_.events") }}
         </router-link>
       </li>
     </ul>
@@ -68,7 +68,7 @@
                 :class="{ active: isSearchPage }"
               />
               <label class="form-label" for="search-focus">{{
-                i18n.get("_.stationboard.submit-search")
+                $i18n.get("_.stationboard.submit-search")
               }}</label>
             </div>
             <button class="btn btn-primary btn-sm" type="submit">
@@ -84,7 +84,7 @@
           role="tab"
         >
           <i aria-hidden="true" class="fas fa-globe me-2"></i>
-          {{ i18n.get("_.menu.globaldashboard") }}
+          {{ $i18n.get("_.menu.globaldashboard") }}
         </router-link>
       </li>
       <li v-else-if="desktop" class="nav-item">
@@ -95,7 +95,7 @@
           role="tab"
         >
           <i aria-hidden="true" class="fas fa-user-friends me-2"></i>
-          {{ i18n.get("_.menu.dashboard") }}
+          {{ $i18n.get("_.menu.dashboard") }}
         </router-link>
       </li>
       <li class="nav-item">
@@ -108,7 +108,7 @@
           class="nav-link bg-transparent"
         >
           <i aria-hidden="true" class="fas fa-user-alt me-2"></i>
-          {{ i18n.get("_.menu.profile") }}
+          {{ $i18n.get("_.menu.profile") }}
         </router-link>
       </li>
       <li class="nav-item">
@@ -118,7 +118,7 @@
           class="nav-link bg-transparent"
         >
           <i aria-hidden="true" class="fas fa-calendar me-2"></i>
-          {{ i18n.get("_.events") }}
+          {{ $i18n.get("_.events") }}
         </router-link>
       </li>
       <li class="nav-item">
@@ -128,7 +128,7 @@
           class="nav-link bg-transparent"
         >
           <i aria-hidden="true" class="fas fa-cog me-2"></i>
-          {{ i18n.get("_.menu.settings") }}
+          {{ $i18n.get("_.menu.settings") }}
         </router-link>
       </li>
     </ul>
@@ -136,22 +136,22 @@
     <ul class="nav flex-column text-dark">
       <li class="nav-item">
         <router-link :to="{ name: 'about' }" class="nav-link text-black-50">
-          {{ i18n.get("_.menu.about") }}
+          {{ $i18n.get("_.menu.about") }}
         </router-link>
       </li>
       <li class="nav-item">
         <a class="nav-link text-black-50" href="https://blog.traewelling.de">
-          {{ i18n.get("_.menu.blog") }}
+          {{ $i18n.get("_.menu.blog") }}
         </a>
       </li>
       <li class="nav-item">
         <router-link class="nav-link text-black-50" :to="{ name: 'privacy' }">
-          {{ i18n.get("_.menu.privacy") }}
+          {{ $i18n.get("_.menu.privacy") }}
         </router-link>
       </li>
       <li class="nav-item">
         <router-link :to="{ name: 'legal' }" class="nav-link text-black-50">
-          {{ i18n.get("_.menu.legal-notice") }}
+          {{ $i18n.get("_.menu.legal-notice") }}
         </router-link>
       </li>
     </ul>
@@ -167,12 +167,12 @@
           @click.prevent="$store.dispatch('logout')"
         >
           <i aria-hidden="true" class="fas fa-sign-out-alt me-2"></i>
-          {{ i18n.get("_.menu.logout") }}
+          {{ $i18n.get("_.menu.logout") }}
         </a>
       </li>
     </ul>
     <hr />
-    <p class="mb-0" v-html="i18n.get('_.menu.developed')"></p>
+    <p class="mb-0" v-html="$i18n.get('_.menu.developed')"></p>
     <p class="mb-0">&copy; {{ moment().format("Y") }} Tr&auml;welling</p>
     <p class="mb-0 text-muted small">
       commit:

@@ -1,15 +1,15 @@
 <template>
   <ModalConfirm
     ref="delete"
-    :abort-text="i18n.get('_.settings.delete-account-btn-back')"
-    :confirm-text="i18n.get('_.settings.delete-account-btn-confirm')"
-    :title-text="i18n.get('_.settings.delete-account')"
+    :abort-text="$i18n.get('_.settings.delete-account-btn-back')"
+    :confirm-text="$i18n.get('_.settings.delete-account-btn-confirm')"
+    :title-text="$i18n.get('_.settings.delete-account')"
     confirm-button-color="btn-primary"
     v-on:confirm="deleteAccount"
   >
     <span
       v-html="
-        i18n.choice('_.settings.delete-account-verify', 1, {
+        $i18n.choice('_.settings.delete-account-verify', 1, {
           appname: $appName,
         })
       "
@@ -17,7 +17,7 @@
     <hr />
     <label
       v-html="
-        i18n.choice('_.messages.account.please-confirm', 1, {
+        $i18n.choice('_.messages.account.please-confirm', 1, {
           delete: username,
         })
       "
@@ -54,7 +54,7 @@ export default {
           this.confirmDelete = null;
           this.$store.dispatch("logout");
           this.notyf.success(
-            this.i18n.get("_.settings.delete-account-completed")
+            this.$i18n.get("_.settings.delete-account-completed")
           );
         })
         .catch((error) => {

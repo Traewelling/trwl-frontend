@@ -14,7 +14,7 @@ export default {
       title: "Träwelling",
       titleTemplate: "%s - " + this.$appName,
       htmlAttrs: {
-        lang: this.i18n.getLocale(),
+        lang: this.$i18n.getLocale(),
       },
       meta: [
         { name: "charset", content: "utf-8" },
@@ -28,7 +28,7 @@ export default {
         { name: "copyright", content: "Träwelling Team" },
         {
           name: "description",
-          content: this.i18n.get("_.about.block1"),
+          content: this.$i18n.get("_.about.block1"),
           vmid: "description",
         },
         {
@@ -40,10 +40,10 @@ export default {
         { name: "DC.Rights", content: "Träwelling Team" },
         {
           name: "DC.Description",
-          content: this.i18n.get("_.about.block1"),
+          content: this.$i18n.get("_.about.block1"),
           vmid: "DC.Description",
         },
-        { name: "DC.Language", content: this.i18n.getLocale() },
+        { name: "DC.Language", content: this.$i18n.getLocale() },
         { property: "og:title", content: this.$appName, vmid: "og:title" },
         { property: "og:site_name", content: this.$appName },
         { property: "og:type", content: "website" },

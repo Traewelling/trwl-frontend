@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'btn-group': !navbar }" class="dropup">
     <button
-      :aria-label="i18n.get('_.settings.language.set')"
+      :aria-label="$i18n.get('_.settings.language.set')"
       :class="{
         'btn-sm btn-light': dashboard && !navbar,
         'btn-primary': !dashboard,
@@ -19,7 +19,7 @@
         :class="{ 'd-none d-md-inline': !navbar, 'd-inline': navbar }"
         aria-hidden="true"
       >
-        {{ i18n.get("_.settings.language.set") }}
+        {{ $i18n.get("_.settings.language.set") }}
       </span>
     </button>
     <div class="dropdown-menu">

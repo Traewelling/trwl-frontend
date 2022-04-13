@@ -5,7 +5,7 @@
         <div class="card-header">
           <router-link :to="{ name: 'settings' }" class="text-black-50">
             <i class="fas fa-arrow-left" aria-hidden="true"></i> &nbsp;
-            {{ i18n.get("_.menu.settings") }}
+            {{ $i18n.get("_.menu.settings") }}
           </router-link>
         </div>
         <div class="card-body p-0">
@@ -20,7 +20,7 @@
                 href="#followers"
                 role="tab"
               >
-                {{ i18n.get("_.menu.settings.myFollower") }}
+                {{ $i18n.get("_.menu.settings.myFollower") }}
               </a>
             </li>
             <li class="nav-item">
@@ -33,7 +33,7 @@
                 href="#requests"
                 role="tab"
               >
-                {{ i18n.get("_.menu.settings.follower-requests") }}
+                {{ $i18n.get("_.menu.settings.follower-requests") }}
               </a>
             </li>
             <li class="nav-item">
@@ -46,7 +46,7 @@
                 href="#followings"
                 role="tab"
               >
-                {{ i18n.get("_.menu.settings.followings") }}
+                {{ $i18n.get("_.menu.settings.followings") }}
               </a>
             </li>
           </ul>
@@ -64,7 +64,7 @@
               <p v-else class="m-3">
                 <strong class="text-danger">
                   <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ i18n.get("_.settings.follower.no-follower") }}
+                  {{ $i18n.get("_.settings.follower.no-follower") }}
                 </strong>
               </p>
               <div
@@ -74,7 +74,7 @@
                 class="text-center"
               >
                 <button
-                  aria-label="i18n.get('_.menu.show-more')"
+                  aria-label="$i18n.get('_.menu.show-more')"
                   class="btn btn-primary btn-lg btn-floating my-1"
                   @click.prevent="fetchMoreFollowers"
                 >
@@ -96,7 +96,7 @@
               <p v-else class="m-3">
                 <strong class="text-danger">
                   <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ i18n.get("_.settings.follower.no-requests") }}
+                  {{ $i18n.get("_.settings.follower.no-requests") }}
                 </strong>
               </p>
               <div
@@ -108,7 +108,7 @@
                 class="text-center"
               >
                 <button
-                  aria-label="i18n.get('_.menu.show-more')"
+                  aria-label="$i18n.get('_.menu.show-more')"
                   class="btn btn-primary btn-lg btn-floating my-1"
                   @click.prevent="fetchMoreFollowRequests"
                 >
@@ -129,7 +129,7 @@
               <p v-else class="m-3">
                 <strong class="text-danger">
                   <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ i18n.get("_.settings.follower.no-followings") }}
+                  {{ $i18n.get("_.settings.follower.no-followings") }}
                 </strong>
               </p>
               <div
@@ -139,7 +139,7 @@
                 class="text-center"
               >
                 <button
-                  aria-label="i18n.get('_.menu.show-more')"
+                  aria-label="$i18n.get('_.menu.show-more')"
                   class="btn btn-primary btn-lg btn-floating my-1"
                   @click.prevent="fetchMoreFollowings"
                 >
@@ -179,7 +179,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.settings.myFollower"),
+      title: this.$i18n.get("_.menu.settings.myFollower"),
     };
   },
   components: {

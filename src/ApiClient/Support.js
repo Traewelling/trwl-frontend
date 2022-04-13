@@ -1,7 +1,7 @@
-import {postToApi} from "./Helpers";
+import { postToApi } from "./Helpers";
 
 export default class Support {
-    static createTicket(data) {
-        return postToApi("/support/ticket", data);
-    }
+  static createTicket(data) {
+    return postToApi("/support/ticket", data);
+  }
 }

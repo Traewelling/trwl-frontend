@@ -2,10 +2,10 @@
   <div>
     <div class="card">
       <div class="card-header">
-        {{ i18n.get("_.stationboard.where-are-you") }}
+        {{ $i18n.get("_.stationboard.where-are-you") }}
         <span class="float-end">
           <a
-            :title="i18n.get('_.stationboard.search-by-location')"
+            :title="$i18n.get('_.stationboard.search-by-location')"
             class="text-trwl"
             href="#"
             @click.prevent="getGeoLocation"
@@ -48,9 +48,9 @@
               type="submit"
               v-on:click.prevent="submitStation('')"
             >
-              {{ i18n.get("_.stationboard.submit-search") }}
+              {{ $i18n.get("_.stationboard.submit-search") }}
               <span class="sr-only-focusable">{{
-                i18n.get("_.stationboard.last-stations")
+                $i18n.get("_.stationboard.last-stations")
               }}</span>
             </button>
           </div>
@@ -61,7 +61,7 @@
             data-mdb-toggle="collapse"
             type="button"
           >
-            {{ i18n.get("_.stationboard.filter-products") }}
+            {{ $i18n.get("_.stationboard.filter-products") }}
           </button>
           <div id="collapseFilter" class="collapse">
             <div class="mt-3 d-flex justify-content-center">
@@ -70,50 +70,50 @@
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('ferry')"
                 >
-                  {{ i18n.get("_.transport_types.ferry") }}
+                  {{ $i18n.get("_.transport_types.ferry") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('bus')"
                 >
-                  {{ i18n.get("_.transport_types.bus") }}
+                  {{ $i18n.get("_.transport_types.bus") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('tram')"
                 >
-                  {{ i18n.get("_.transport_types.tram") }}
+                  {{ $i18n.get("_.transport_types.tram") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('subway')"
                 >
-                  {{ i18n.get("_.transport_types.subway") }}
+                  {{ $i18n.get("_.transport_types.subway") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('suburban')"
                 >
-                  {{ i18n.get("_.transport_types.suburban") }}
+                  {{ $i18n.get("_.transport_types.suburban") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('regional')"
                 >
-                  {{ i18n.get("_.transport_types.regional") }}
+                  {{ $i18n.get("_.transport_types.regional") }}
                 </button>
                 <button
                   class="btn btn-primary btn-sm"
                   v-on:click.prevent="submitStation('express')"
                 >
-                  {{ i18n.get("_.transport_types.express") }}
+                  {{ $i18n.get("_.transport_types.express") }}
                 </button>
               </div>
             </div>
           </div>
           <div id="collapseHistory" class="collapse mt-2">
             <span class="list-group-item title list-group-item-action disabled">
-              {{ i18n.get("_.stationboard.last-stations") }}
+              {{ $i18n.get("_.stationboard.last-stations") }}
             </span>
             <router-link
               v-for="station in history"
@@ -136,7 +136,7 @@
       <div class="text-center">
         <div class="btn-group" role="group">
           <a
-            :title="i18n.get('_.stationboard.minus-15')"
+            :title="$i18n.get('_.stationboard.minus-15')"
             class="btn btn-light"
             data-mdb-target="tooltip"
             href="#"
@@ -145,7 +145,7 @@
             <i aria-hidden="true" class="fas fa-arrow-circle-left"></i>
           </a>
           <a
-            :title="i18n.get('_.stationboard.dt-picker')"
+            :title="$i18n.get('_.stationboard.dt-picker')"
             class="btn btn-light btn-rounded"
             data-mdb-target="#collapseDateTime"
             data-mdb-toggle="collapse"
@@ -154,7 +154,7 @@
             <i aria-hidden="true" class="fas fa-clock"></i>
           </a>
           <a
-            :title="i18n.get('_.stationboard.plus-15')"
+            :title="$i18n.get('_.stationboard.plus-15')"
             class="btn btn-light"
             data-mdb-target="tooltip"
             href="#"
@@ -181,7 +181,7 @@
             type="submit"
             @click.prevent="submitStation(currentTravelType, now)"
           >
-            {{ i18n.get("_.stationboard.set-time") }}
+            {{ $i18n.get("_.stationboard.set-time") }}
           </button>
         </div>
       </div>
@@ -262,7 +262,7 @@ export default {
       debounce: 300,
       threshold: 2,
       placeHolder:
-        this.i18n.get("_.stationboard.station-placeholder") + " / DS100",
+        this.$i18n.get("_.stationboard.station-placeholder") + " / DS100",
       events: {
         input: {
           selection: (event) => {
@@ -300,7 +300,7 @@ export default {
           if (!data.results.length) {
             const message = document.createElement("div");
             message.setAttribute("class", "no_result");
-            message.innerHTML = `<span>${this.i18n.get(
+            message.innerHTML = `<span>${this.$i18n.get(
               "_.controller.transport.no-station-found"
             )}</span>`;
             list.prepend(message);
@@ -371,7 +371,7 @@ export default {
           },
           () => {
             this.notyf.error(
-              this.i18n.get("_.stationboard.position-unavailable")
+              this.$i18n.get("_.stationboard.position-unavailable")
             );
           }
         );

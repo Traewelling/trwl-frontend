@@ -20,7 +20,7 @@ Vue.prototype.notyf = new Notyf({
   dismissible: true,
 });
 
-Vue.prototype.i18n = i18n;
+Vue.prototype.$i18n = i18n;
 
 Vue.prototype.moment = moment;
 Vue.prototype.moment.locale(i18n.getLocale().substr(0, 2));
@@ -56,7 +56,7 @@ axios.interceptors.response.use(
         Vue.prototype.notyf.error(error);
       });
     } else {
-      // Vue.prototype.notyf.error(this.i18n.get("_.messages.exception.general"));
+      // Vue.prototype.notyf.error(this.$i18n.get("_.messages.exception.general"));
     }
     return Promise.reject(error);
   }
@@ -109,7 +109,7 @@ Vue.mixin({
           });
         } else {
           Vue.prototype.notyf.error(
-            this.i18n.get("_.messages.exception.general")
+            this.$i18n.get("_.messages.exception.general")
           );
         }
       }

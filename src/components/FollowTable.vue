@@ -18,7 +18,7 @@
                 :src="row.profilePicture"
                 style="height: 4em"
                 :alt="
-                  i18n.choice('_.user.profile-picture', 1, {
+                  $i18n.choice('_.user.profile-picture', 1, {
                     username: row.username,
                   })
                 "
@@ -38,7 +38,7 @@
           <span class="font-weight-bold">
             <i aria-hidden="true" class="fa fa-route d-inline"></i>
             <span class="sr-only-focusable">{{
-              i18n.get("_.leaderboard.distance")
+              $i18n.get("_.leaderboard.distance")
             }}</span>
             {{ row.trainDistance / 1000 }}
           </span>
@@ -48,7 +48,7 @@
           <span class="font-weight-bold ps-sm-2">
             <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
             <span class="sr-only-focusable">{{
-              i18n.get("_.leaderboard.duration")
+              $i18n.get("_.leaderboard.duration")
             }}</span>
             {{ hoursAndMinutes(row.trainDuration) }}
           </span>
@@ -58,12 +58,12 @@
           <span class="font-weight-bold ps-sm-2">
             <i aria-hidden="true" class="fa fa-dice-d20 d-inline"></i>
             <span class="sr-only-focusable">{{
-              i18n.get("_.leaderboard.points")
+              $i18n.get("_.leaderboard.points")
             }}</span>
             {{ localizeThousands(row.points) }}
           </span>
           <span class="small font-weight-lighter">{{
-            i18n.get("_.profile.points-abbr")
+            $i18n.get("_.profile.points-abbr")
           }}</span>
         </td>
         <td class="pe-0 text-end" v-if="followers">
@@ -71,7 +71,7 @@
             type="submit"
             class="btn btn-sm btn-danger"
             data-mdb-toggle="tooltip"
-            :title="i18n.get('_.settings.follower.delete')"
+            :title="$i18n.get('_.settings.follower.delete')"
             @click="removeFollower(row)"
           >
             <i class="fas fa-user-minus" aria-hidden="true"></i>
@@ -83,7 +83,7 @@
             class="btn btn-danger btn-sm"
             data-mdb-toggle="tooltip"
             data-mdb-placement="top"
-            :title="i18n.get('_.settings.request.delete')"
+            :title="$i18n.get('_.settings.request.delete')"
             @click="rejectFollowRequest(row)"
           >
             <i class="fas fa-user-times" aria-hidden="true"></i>
@@ -95,7 +95,7 @@
             class="btn btn-success btn-sm"
             data-mdb-toggle="tooltip"
             data-mdb-placement="top"
-            :title="i18n.get('_.settings.request.accept')"
+            :title="$i18n.get('_.settings.request.accept')"
             @click="approveFollowRequest(row)"
           >
             <i class="fas fa-user-check" aria-hidden="true"></i>
@@ -139,7 +139,7 @@ export default {
           const index = this.users.indexOf(user);
           this.users.splice(index, 1);
           this.notyf.success(
-            this.i18n.get("_.settings.follower.delete-success")
+            this.$i18n.get("_.settings.follower.delete-success")
           );
         })
         .catch((error) => {
@@ -152,7 +152,7 @@ export default {
           const index = this.users.indexOf(user);
           this.users.splice(index, 1);
           this.notyf.success(
-            this.i18n.get("_.settings.request.reject-success")
+            this.$i18n.get("_.settings.request.reject-success")
           );
         })
         .catch((error) => {
@@ -165,7 +165,7 @@ export default {
           const index = this.users.indexOf(user);
           this.users.splice(index, 1);
           this.notyf.success(
-            this.i18n.get("_.settings.request.accept-success")
+            this.$i18n.get("_.settings.request.accept-success")
           );
         })
         .catch((error) => {

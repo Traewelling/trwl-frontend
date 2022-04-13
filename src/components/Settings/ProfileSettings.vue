@@ -5,23 +5,23 @@
     class="tab-pane fade show active"
     role="tabpanel"
   >
-    <h2>{{ i18n.get("_.settings.heading.profile") }}</h2>
+    <h2>{{ $i18n.get("_.settings.heading.profile") }}</h2>
 
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.picture") }}
+      {{ $i18n.get("_.settings.picture") }}
     </h6>
     <div class="row text-start">
       <div class="col-3">
         <img
           ref="profilepicture"
-          :alt="i18n.get('_.settings.picture')"
+          :alt="$i18n.get('_.settings.picture')"
           :src="$store.state.user.profilePicture"
           class="rounded-circle w-100 d-block"
         />
       </div>
       <div class="col-8 d-flex align-items-center">
         <button class="btn btn-primary me-1" @click="toggleShowUpload">
-          {{ i18n.get("_.settings.upload-image") }}
+          {{ $i18n.get("_.settings.upload-image") }}
         </button>
         <button
           v-if="value.profile_picture_set"
@@ -30,14 +30,14 @@
         >
           <i aria-hidden="true" class="fas fa-trash"></i>
           <span class="sr-only">{{
-            i18n.get("_.settings.delete-profile-picture-btn")
+            $i18n.get("_.settings.delete-profile-picture-btn")
           }}</span>
         </button>
       </div>
     </div>
 
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.title-profile") }}
+      {{ $i18n.get("_.settings.title-profile") }}
     </h6>
     <div class="form-floating mb-3">
       <input
@@ -48,7 +48,7 @@
         type="text"
         @change="profileSettingsChange"
       />
-      <label for="username">{{ i18n.get("_.user.username") }}</label>
+      <label for="username">{{ $i18n.get("_.user.username") }}</label>
     </div>
     <div class="form-floating mb-3">
       <input
@@ -59,17 +59,17 @@
         type="text"
         @change="profileSettingsChange"
       />
-      <label for="displayname">{{ i18n.get("_.user.displayname") }}</label>
+      <label for="displayname">{{ $i18n.get("_.user.displayname") }}</label>
     </div>
 
     <h6 class="text-capitalize text-muted border-bottom my-5">
-      {{ i18n.get("_.settings.title-privacy") }}
+      {{ $i18n.get("_.settings.title-privacy") }}
     </h6>
 
     <div class="row">
       <div class="col">
         <label aria-label="visibilityDropdown" class="form-check-label">
-          {{ i18n.get("_.menu.settings.myFollower") }}
+          {{ $i18n.get("_.menu.settings.myFollower") }}
         </label>
       </div>
       <div class="col">
@@ -77,7 +77,7 @@
           :to="{ name: 'followers' }"
           class="btn btn-primary float-end"
         >
-          {{ i18n.get("_.settings.follower.manage") }}
+          {{ $i18n.get("_.settings.follower.manage") }}
         </router-link>
       </div>
     </div>
@@ -85,7 +85,7 @@
     <div class="row mt-3 pt-3">
       <div class="col">
         <label aria-label="visibilityDropdown" class="form-check-label">
-          {{ i18n.get("_.settings.visibility.default") }}
+          {{ $i18n.get("_.settings.visibility.default") }}
         </label>
       </div>
       <div class="col">
@@ -103,9 +103,9 @@
     <div class="row mt-3 pt-3">
       <div class="col-9 col-md-11">
         <label class="form-check-label" for="privateProfileSwitch">
-          {{ i18n.get("_.user.private-profile") }}<br />
+          {{ $i18n.get("_.user.private-profile") }}<br />
           <span class="small text-muted">{{
-            i18n.get("_.settings.visibility.disclaimer")
+            $i18n.get("_.settings.visibility.disclaimer")
           }}</span>
         </label>
       </div>
@@ -122,9 +122,9 @@
     <div class="row mt-3 pt-3">
       <div class="col-9 col-md-11">
         <label class="form-check-label" for="preventIndexSwitch">
-          {{ i18n.get("_.settings.prevent-indexing") }}<br />
+          {{ $i18n.get("_.settings.prevent-indexing") }}<br />
           <span class="text-muted small">
-            {{ i18n.get("_.settings.search-engines.description") }}
+            {{ $i18n.get("_.settings.search-engines.description") }}
           </span>
         </label>
       </div>
@@ -141,7 +141,7 @@
     <div class="row mt-3 pt-3">
       <div class="col">
         <label class="form-check-label" for="dblSwitch">
-          {{ i18n.get("_.user.always-dbl") }}
+          {{ $i18n.get("_.user.always-dbl") }}
         </label>
       </div>
       <div class="col form-check form-switch">
@@ -156,10 +156,10 @@
     </div>
     <ModalConfirm
       ref="deleteModal"
-      :abort-text="i18n.get('_.settings.delete-profile-picture-no')"
-      :body-text="i18n.get('_.settings.delete-profile-picture-desc')"
-      :confirm-text="i18n.get('_.settings.delete-profile-picture-yes')"
-      :title-text="i18n.get('_.settings.delete-profile-picture')"
+      :abort-text="$i18n.get('_.settings.delete-profile-picture-no')"
+      :body-text="$i18n.get('_.settings.delete-profile-picture-desc')"
+      :confirm-text="$i18n.get('_.settings.delete-profile-picture-yes')"
+      :title-text="$i18n.get('_.settings.delete-profile-picture')"
       confirm-button-color="btn-danger"
       v-on:confirm="deleteProfilePicture"
     ></ModalConfirm>
@@ -167,7 +167,7 @@
       v-if="showUpload"
       v-model="showUpload"
       :height="300"
-      :langType="i18n.getLocale()"
+      :langType="$i18n.getLocale()"
       :width="300"
       field="img"
       img-format="png"
@@ -204,7 +204,7 @@ export default {
         .then(() => {
           this.toggleShowUpload();
           this.$store.dispatch("fetchUserData");
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
         })
         .catch((error) => {
           this.apiErrorHandler(error);
@@ -217,7 +217,7 @@ export default {
       Settings.updateProfileSettings(this.value)
         .then((data) => {
           this.value = data;
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
           this.$store.dispatch("fetchUserData");
         })
         .catch((error) => {
@@ -227,7 +227,7 @@ export default {
     deleteProfilePicture() {
       Settings.deleteProfilePicture()
         .then(() => {
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
           this.$store.dispatch("fetchUserData");
         })
         .catch((error) => {

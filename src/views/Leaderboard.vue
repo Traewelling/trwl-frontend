@@ -7,9 +7,9 @@
             :to="{ name: 'leaderboard.month', params: { month: month } }"
             class="float-end"
           >
-            {{ i18n.get("_.leaderboard.month.title") }}
+            {{ $i18n.get("_.leaderboard.month.title") }}
           </router-link>
-          {{ i18n.get("_.menu.leaderboard") }}
+          {{ $i18n.get("_.menu.leaderboard") }}
         </div>
         <div v-if="!loading" class="card-body p-0">
           <ul id="myTab" class="nav nav-tabs nav-fill" role="tablist">
@@ -23,7 +23,7 @@
                 href="#leaderboard-main"
                 role="tab"
               >
-                {{ i18n.get("_.leaderboard.top") }} {{ users.length }}
+                {{ $i18n.get("_.leaderboard.top") }} {{ users.length }}
               </a>
             </li>
             <li class="nav-item">
@@ -36,7 +36,7 @@
                 href="#leaderboard-distance"
                 role="tab"
               >
-                {{ i18n.get("_.leaderboard.distance") }}
+                {{ $i18n.get("_.leaderboard.distance") }}
               </a>
             </li>
             <li v-if="$store.getters.isLogged && friends" class="nav-item">
@@ -49,7 +49,7 @@
                 href="#leaderboard-friends"
                 role="tab"
               >
-                {{ i18n.get("_.leaderboard.friends") }}
+                {{ $i18n.get("_.leaderboard.friends") }}
               </a>
             </li>
           </ul>
@@ -92,7 +92,7 @@
         </div>
         <div class="card-footer text-muted">
           <i aria-hidden="true" class="far fa-question-circle"></i>
-          {{ i18n.get("_.leaderboard.notice") }}
+          {{ $i18n.get("_.leaderboard.notice") }}
         </div>
       </div>
     </div>
@@ -119,16 +119,16 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.leaderboard"),
+      title: this.$i18n.get("_.menu.leaderboard"),
       meta: [
         {
           name: "description",
-          content: this.i18n.get("_.description.leaderboard.main"),
+          content: this.$i18n.get("_.description.leaderboard.main"),
           vmid: "description",
         },
         {
           name: "DC.Description",
-          content: this.i18n.get("_.description.leaderboard.main"),
+          content: this.$i18n.get("_.description.leaderboard.main"),
           vmid: "DC.Description",
         },
       ],

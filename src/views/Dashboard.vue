@@ -13,7 +13,7 @@
           exact-active-class="active"
           role="tab"
         >
-          {{ i18n.get("_.menu.dashboard") }}
+          {{ $i18n.get("_.menu.dashboard") }}
         </router-link>
       </li>
       <li class="nav-item" role="presentation">
@@ -22,7 +22,7 @@
           class="nav-link"
           role="tab"
         >
-          {{ i18n.get("_.menu.globaldashboard") }}
+          {{ $i18n.get("_.menu.globaldashboard") }}
         </router-link>
       </li>
     </ul>
@@ -45,7 +45,7 @@
               data-mdb-toggle="collapse"
               type="button"
             >
-              {{ i18n.get("_.dashboard.future") }}
+              {{ $i18n.get("_.dashboard.future") }}
             </button>
           </h1>
           <div
@@ -77,7 +77,7 @@
 
         <div v-if="links && links.next" class="text-center">
           <button
-            aria-label="i18n.get('_.menu.show-more')"
+            aria-label="$i18n.get('_.menu.show-more')"
             class="btn btn-primary btn-lg btn-floating mt-4"
             @click.prevent="fetchMore"
           >
@@ -122,7 +122,7 @@ export default {
   props: ["checkin"],
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.dashboard"),
+      title: this.$i18n.get("_.menu.dashboard"),
     };
   },
   components: {

@@ -12,11 +12,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 id="notifications-board-title" class="modal-title">
-            {{ i18n.get("_.notifications.title") }}
+            {{ $i18n.get("_.notifications.title") }}
           </h4>
           <button
             id="mark-all-read"
-            :aria-label="i18n.get('_.notifications.mark-all-read')"
+            :aria-label="$i18n.get('_.notifications.mark-all-read')"
             class="close"
             role="close"
             type="button"
@@ -51,7 +51,7 @@
           ></Notification>
         </div>
         <div v-else id="notifications-empty" class="text-center text-muted">
-          {{ i18n.get("_.notifications.empty") }}
+          {{ $i18n.get("_.notifications.empty") }}
           <br />¯\_(ツ)_/¯
         </div>
       </div>

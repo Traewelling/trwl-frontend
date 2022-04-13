@@ -1,15 +1,15 @@
 <template>
   <ModalConfirm
     ref="successModal"
-    :title-text="i18n.get('_.controller.transport.checkin-heading')"
-    :confirm-text="i18n.get('_.messages.cookie-notice-button')"
+    :title-text="$i18n.get('_.controller.transport.checkin-heading')"
+    :confirm-text="$i18n.get('_.messages.cookie-notice-button')"
     confirm-button-color="btn-success"
     header-class="bg-success text-white"
   >
     <div class="p-0 m-0">
       <p class="text-center">
         {{
-          i18n.choice(
+          $i18n.choice(
             "_.controller.transport.checkin-ok",
             /\s/.test(status.train.lineName),
             { lineName: status.train.lineName }
@@ -19,7 +19,7 @@
 
       <h4 v-if="alsoOnThisConnection.length > 0">
         {{
-          i18n.choice(
+          $i18n.choice(
             "_.controller.transport.also-in-connection",
             alsoOnThisConnection.length
           )
@@ -54,7 +54,7 @@
             </div>
             <span class="sr-only">
               {{
-                i18n.choice("_.export.journey-from-to", 1, {
+                $i18n.choice("_.export.journey-from-to", 1, {
                   origin: otherStatus.train.origin.name,
                   destination: otherStatus.train.destination.name,
                 })
@@ -65,13 +65,13 @@
       </div>
       <hr v-if="alsoOnThisConnection.length > 0" />
 
-      <h4 class="mt-3">{{ i18n.get("_.leaderboard.points") }}</h4>
+      <h4 class="mt-3">{{ $i18n.get("_.leaderboard.points") }}</h4>
       <div class="row py-2">
         <div class="col-1">
           <i aria-hidden="true" class="fa fa-subway d-inline"></i>
         </div>
         <div class="col">
-          <span>{{ i18n.get("_.export.title.train-type") }}</span>
+          <span>{{ $i18n.get("_.export.title.train-type") }}</span>
         </div>
         <div class="col-4 text-end">
           <small
@@ -90,7 +90,7 @@
           <i aria-hidden="true" class="fa fa-route d-inline"></i>
         </div>
         <div class="col">
-          {{ i18n.get("_.leaderboard.distance") }}:
+          {{ $i18n.get("_.leaderboard.distance") }}:
           {{ (status.train.distance / 1000).toFixed(2) }}<small>km</small>
         </div>
         <div class="col-4 text-end">
@@ -109,7 +109,7 @@
         <div class="col-1">
           <i aria-hidden="true" class="fa fa-dice-d20 d-inline"></i>
         </div>
-        <div class="col">{{ i18n.get("_.checkin.points.earned") }}</div>
+        <div class="col">{{ $i18n.get("_.checkin.points.earned") }}</div>
         <div class="col-4 text-end">{{ points }}</div>
       </div>
 
@@ -120,13 +120,13 @@
       >
         <i aria-hidden="true" class="fas fa-exclamation-triangle d-inline"></i>
         &nbsp;
-        {{ i18n.get("_.checkin.points.could-have") }}
+        {{ $i18n.get("_.checkin.points.could-have") }}
         <router-link
           class="alert-link"
           to="/about#points-calculation"
           @click="$refs.successModal.hide()"
         >
-          {{ i18n.get("_.generic.why") }}
+          {{ $i18n.get("_.generic.why") }}
         </router-link>
       </div>
 
@@ -136,7 +136,7 @@
         role="alert"
       >
         <i aria-hidden="true" class="fas fa-info-circle d-inline"></i> &nbsp;
-        {{ i18n.get("_.checkin.points.forced") }}
+        {{ $i18n.get("_.checkin.points.forced") }}
       </div>
     </div>
   </ModalConfirm>

@@ -2,7 +2,7 @@
   <HeroLayout>
     <template v-if="!loading" v-slot:hero>
       <img
-        :alt="i18n.get('_.settings.picture')"
+        :alt="$i18n.get('_.settings.picture')"
         :src="user.profilePicture"
         class="float-end img-thumbnail rounded-circle img-fluid"
         height="20%"
@@ -50,7 +50,7 @@
             }}
           </span>
           <span class="small font-weight-lighter">{{
-            i18n.get("_.profile.points-abbr")
+            $i18n.get("_.profile.points-abbr")
           }}</span>
           <span v-if="user.twitterUrl" class="font-weight-bold ps-sm-2">
             <a
@@ -83,10 +83,12 @@
     >
       <div v-if="user.muted" class="col-md-8 col-lg-7 text-center mb-5">
         <header>
-          <h3>{{ i18n.get("_.user.muted.heading") }}</h3>
+          <h3>{{ $i18n.get("_.user.muted.heading") }}</h3>
         </header>
         <h5>
-          {{ i18n.choice("_.user.muted.text", 1, { username: user.username }) }}
+          {{
+            $i18n.choice("_.user.muted.text", 1, { username: user.username })
+          }}
         </h5>
         <MuteButton
           :user="user"
@@ -99,13 +101,13 @@
         class="col-md-8 col-lg-7 text-center mb-5"
       >
         <header>
-          <h3>{{ i18n.get("_.profile.private-profile-text") }}</h3>
+          <h3>{{ $i18n.get("_.profile.private-profile-text") }}</h3>
         </header>
         <h5>
           {{
-            i18n.choice("_.profile.private-profile-information-text", 1, {
+            $i18n.choice("_.profile.private-profile-information-text", 1, {
               username: user.username,
-              request: i18n.get("_.profile.follow_req"),
+              request: $i18n.get("_.profile.follow_req"),
             })
           }}
         </h5>
@@ -113,7 +115,8 @@
       <div v-else-if="statuses.length > 0" class="col-md-8 col-lg-7">
         <header>
           <h3>
-            {{ i18n.get("_.profile.last-journeys-of") }} {{ user.displayName }}:
+            {{ $i18n.get("_.profile.last-journeys-of") }}
+            {{ user.displayName }}:
           </h3>
         </header>
 
@@ -128,7 +131,7 @@
         <div class="mt-5">
           <div v-if="links && links.next" class="text-center">
             <button
-              :aria-label="i18n.get('_.menu.show-more')"
+              :aria-label="$i18n.get('_.menu.show-more')"
               class="btn btn-primary btn-lg btn-floating mt-4"
               @click.prevent="fetchMore"
             >
@@ -139,7 +142,7 @@
       </div>
       <div v-else class="col-md-8 col-lg-7">
         <h3 class="text-danger">
-          strtr({{ i18n.get("_.profile.no-statuses") }}, [':username' =>
+          strtr({{ $i18n.get("_.profile.no-statuses") }}, [':username' =>
           $user->name])
         </h3>
       </div>
@@ -221,7 +224,7 @@ export default {
       );
     },
     updateMetadata() {
-      this.description = this.i18n.choice("_.description.profile", 1, {
+      this.description = this.$i18n.choice("_.description.profile", 1, {
         username: this.user.username,
         kmAmount: this.localizeDistance(this.user.trainDistance),
         hourAmount: this.fullTime(this.duration),

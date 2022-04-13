@@ -6,7 +6,7 @@
           v-if="userProfileSettings && userProfileSettings.email"
           class="card mb-4"
         >
-          <div class="card-header">{{ i18n.get("_.support.create") }}</div>
+          <div class="card-header">{{ $i18n.get("_.support.create") }}</div>
           <div class="card-body">
             <form @submit.prevent="submitForm">
               <div class="form-outline mb-4">
@@ -17,7 +17,7 @@
                   type="text"
                 />
                 <label class="form-label" for="form-subject">{{
-                  i18n.get("_.subject")
+                  $i18n.get("_.subject")
                 }}</label>
               </div>
 
@@ -29,7 +29,7 @@
                   rows="4"
                 ></textarea>
                 <label class="form-label" for="form-message">{{
-                  i18n.get("_.how-can-we-help")
+                  $i18n.get("_.how-can-we-help")
                 }}</label>
               </div>
 
@@ -38,12 +38,12 @@
                 :disabled="formLoading"
                 class="btn btn-primary btn-block mb-4"
               >
-                {{ i18n.get("_.support.submit") }}
+                {{ $i18n.get("_.support.submit") }}
               </LoadingButton>
               <hr />
               <small>
                 {{
-                  i18n.choice("_.support.answer", 1, {
+                  $i18n.choice("_.support.answer", 1, {
                     address: userProfileSettings.email,
                   })
                 }}
@@ -58,24 +58,24 @@
         >
           <h5 class="fw-bold">
             <i class="fas fa-user-shield"></i>
-            {{ i18n.get("_.support.privacy") }}
+            {{ $i18n.get("_.support.privacy") }}
           </h5>
-          {{ i18n.get("_.support.privacy.description") }}
-          {{ i18n.get("_.support.privacy.description2") }}
+          {{ $i18n.get("_.support.privacy.description") }}
+          {{ $i18n.get("_.support.privacy.description2") }}
         </div>
         <spinner v-else-if="loading"></spinner>
 
         <div v-else>
-          <h4>{{ i18n.get("support.create") }}</h4>
+          <h4>{{ $i18n.get("support.create") }}</h4>
           <hr />
           <div class="alert alert-danger">
-            <p>{{ i18n.get("support.email-required") }}</p>
+            <p>{{ $i18n.get("support.email-required") }}</p>
             <router-link
               class="btn btn-sm btn-primary"
               :to="{ name: 'settings' }"
             >
               <i class="fas fa-user-cog"></i>
-              {{ i18n.get("go-to-settings") }}
+              {{ $i18n.get("go-to-settings") }}
             </router-link>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default {
   components: { LoadingButton, Spinner, LayoutBasicNoSidebar },
   metaInfo() {
     return {
-      title: this.i18n.get("_.support.create"),
+      title: this.$i18n.get("_.support.create"),
       meta: [{ name: "robots", content: "index", vmid: "robots" }],
     };
   },
@@ -131,7 +131,7 @@ export default {
         .then((data) => {
           this.formLoading = false;
           this.notyf.success(
-            this.i18n.choice("_.support.success", 1, {
+            this.$i18n.choice("_.support.success", 1, {
               ticketNumber: data.ticket,
             })
           );

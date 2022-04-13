@@ -8,7 +8,7 @@
 
         <p>
           <button @click.prevent="fetchData">
-            {{ i18n.get("_.vue.tryAgain") }}
+            {{ $i18n.get("_.vue.tryAgain") }}
           </button>
         </p>
       </div>
@@ -181,7 +181,7 @@ export default {
       if (this.status.preventIndex) {
         this.metaData.robots = "noindex";
       }
-      this.metaData.description = this.i18n.choice("_.description.status", 1, {
+      this.metaData.description = this.$i18n.choice("_.description.status", 1, {
         username: this.status.username,
         origin: this.status.train.origin.name + this.rilIdentifierOrigin,
         destination:
@@ -195,7 +195,7 @@ export default {
           name: "singleStatus",
           params: { id: this.status.id },
         }).href; //ToDo combine all window.location.origin...-methods to one single method
-      this.metaData.title = this.i18n.choice("_.status.ogp-title", 1, {
+      this.metaData.title = this.$i18n.choice("_.status.ogp-title", 1, {
         name: this.status.username,
       });
       this.metaData.image = this.status.profilePicture;

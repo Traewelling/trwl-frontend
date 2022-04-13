@@ -6,12 +6,12 @@
           <div class="card-body">
             <h2 class="fs-4" id="heading-live-upcoming">
               <em class="far fa-calendar-alt"></em>
-              {{ i18n.get("_.events.live-and-upcoming") }}
+              {{ $i18n.get("_.events.live-and-upcoming") }}
             </h2>
             <hr />
             <p v-if="upcomingEvents.length === 0 && !loading" class="text-trwl">
-              {{ i18n.get("_.events.no-upcoming") }}
-              {{ i18n.get("_.events.request-question") }}
+              {{ $i18n.get("_.events.no-upcoming") }}
+              {{ $i18n.get("_.events.request-question") }}
             </p>
             <div v-else-if="!loading" class="table-responsive">
               <table class="table" aria-describedby="heading-live-upcoming">
@@ -21,7 +21,7 @@
                       {{ event.name }}
                       <small v-if="event.station" class="text-muted">
                         <br />
-                        {{ i18n.get("_.events.closestStation") }}:
+                        {{ $i18n.get("_.events.closestStation") }}:
                         <router-link
                           :to="{
                             name: 'trains.stationboard',
@@ -48,7 +48,7 @@
                         :to="{ name: 'event', params: { slug: event.slug } }"
                         class="btn btn-primary btn-sm"
                       >
-                        {{ i18n.get("_.menu.show-more") }}
+                        {{ $i18n.get("_.menu.show-more") }}
                         <em class="fas fa-angle-double-right"></em>
                       </router-link>
                     </td>
@@ -59,7 +59,7 @@
             <spinner v-if="loading"></spinner>
             <div v-if="links && links.next" class="text-center">
               <button
-                aria-label="i18n.get('_.menu.show-more')"
+                aria-label="$i18n.get('_.menu.show-more')"
                 class="btn btn-primary btn-lg btn-floating mt-4"
                 @click.prevent="fetchMore"
               >
@@ -74,10 +74,13 @@
           <div class="card-body">
             <h2 class="fs-4">
               <em class="far fa-calendar-plus"></em>
-              {{ i18n.get("_.events.request") }}
+              {{ $i18n.get("_.events.request") }}
             </h2>
             <hr />
-            <form v-if="$store.getters.isLogged" @submit.prevent="submitProposal">
+            <form
+              v-if="$store.getters.isLogged"
+              @submit.prevent="submitProposal"
+            >
               <div class="form-outline mb-4">
                 <input
                   type="text"
@@ -87,7 +90,7 @@
                   required
                 />
                 <label class="form-label" for="event-requester-name">{{
-                  i18n.get("_.events.name")
+                  $i18n.get("_.events.name")
                 }}</label>
               </div>
               <div class="form-outline mb-4">
@@ -98,7 +101,7 @@
                   class="form-control"
                 />
                 <label class="form-label" for="event-requester-host">{{
-                  i18n.get("_.events.host")
+                  $i18n.get("_.events.host")
                 }}</label>
               </div>
               <div class="row">
@@ -112,7 +115,7 @@
                       required
                     />
                     <label class="form-label" for="event-requester-begin">
-                      {{ i18n.get("_.events.begin") }}
+                      {{ $i18n.get("_.events.begin") }}
                     </label>
                   </div>
                 </div>
@@ -126,7 +129,7 @@
                       required
                     />
                     <label class="form-label" for="event-requester-end">
-                      {{ i18n.get("_.events.end") }}
+                      {{ $i18n.get("_.events.end") }}
                     </label>
                   </div>
                 </div>
@@ -139,19 +142,19 @@
                   class="form-control"
                 />
                 <label class="form-label" for="event-requester-url">{{
-                  i18n.get("_.events.url")
+                  $i18n.get("_.events.url")
                 }}</label>
               </div>
               <LoadingButton class="btn btn-primary" :disabled="suggestLoading">
-                {{ i18n.get("_.events.request-button") }}
+                {{ $i18n.get("_.events.request-button") }}
               </LoadingButton>
               <hr />
               <small class="text-muted">{{
-                i18n.get("_.events.notice")
+                $i18n.get("_.events.notice")
               }}</small>
             </form>
             <p v-else class="text-trwl bold">
-              {{ i18n.get("_.auth.required") }}
+              {{ $i18n.get("_.auth.required") }}
             </p>
           </div>
         </div>
@@ -168,10 +171,10 @@ import LoadingButton from "@/components/LoadingButton";
 
 export default {
   name: "Events",
-  components: { LoadingButton, Spinner, LayoutBasicNoSidebar},
+  components: { LoadingButton, Spinner, LayoutBasicNoSidebar },
   metaInfo() {
     return {
-      title: this.i18n.get("_.events.live"),
+      title: this.$i18n.get("_.events.live"),
       meta: [{ name: "robots", content: "index", vmid: "robots" }],
     };
   },
@@ -210,7 +213,7 @@ export default {
       Event.suggest(formData)
         .then(() => {
           this.suggestLoading = false;
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
           this.suggest = {};
         })
         .catch((error) => {

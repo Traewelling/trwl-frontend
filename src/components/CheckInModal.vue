@@ -22,7 +22,7 @@
             <form id="checkinForm" method="POST">
               <div class="form-group">
                 <label class="col-form-label" for="message-text">
-                  {{ i18n.get("_.stationboard.label-message") }}
+                  {{ $i18n.get("_.stationboard.label-message") }}
                 </label>
                 <textarea
                   id="message-text"
@@ -48,12 +48,12 @@
                     for="tweet_check"
                   >
                     <i
-                      :title="i18n.get('stationboard.check-tweet')"
+                      :title="$i18n.get('stationboard.check-tweet')"
                       aria-hidden="true"
                       class="fab fa-twitter"
                     ></i>
                     <span class="visually-hidden-focusable">{{
-                      i18n.get("_.stationboard.check-tweet")
+                      $i18n.get("_.stationboard.check-tweet")
                     }}</span>
                   </label>
                 </div>
@@ -73,12 +73,12 @@
                     for="toot_check"
                   >
                     <i
-                      :title="i18n.get('stationboard.check-toot')"
+                      :title="$i18n.get('stationboard.check-toot')"
                       aria-hidden="true"
                       class="fab fa-mastodon"
                     ></i>
                     <span class="visually-hidden-focusable">{{
-                      i18n.get("_.stationboard.check-toot")
+                      $i18n.get("_.stationboard.check-toot")
                     }}</span>
                   </label>
                 </div>
@@ -101,7 +101,7 @@
                 v-if="events && events.length > 0"
                 class="row w-100 mx-0 mb-0"
               >
-                {{ i18n.get("_.events.on-my-way-dropdown") }} <br />
+                {{ $i18n.get("_.events.on-my-way-dropdown") }} <br />
                 <div
                   v-if="events.length === 1"
                   class="custom-control custom-checkbox mt-2"
@@ -124,7 +124,7 @@
                     v-model="selectedEvent"
                   >
                     <option value="0" selected>
-                      {{ i18n.get("_.events.no-event-dropdown") }}
+                      {{ $i18n.get("_.events.no-event-dropdown") }}
                     </option>
                     <option
                       v-for="event in events"
@@ -140,7 +140,7 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-light" type="button" v-on:click="hide">
-              {{ i18n.get("_.menu.abort") }}
+              {{ $i18n.get("_.menu.abort") }}
             </button>
             <button
               v-if="edit"
@@ -148,7 +148,7 @@
               type="button"
               v-on:click="editCheckin"
             >
-              {{ i18n.get("_.modals.edit-confirm") }}
+              {{ $i18n.get("_.modals.edit-confirm") }}
             </button>
             <button
               v-else
@@ -156,7 +156,7 @@
               type="button"
               v-on:click="submitCheckin"
             >
-              {{ i18n.get("_.stationboard.btn-checkin") }}
+              {{ $i18n.get("_.stationboard.btn-checkin") }}
             </button>
           </div>
         </div>
@@ -164,9 +164,9 @@
     </div>
     <ModalConfirm
       ref="conflict"
-      :abort-text="i18n.get('_.menu.abort')"
-      :confirm-text="i18n.get('_.stationboard.btn-checkin')"
-      :title-text="i18n.get('_.generic.error')"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.stationboard.btn-checkin')"
+      :title-text="$i18n.get('_.generic.error')"
       confirm-button-color="btn-primary"
       header-class="bg-danger text-white"
       v-on:abort="$router.push({ name: 'dashboard' })"
@@ -174,7 +174,7 @@
     >
       <p v-if="this.error.id">
         {{
-          i18n.choice("_.controller.transport.overlapping-checkin", 1, {
+          $i18n.choice("_.controller.transport.overlapping-checkin", 1, {
             linename: this.error.line,
           })
         }}&nbsp;
@@ -185,7 +185,7 @@
           {{ this.error.id }}
         </router-link>
       </p>
-      <p>{{ i18n.get("_.checkin.conflict.question") }}</p>
+      <p>{{ $i18n.get("_.checkin.conflict.question") }}</p>
     </ModalConfirm>
   </div>
 </template>
@@ -311,7 +311,7 @@ export default {
       Checkin.editCheckin(this.statusData.id, formData)
         .then((data) => {
           this.result = data;
-          this.notyf.success(this.i18n.get("_.settings.saved"));
+          this.notyf.success(this.$i18n.get("_.settings.saved"));
           this.$emit("updated");
           this.hide();
         })

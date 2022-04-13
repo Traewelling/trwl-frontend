@@ -54,7 +54,7 @@
           ></Status>
           <div v-if="links && links.next" class="text-center">
             <button
-              aria-label="i18n.get('_.menu.show-more')"
+              aria-label="$i18n.get('_.menu.show-more')"
               class="btn btn-primary btn-lg btn-floating mt-4"
               @click.prevent="fetchMore"
             >

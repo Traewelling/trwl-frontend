@@ -12,13 +12,13 @@
       <p
         class="lead"
         v-html="
-          i18n.choice(i18nKey, 1, notification.detail.message.lead.values)
+          $i18n.choice(i18nKey, 1, notification.detail.message.lead.values)
         "
       ></p>
       <span
         v-if="notification.detail.message.notice.key"
         v-html="
-          i18n.choice(
+          $i18n.choice(
             i18nNoticeKey,
             1,
             notification.detail.message.notice.values
@@ -65,9 +65,9 @@ export default {
   computed: {
     readLabel() {
       if (this.read) {
-        return this.i18n.get("_.notifications.mark-as-unread");
+        return this.$i18n.get("_.notifications.mark-as-unread");
       }
-      return this.i18n.get("_.notifications.mark-as-read");
+      return this.$i18n.get("_.notifications.mark-as-read");
     },
     i18nKey() {
       return "_." + this.notification.detail.message.lead.key;

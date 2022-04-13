@@ -9,7 +9,7 @@
       </router-link>
 
       <button
-        :aria-label="i18n.get('_.Toggle navigation')"
+        :aria-label="$i18n.get('_.Toggle navigation')"
         aria-controls="offcanvasNavigation"
         class="navbar-toggler float-start"
         data-mdb-target="#offcanvasNavigation"
@@ -30,40 +30,40 @@
         <ul class="navbar-nav me-auto">
           <li v-if="$store.getters.isLogged" class="nav-item">
             <router-link :to="{ name: 'dashboard' }" class="nav-link"
-              >{{ i18n.get("_.menu.dashboard") }}
+              >{{ $i18n.get("_.menu.dashboard") }}
             </router-link>
           </li>
           <li class="nav-item">
             <router-link :to="{ name: 'leaderboard' }" class="nav-link">
-              {{ i18n.get("_.menu.leaderboard") }}
+              {{ $i18n.get("_.menu.leaderboard") }}
             </router-link>
           </li>
           <li class="nav-item">
             <router-link :to="{ name: 'statuses.active' }" class="nav-link">
-              {{ i18n.get("_.menu.active") }}
+              {{ $i18n.get("_.menu.active") }}
             </router-link>
           </li>
           <li v-if="$store.getters.isLogged" class="nav-item">
             <router-link :to="{ name: 'statistics' }" class="nav-link">
-              {{ i18n.get("_.stats") }}
+              {{ $i18n.get("_.stats") }}
             </router-link>
           </li>
         </ul>
         <ul v-if="!$store.getters.isLogged" class="navbar-nav w-auto">
           <li class="nav-item">
             <router-link :to="{ name: 'auth.login' }" class="nav-link"
-              >{{ i18n.get("_.menu.login") }}
+              >{{ $i18n.get("_.menu.login") }}
             </router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">{{ i18n.get("_.menu.register") }}</a>
+            <a class="nav-link" href="#">{{ $i18n.get("_.menu.register") }}</a>
           </li>
         </ul>
         <ul v-else class="navbar-nav w-auto">
           <form action="#" class="form-inline">
             <div class="input-group ps-0 m-0" hidden>
               <input
-                :placeholder="i18n.get('_.stationboard.submit-search')"
+                :placeholder="$i18n.get('_.stationboard.submit-search')"
                 aria-label="User suchen"
                 class="border border-white rounded-left form-control my-0 py-1"
                 name="searchQuery"
@@ -104,20 +104,20 @@
                 class="dropdown-item"
               >
                 <i aria-hidden="true" class="fas fa-user"></i>
-                {{ i18n.get("_.menu.profile") }}
+                {{ $i18n.get("_.menu.profile") }}
               </router-link>
               <router-link :to="{ name: 'settings' }" class="dropdown-item">
                 <i aria-hidden="true" class="fas fa-cog"></i>
-                {{ i18n.get("_.menu.settings") }}
+                {{ $i18n.get("_.menu.settings") }}
               </router-link>
               <router-link class="dropdown-item" :to="{ name: 'support' }">
                 <i class="fas fa-headset" aria-hidden="true"></i>
-                {{ i18n.get("_.support") }}
+                {{ $i18n.get("_.support") }}
               </router-link>
               <!--                {{ &#45;&#45;@if(Auth::user()->role >= 5)&#45;&#45; }}-->
               <!--                {{-->
               <!--                  &#45;&#45; <a class="dropdown-item" href="#">&#45;&#45;}}-->
-              <!--                {{ &#45;&#45; <i class="fas fa-tools" aria-hidden="true"></i> {{ i18n.get('_.menu.admin') }}&#45;&#45;}}-->
+              <!--                {{ &#45;&#45; <i class="fas fa-tools" aria-hidden="true"></i> {{ $i18n.get('_.menu.admin') }}&#45;&#45;}}-->
               <!--                {{ &#45;&#45;                                        </a>&#45;&#45;}}-->
               <!--                {{ &#45;&#45;@endif&#45;&#45; }}-->
               <div class="dropdown-divider"></div>
@@ -127,7 +127,7 @@
                 @click.prevent="$store.dispatch('logout')"
               >
                 <i aria-hidden="true" class="fas fa-sign-out-alt"></i>
-                {{ i18n.get("_.menu.logout") }}
+                {{ $i18n.get("_.menu.logout") }}
               </a>
             </div>
           </li>

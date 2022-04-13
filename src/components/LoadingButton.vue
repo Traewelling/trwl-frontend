@@ -8,7 +8,7 @@
       aria-hidden="true"
     ></span>
     <span v-if="disabled" class="visually-hidden">{{
-      i18n.get("_.menu.loading")
+      $i18n.get("_.menu.loading")
     }}</span>
   </button>
 </template>

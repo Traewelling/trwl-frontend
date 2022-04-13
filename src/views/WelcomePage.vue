@@ -17,9 +17,9 @@
                 <img alt="logo" class="logo" src="/img/icons/logo.svg" />
                 <span class="h1">#Träwelling</span>
               </div>
-              <p>{{ i18n.get("_.about.block1") }}</p>
+              <p>{{ $i18n.get("_.about.block1") }}</p>
               <router-link :to="{ name: 'about' }" class="btn btn-white"
-                >{{ i18n.get("_.menu.about") }}
+                >{{ $i18n.get("_.menu.about") }}
               </router-link>
             </div>
             <div class="col-md-4 card text-dark">

@@ -9,7 +9,7 @@
                 :to="{ name: 'profile', params: { username: user.username } }"
               >
                 <img
-                  :alt="i18n.get('_.settings.picture')"
+                  :alt="$i18n.get('_.settings.picture')"
                   :src="user.profilePicture"
                 />
               </router-link>
@@ -37,7 +37,7 @@
                 <span class="font-weight-bold">
                   <i aria-hidden="true" class="fa fa-route d-inline"></i>
                   <span class="sr-only-focusable">{{
-                    i18n.get("_.leaderboard.distance")
+                    $i18n.get("_.leaderboard.distance")
                   }}</span>
                   {{ user.trainDistance / 1000 }}
                 </span>
@@ -45,7 +45,7 @@
                 <span class="font-weight-bold ps-sm-2">
                   <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
                   <span class="sr-only-focusable">{{
-                    i18n.get("_.leaderboard.duration")
+                    $i18n.get("_.leaderboard.duration")
                   }}</span>
                   {{ hoursAndMinutes(user.trainDuration) }}
                 </span>
@@ -53,12 +53,12 @@
                 <span class="font-weight-bold ps-sm-2">
                   <i aria-hidden="true" class="fa fa-dice-d20 d-inline"></i>
                   <span class="sr-only-focusable">{{
-                    i18n.get("_.leaderboard.points")
+                    $i18n.get("_.leaderboard.points")
                   }}</span>
                   {{ localizeThousands(user.points) }}
                 </span>
                 <span class="small font-weight-lighter">{{
-                  i18n.get("_.profile.points-abbr")
+                  $i18n.get("_.profile.points-abbr")
                 }}</span>
               </span>
             </div>
@@ -68,12 +68,12 @@
       <Spinner v-if="loading" class="mt-5" />
       <div v-else-if="users.length === 0">
         <div class="alert my-3 alert-danger" role="alert">
-          {{ i18n.get("_.user.no-user") }}
+          {{ $i18n.get("_.user.no-user") }}
         </div>
       </div>
       <div v-if="links && links.next" class="text-center">
         <button
-          aria-label="i18n.get('_.menu.show-more')"
+          aria-label="$i18n.get('_.menu.show-more')"
           class="btn btn-primary btn-lg btn-floating mt-4"
           @click.prevent="fetchMore"
         >

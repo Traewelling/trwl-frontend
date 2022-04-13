@@ -1,7 +1,7 @@
 <template>
   <LayoutBasicNoSidebar>
     <div class="d-sm-flex mb-2">
-      <h3 class="mb-0 mr-auto text-gray-800">{{ i18n.get("_.stats") }}</h3>
+      <h3 class="mb-0 mr-auto text-gray-800">{{ $i18n.get("_.stats") }}</h3>
       <div class="w-100"></div>
       <div class="btn-group me-2 mb-1">
         <button
@@ -9,7 +9,7 @@
           @click="generateExport('pdf')"
         >
           <i class="fa fa-save" aria-hidden="true"></i>
-          {{ i18n.get("_.export.submit") }}
+          {{ $i18n.get("_.export.submit") }}
         </button>
         <button
           class="btn btn-primary dropdown-toggle px-3"
@@ -17,7 +17,7 @@
           aria-haspopup="true"
           aria-expanded="false"
         >
-          <span class="sr-only">{{ i18n.get("_.sr.dropdown.toggle") }}</span>
+          <span class="sr-only">{{ $i18n.get("_.sr.dropdown.toggle") }}</span>
         </button>
         <div class="dropdown-menu">
           <button class="dropdown-item" @click="generateExport('csv')">
@@ -37,7 +37,7 @@
           type="button"
         >
           <i aria-hidden="true" class="fas fa-calendar"></i>&nbsp;
-          {{ i18n.get("_.stats.range") }} ({{ this.dateRange }})
+          {{ $i18n.get("_.stats.range") }} ({{ this.dateRange }})
         </button>
         <ul aria-labelledby="dateRangeDropdown" class="dropdown-menu">
           <li>
@@ -46,7 +46,7 @@
               href="#"
               @click.prevent="fetchRecentDays(7)"
             >
-              {{ i18n.choice("_.stats.range.days", 1, { days: 7 }) }}
+              {{ $i18n.choice("_.stats.range.days", 1, { days: 7 }) }}
             </a>
           </li>
           <li>
@@ -55,7 +55,7 @@
               href="#"
               @click.prevent="fetchRecentDays(14)"
             >
-              {{ i18n.choice("_.stats.range.days", 1, { days: 14 }) }}
+              {{ $i18n.choice("_.stats.range.days", 1, { days: 14 }) }}
             </a>
           </li>
           <li>
@@ -64,7 +64,7 @@
               href="#"
               @click.prevent="fetchRecentDays(30)"
             >
-              {{ i18n.choice("_.stats.range.days", 1, { days: 30 }) }}
+              {{ $i18n.choice("_.stats.range.days", 1, { days: 30 }) }}
             </a>
           </li>
           <li>
@@ -73,13 +73,13 @@
               href="#"
               @click.prevent="fetchRecentDays(60)"
             >
-              {{ i18n.choice("_.stats.range.days", 1, { days: 60 }) }}
+              {{ $i18n.choice("_.stats.range.days", 1, { days: 60 }) }}
             </a>
           </li>
           <li class="dropdown-divider"></li>
           <li>
             <a class="dropdown-item" href="#" @click.prevent="picker.show()">
-              {{ i18n.choice("_.stats.range.picker") }}
+              {{ $i18n.choice("_.stats.range.picker") }}
             </a>
           </li>
         </ul>
@@ -93,12 +93,12 @@
           <div class="col-md-6 mb-4">
             <div class="card">
               <div class="card-body">
-                <h5>{{ i18n.get("_.stats.purpose") }}</h5>
+                <h5>{{ $i18n.get("_.stats.purpose") }}</h5>
                 <p
                   v-if="travelPurpose.length <= 0"
                   class="text-danger font-weight-bold mt-2"
                 >
-                  {{ i18n.get("_.stats.no-data") }}
+                  {{ $i18n.get("_.stats.no-data") }}
                 </p>
                 <apexchart
                   ref="purpose"
@@ -113,12 +113,12 @@
           <div class="col-md-6 mb-4">
             <div class="card">
               <div class="card-body">
-                <h5>{{ i18n.get("_.stats.categories") }}</h5>
+                <h5>{{ $i18n.get("_.stats.categories") }}</h5>
                 <p
                   v-if="travelCategories.length <= 0"
                   class="text-danger font-weight-bold mt-2"
                 >
-                  {{ i18n.get("_.stats.no-data") }}
+                  {{ $i18n.get("_.stats.no-data") }}
                 </p>
                 <apexchart
                   ref="categories"
@@ -133,12 +133,12 @@
           <div class="col-md-6 mb-4">
             <div class="card">
               <div class="card-body">
-                <h5>{{ i18n.get("_.stats.companies") }}</h5>
+                <h5>{{ $i18n.get("_.stats.companies") }}</h5>
                 <p
                   v-if="trainProviders.length <= 0"
                   class="text-danger font-weight-bold mt-2"
                 >
-                  {{ i18n.get("_.stats.no-data") }}
+                  {{ $i18n.get("_.stats.no-data") }}
                 </p>
                 <apexchart
                   ref="companies"
@@ -154,12 +154,12 @@
           <div class="col-12 mb-4">
             <div class="card">
               <div class="card-body">
-                <h5>{{ i18n.get("_.stats.volume") }}</h5>
+                <h5>{{ $i18n.get("_.stats.volume") }}</h5>
                 <p
                   v-if="travelTime.length <= 0"
                   class="text-danger font-weight-bold mt-2"
                 >
-                  {{ i18n.get("_.stats.no-data") }}
+                  {{ $i18n.get("_.stats.no-data") }}
                 </p>
                 <apexchart
                   ref="travelTimeChart"
@@ -187,7 +187,7 @@
                 </span>
                 <br />
                 <small class="text-muted">{{
-                  i18n.get("_.stats.global.distance")
+                  $i18n.get("_.stats.global.distance")
                 }}</small>
               </div>
             </div>
@@ -205,7 +205,7 @@
                 </span>
                 <br />
                 <small class="text-muted">{{
-                  i18n.get("_.stats.global.duration")
+                  $i18n.get("_.stats.global.duration")
                 }}</small>
               </div>
             </div>
@@ -223,7 +223,7 @@
                 </span>
                 <br />
                 <small class="text-muted">{{
-                  i18n.get("_.stats.global.active")
+                  $i18n.get("_.stats.global.active")
                 }}</small>
               </div>
             </div>
@@ -232,7 +232,7 @@
         <hr />
         <small class="text-muted">
           *{{
-            i18n.choice("_.stats.global.explain", 1, {
+            $i18n.choice("_.stats.global.explain", 1, {
               fromDate: moment(this.fromGlobal).format("LLL"),
               toDate: moment(this.untilGlobal).format("LLL"),
             })
@@ -334,13 +334,13 @@ export default {
         yaxis: [
           {
             title: {
-              text: this.i18n.get("_.stats.time-in-minutes"),
+              text: this.$i18n.get("_.stats.time-in-minutes"),
             },
           },
           {
             opposite: true,
             title: {
-              text: this.i18n.get("_.stats.trips"),
+              text: this.$i18n.get("_.stats.trips"),
             },
           },
         ],
@@ -349,7 +349,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.stats"),
+      title: this.$i18n.get("_.stats"),
     };
   },
   mounted() {
@@ -358,7 +358,7 @@ export default {
     this.picker = new LitePicker({
       element: document.getElementById("daterange"),
       singleMode: false,
-      lang: this.i18n.getLocale(),
+      lang: this.$i18n.getLocale(),
       tooltipNumber: (totalDays) => {
         return totalDays - 1;
       },
@@ -445,7 +445,7 @@ export default {
       this.$refs.purpose.updateOptions(
         {
           labels: this.travelPurpose.map((x) =>
-            this.i18n.get("_.stationboard.business." + x.name)
+            this.$i18n.get("_.stationboard.business." + x.name)
           ),
           series: this.travelPurpose.map((x) => x.count),
         },
@@ -455,7 +455,7 @@ export default {
     updateCategories() {
       this.$refs.categories.updateOptions({
         labels: this.travelCategories.map((x) =>
-          this.i18n.get("_.transport_types." + x.name)
+          this.$i18n.get("_.transport_types." + x.name)
         ),
         series: this.travelCategories.map((x) => x.count),
       });
@@ -486,7 +486,7 @@ export default {
 
       this.$refs.travelTimeChart.updateSeries([
         {
-          name: this.i18n.get("_.stats.time-in-minutes"),
+          name: this.$i18n.get("_.stats.time-in-minutes"),
           type: "line",
           data: fixedTravelTime.map((x) => {
             return {
@@ -496,7 +496,7 @@ export default {
           }),
         },
         {
-          name: this.i18n.get("_.stats.trips"),
+          name: this.$i18n.get("_.stats.trips"),
           type: "column",
           data: fixedTravelTime.map((x) => {
             return {

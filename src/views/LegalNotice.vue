@@ -2,7 +2,7 @@
   <LayoutBasicNoSidebar>
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <h1>{{ i18n.get("_.menu.legal-notice") }}</h1>
+        <h1>{{ $i18n.get("_.menu.legal-notice") }}</h1>
 
         <h2>Angaben gem&auml;&szlig; &sect; 5 TMG</h2>
         <p>
@@ -99,7 +99,7 @@ export default {
   components: { LayoutBasicNoSidebar },
   metaInfo() {
     return {
-      title: this.i18n.get("_.menu.legal-notice"),
+      title: this.$i18n.get("_.menu.legal-notice"),
       meta: [{ name: "robots", content: "noindex", vmid: "robots" }],
     };
   },

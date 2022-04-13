@@ -1,6 +1,6 @@
 <template>
   <form class="card-body" method="post" @submit.prevent="authenticate">
-    <h2 class="card-title">{{ i18n.get("_.user.login") }}</h2>
+    <h2 class="card-title">{{ $i18n.get("_.user.login") }}</h2>
     <div class="d-flex flex-row align-items-center justify-content-center">
       <button
         aria-label="Twitter"
@@ -43,7 +43,7 @@
         type="text"
       />
       <label class="form-label text-dark" for="login">
-        {{ i18n.get("_.user.login-credentials") }}
+        {{ $i18n.get("_.user.login-credentials") }}
       </label>
     </div>
     <div class="form-outline mb-4">
@@ -55,7 +55,7 @@
         type="password"
       />
       <label class="form-label text-dark" for="password">
-        {{ i18n.get("_.user.password") }}
+        {{ $i18n.get("_.user.password") }}
       </label>
     </div>
     <div class="d-flex align-items-center justify-content-between">
@@ -64,9 +64,11 @@
         type="submit"
         :disabled="loginLoading"
       >
-        {{ i18n.get("_.user.login") }}
+        {{ $i18n.get("_.user.login") }}
       </LoadingButton>
-      <a class="text-dark" href="#">{{ i18n.get("_.user.forgot-password") }}</a>
+      <a class="text-dark" href="#">{{
+        $i18n.get("_.user.forgot-password")
+      }}</a>
     </div>
   </form>
 </template>

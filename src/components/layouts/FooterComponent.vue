@@ -8,7 +8,7 @@
           :to="{ name: 'about' }"
           class="footer-link"
         >
-          {{ i18n.get("_.menu.about") }}
+          {{ $i18n.get("_.menu.about") }}
         </router-link>
         <router-link
           v-if="$store.getters.isLogged"
@@ -16,28 +16,28 @@
           :to="{ name: 'dashboard.global' }"
           class="footer-link"
         >
-          {{ i18n.get("_.menu.globaldashboard") }}
+          {{ $i18n.get("_.menu.globaldashboard") }}
         </router-link>
         <router-link
           :class="{ 'text-white': dashboard }"
           class="footer-link"
           :to="{ name: 'events' }"
         >
-          {{ i18n.get("_.events") }}
+          {{ $i18n.get("_.events") }}
         </router-link>
         <router-link
           :class="{ 'text-white': dashboard }"
           class="footer-link"
           :to="{ name: 'privacy' }"
         >
-          {{ i18n.get("_.menu.privacy") }}
+          {{ $i18n.get("_.menu.privacy") }}
         </router-link>
         <router-link
           :class="{ 'text-white': dashboard }"
           class="footer-link"
           :to="{ name: 'legal' }"
         >
-          {{ i18n.get("_.menu.legal-notice") }}
+          {{ $i18n.get("_.menu.legal-notice") }}
         </router-link>
         <a
           :class="{ 'text-white': dashboard }"
@@ -45,13 +45,13 @@
           href="https://blog.traewelling.de"
           target="blog"
         >
-          {{ i18n.get("_.menu.blog") }}
+          {{ $i18n.get("_.menu.blog") }}
         </a>
       </nav>
       <p
         v-if="!dashboard"
         class="mb-0"
-        v-html="i18n.get('_.menu.developed')"
+        v-html="$i18n.get('_.menu.developed')"
       ></p>
       <p class="mb-0">&copy; {{ moment().format("Y") }} Tr&auml;welling</p>
       <p v-if="!dashboard" class="mb-0 text-muted small">

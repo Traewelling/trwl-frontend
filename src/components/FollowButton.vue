@@ -4,7 +4,7 @@
     :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
     href="#"
   >
-    {{ i18n.get("_.profile.settings") }}
+    {{ $i18n.get("_.profile.settings") }}
   </a>
   <a
     v-else-if="userData.privateProfile && userData.followPending"
@@ -16,7 +16,7 @@
     href="#"
   >
     <i v-if="dropdown" aria-hidden="true" class="fas fa-user-clock"></i>
-    {{ i18n.get("_.profile.follow_req.pending") }}
+    {{ $i18n.get("_.profile.follow_req.pending") }}
   </a>
   <a
     v-else-if="userData.privateProfile && !userData.following"
@@ -25,7 +25,7 @@
     @click.prevent="follow"
   >
     <i v-if="dropdown" aria-hidden="true" class="fas fa-user-plus"></i>
-    {{ i18n.get("_.profile.follow_req") }}
+    {{ $i18n.get("_.profile.follow_req") }}
   </a>
   <a
     v-else-if="!userData.following"
@@ -34,7 +34,7 @@
     @click.prevent="follow"
   >
     <i v-if="dropdown" aria-hidden="true" class="fas fa-user-plus"></i>
-    {{ i18n.get("_.profile.follow") }}
+    {{ $i18n.get("_.profile.follow") }}
   </a>
   <a
     v-else
@@ -43,7 +43,7 @@
     @click.prevent="unfollow"
   >
     <i v-if="dropdown" aria-hidden="true" class="fas fa-user-minus"></i>
-    {{ i18n.get("_.profile.unfollow") }}
+    {{ $i18n.get("_.profile.unfollow") }}
   </a>
 </template>
 

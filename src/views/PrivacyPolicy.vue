@@ -8,13 +8,13 @@
         >
           <p
             class="card-body mb-0"
-            v-html="i18n.get('_.privacy.not-signed-yet')"
+            v-html="$i18n.get('_.privacy.not-signed-yet')"
           ></p>
         </div>
         <div v-else-if="$route.query.acceptedAt" class="card mb-3">
           <p
             class="card-body mb-0"
-            v-html="i18n.get('_.privacy.we-changed')"
+            v-html="$i18n.get('_.privacy.we-changed')"
           ></p>
         </div>
 
@@ -32,14 +32,14 @@
                   role="button"
                   @click.prevent="$refs.delete.show()"
                 >
-                  {{ i18n.get("_.settings.delete-account") }}
+                  {{ $i18n.get("_.settings.delete-account") }}
                 </a>
                 <LoadingButton
                   :disabled="loadingSubmit"
                   class="btn btn-success"
                   type="submit"
                 >
-                  {{ i18n.get("_.privacy.sign") }}
+                  {{ $i18n.get("_.privacy.sign") }}
                 </LoadingButton>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.i18n.get("_.privacy.title"),
+      title: this.$i18n.get("_.privacy.title"),
       meta: [{ name: "robots", content: "noindex", vmid: "robots" }],
     };
   },
@@ -92,7 +92,7 @@ export default {
   methods: {
     fetchData() {
       PrivacyPolicy.getPolicy().then((data) => {
-        if (this.i18n.getLocale().startsWith("de")) {
+        if (this.$i18n.getLocale().startsWith("de")) {
           this.policy = marked(data.de);
         } else {
           this.policy = marked(data.en);

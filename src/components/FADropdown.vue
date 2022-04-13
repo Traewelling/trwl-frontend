@@ -10,7 +10,7 @@
       type="button"
     >
       <i :class="dropDown[selected].icon" aria-hidden="true"></i>
-      <span v-if="showText">{{ i18n.get(dropDown[selected].desc) }}</span>
+      <span v-if="showText">{{ $i18n.get(dropDown[selected].desc) }}</span>
     </button>
     <ul :aria-labelledby="$refs.dropdownButton" class="dropdown-menu">
       <li
@@ -19,9 +19,9 @@
         class="dropdown-item"
         @click="selectItem(key)"
       >
-        <i :class="item.icon" aria-hidden="true"></i> {{ i18n.get(item.desc) }}
+        <i :class="item.icon" aria-hidden="true"></i> {{ $i18n.get(item.desc) }}
         <span v-if="item.detail" class="text-muted"
-          ><br />{{ i18n.get(item.detail) }}</span
+          ><br />{{ $i18n.get(item.detail) }}</span
         >
       </li>
     </ul>

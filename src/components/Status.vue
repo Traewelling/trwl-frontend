@@ -68,7 +68,7 @@
                 <span v-if="statusData.business > 0" class="pl-sm-2">
                   <i
                     :class="travelReason[statusData.business].icon"
-                    :title="i18n.get(travelReason[statusData.business].desc)"
+                    :title="$i18n.get(travelReason[statusData.business].desc)"
                     aria-hidden="true"
                     data-mdb-placement="top"
                     data-mdb-toggle="tooltip"
@@ -93,7 +93,7 @@
               </p>
               <div v-if="nextStop != null">
                 <p class="text-muted font-italic">
-                  {{ i18n.get("_.stationboard.next-stop") }}
+                  {{ $i18n.get("_.stationboard.next-stop") }}
                   <router-link
                     :to="{
                       name: 'trains.stationboard',
@@ -145,7 +145,7 @@
         <span class="float-end like-text small">
           <i
             :class="visibilityIcon.icon"
-            :title="i18n.get(visibilityIcon.desc)"
+            :title="$i18n.get(visibilityIcon.desc)"
             aria-hidden="true"
             class="fas visibility-icon text-small"
             data-mdb-placement="top"
@@ -159,7 +159,7 @@
                 $store.getters.isLogged &&
                 $store.state.user.id === statusData.user
               "
-              >{{ i18n.get("_.user.you") }}</span
+              >{{ $i18n.get("_.user.you") }}</span
             >
             <span v-else>{{ statusData.username }}</span> </router-link
           >,
@@ -181,7 +181,7 @@
               }"
             >
               <img
-                :alt="i18n.get('_.settings.picture')"
+                :alt="$i18n.get('_.settings.picture')"
                 :src="statusData.profilePicture"
                 class="profile-image"
               />
@@ -204,7 +204,7 @@
           </li>
           <li class="list-inline-item like-text">
             <a
-              :aria-label="i18n.get('_.menu.show-more')"
+              :aria-label="$i18n.get('_.menu.show-more')"
               class="like-text"
               data-mdb-toggle="dropdown"
               role="button"
@@ -217,7 +217,7 @@
               <li v-if="shareable">
                 <a class="dropdown-item" href="#" v-on:click.prevent="share">
                   <i aria-hidden="true" class="fas fa-share"></i>&nbsp;
-                  {{ i18n.get("_.menu.share") }}
+                  {{ $i18n.get("_.menu.share") }}
                 </a>
               </li>
               <li v-if="!editable && user">
@@ -233,7 +233,7 @@
                   v-on:click.prevent="toggleEditModal"
                 >
                   <i aria-hidden="true" class="fas fa-edit"></i>&nbsp;
-                  {{ i18n.get("_.modals.editStatus-title") }}
+                  {{ $i18n.get("_.modals.editStatus-title") }}
                 </a>
               </li>
               <li v-if="editable">
@@ -243,7 +243,7 @@
                   v-on:click.prevent="toggleDeleteModal"
                 >
                   <i aria-hidden="true" class="fas fa-trash"></i>&nbsp;
-                  {{ i18n.get("_.modals.delete-confirm") }}
+                  {{ $i18n.get("_.modals.delete-confirm") }}
                 </a>
               </li>
             </ul>
@@ -262,7 +262,7 @@
               :to="{ name: 'profile', params: { username: like.username } }"
             >
               <img
-                :alt="i18n.get('_.settings.picture')"
+                :alt="$i18n.get('_.settings.picture')"
                 :src="like.profilePicture"
                 class="profile-image"
               />
@@ -275,9 +275,9 @@
               {{ like.username }}
             </router-link>
             <span v-if="like.id === statusData.user">{{
-              i18n.get("_.user.liked-own-status")
+              $i18n.get("_.user.liked-own-status")
             }}</span>
-            <span v-else>{{ i18n.get("_.user.liked-status") }}</span>
+            <span v-else>{{ $i18n.get("_.user.liked-status") }}</span>
           </li>
         </ul>
       </div>
@@ -285,9 +285,9 @@
     <ModalConfirm
       v-if="$store.getters.isLogged && statusData.user === $store.state.user.id"
       ref="deleteModal"
-      :abort-text="i18n.get('_.menu.abort')"
-      :confirm-text="i18n.get('_.modals.delete-confirm')"
-      :title-text="i18n.get('_.modals.deleteStatus-title')"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.modals.delete-confirm')"
+      :title-text="$i18n.get('_.modals.deleteStatus-title')"
       confirm-button-color="btn-danger"
       v-on:confirm="deleteStatus"
     ></ModalConfirm>
@@ -465,8 +465,8 @@ export default {
     },
     share() {
       const shareData = {
-        title: this.i18n.get("_.menu.share"),
-        text: this.i18n.choice("_.description.status", 1, {
+        title: this.$i18n.get("_.menu.share"),
+        text: this.$i18n.choice("_.description.status", 1, {
           username: this.statusData.username,
           origin: this.statusData.train.origin.name,
           destination: this.statusData.train.destination.name,

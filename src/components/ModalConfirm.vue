@@ -8,7 +8,7 @@
         <div :class="headerClass" class="modal-header">
           <h4 class="modal-title">{{ this.$props.titleText }}</h4>
           <button
-            :aria-label="i18n.get('_.menu.close')"
+            :aria-label="$i18n.get('_.menu.close')"
             class="close"
             type="button"
             v-on:click="abort"
