@@ -54,3 +54,115 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: "Nunito", sans-serif;
+$font-size-base: 0.9rem;
+$line-height-base: 1.6;
+
+// Colors
+$white: #fff;
+$black: #000;
+$dark: #343a40;
+$blue: #3490dc;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #f66d9b;
+$red: #e3342f;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #38c172;
+$teal: #4dc0b5;
+$cyan: #6cb2eb;
+$grey: rgba(0, 0, 0, 0.125);
+$bahnrot: rgb(192, 57, 43);
+$text-color: #212529;
+$blueCounterColor: rgb(0, 46, 102);
+$trwlRot: rgb(199, 39, 48);
+
+body {
+  background: rgb(248, 250, 252);
+  overflow-x: hidden;
+}
+
+.product-icon {
+  width: 1em;
+  height: 1em;
+}
+
+ul.timeline {
+  list-style-type: none;
+  position: relative;
+  &:last-child {
+    background: transparent !important;
+  }
+  > li {
+    margin: 20px 0;
+    padding-left: 20px;
+
+    > i.trwl-bulletpoint {
+      content: " ";
+      background: #fff;
+      display: inline-block;
+      position: absolute;
+      border-radius: 50%;
+      border: 3px solid $bahnrot;
+      left: 20px;
+      width: 20px;
+      height: 20px;
+      z-index: 2;
+    }
+
+    &:first-child:before {
+      content: " ";
+      background: #d4d9df;
+      display: inline-block;
+      left: 29px;
+      width: 2px;
+      height: 90%;
+      position: absolute;
+      z-index: 2;
+    }
+
+    &:last-child {
+      line-height: 1;
+    }
+  }
+}
+
+ul.timeline > li p.status-body:before,
+p.train-status:before {
+  font-family: FontAwesome;
+  display: inline-block;
+  padding-right: 6px;
+  vertical-align: middle;
+}
+
+.connection {
+  background: #f5f5f5;
+}
+
+.bg-trwl {
+  background-color: $trwlRot !important;
+}
+
+.navbar-dark .navbar-brand {
+  font-weight: bold !important;
+}
+
+.dropdown-menu {
+  z-index: 2000;
+}
+
+.nav-tabs {
+  border-bottom: 0;
+}
+
+.text-trwl {
+  color: $trwlRot !important;
+}
+</style>

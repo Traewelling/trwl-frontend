@@ -20,15 +20,15 @@
       </button>
       <div class="navbar-toggler">
         <NotificationsButton
-          v-if="$auth.check()"
+          v-if="$store.getters.isLogged"
           :notifications-count="notificationsCount"
-          toggler="true"
+          :toggler="true"
           @click="showNotifications"
         ></NotificationsButton>
       </div>
       <div id="navbarCollapse" ref="navbar" class="collapse navbar-collapse">
         <ul class="navbar-nav me-auto">
-          <li v-if="$auth.check()" class="nav-item">
+          <li v-if="$store.getters.isLogged" class="nav-item">
             <router-link :to="{ name: 'dashboard' }" class="nav-link"
               >{{ i18n.get("_.menu.dashboard") }}
             </router-link>
@@ -43,13 +43,13 @@
               {{ i18n.get("_.menu.active") }}
             </router-link>
           </li>
-          <li v-if="$auth.check()" class="nav-item">
+          <li v-if="$store.getters.isLogged" class="nav-item">
             <router-link :to="{ name: 'statistics' }" class="nav-link">
               {{ i18n.get("_.stats") }}
             </router-link>
           </li>
         </ul>
-        <ul v-if="!$auth.check()" class="navbar-nav w-auto">
+        <ul v-if="!$store.getters.isLogged" class="navbar-nav w-auto">
           <li class="nav-item">
             <router-link :to="{ name: 'auth.login' }" class="nav-link"
               >{{ i18n.get("_.menu.login") }}
@@ -89,7 +89,7 @@
               href="#"
               role="button"
             >
-              {{ $auth.user().displayName }}
+              {{ $store.state.user.displayName }}
             </a>
 
             <div
@@ -99,7 +99,7 @@
               <router-link
                 :to="{
                   name: 'profile',
-                  params: { username: $auth.user().username },
+                  params: { username: $store.state.user.username },
                 }"
                 class="dropdown-item"
               >
@@ -121,7 +121,11 @@
               <!--                {{ &#45;&#45;                                        </a>&#45;&#45;}}-->
               <!--                {{ &#45;&#45;@endif&#45;&#45; }}-->
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#" @click.prevent="$auth.logout()">
+              <a
+                class="dropdown-item"
+                href="#"
+                @click.prevent="$store.dispatch('logout')"
+              >
                 <i aria-hidden="true" class="fas fa-sign-out-alt"></i>
                 {{ i18n.get("_.menu.logout") }}
               </a>
@@ -159,7 +163,7 @@ export default {
     fetchNotificationsCount() {
       Notifications.getCount()
         .then((count) => {
-          this.notificationsCount = count;
+          this.notificationsCount = parseInt(count);
         })
         .catch((error) => {
           this.apiErrorHandler(error);

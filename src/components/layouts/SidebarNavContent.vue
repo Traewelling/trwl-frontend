@@ -1,40 +1,46 @@
 <template>
   <div>
     <router-link
-      v-if="$auth.check()"
-      :to="{ name: 'profile', params: { username: $auth.user().username } }"
+      v-if="$store.getters.isLogged"
+      :to="{
+        name: 'profile',
+        params: { username: $store.state.user.username },
+      }"
       class="d-flex align-items-center link-dark text-decoration-none"
     >
       <img
         :alt="i18n.get('_.settings.picture')"
-        :src="$auth.user().profilePicture"
+        :src="$store.state.user.profilePicture"
         class="rounded-circle me-2"
         height="32"
         width="32"
       />
-      <strong>{{ $auth.user().displayName }}</strong
+      <strong>{{ $store.state.user.displayName }}</strong
       >&nbsp;
-      <small class="text-muted">@{{ $auth.user().username }}</small>
+      <small class="text-muted">@{{ $store.state.user.username }}</small>
     </router-link>
-    <div v-if="$auth.check()" class="row text-black-50 mt-1 justify">
+    <div v-if="$store.getters.isLogged" class="row text-black-50 mt-1 justify">
       <div class="col">
         <i aria-hidden="true" class="fas fa-dice-d20" />
         <span class="sr-only">{{ i18n.get("_.leaderboard.points") }}</span>
-        {{ localizeThousands($auth.user().points) }}
+        {{ localizeThousands($store.state.user.points) }}
       </div>
       <div class="col">
         <i aria-hidden="true" class="fas fa-clock" />
         <span class="sr-only">{{ i18n.get("_.leaderboard.duration") }}</span>
-        {{ hoursAndMinutes($auth.user().trainDuration) }}
+        {{ hoursAndMinutes($store.state.user.trainDuration) }}
       </div>
       <div class="col">
         <i aria-hidden="true" class="fas fa-route" />
         <span class="sr-only">{{ i18n.get("_.leaderboard.distance") }}</span>
-        {{ this.localizeDistance($auth.user().trainDistance) }}km
+        {{ this.localizeDistance($store.state.user.trainDistance) }}km
       </div>
     </div>
     <hr />
-    <ul v-if="!$auth.check()" class="nav nav-pills flex-column mb-auto">
+    <ul
+      v-if="!$store.getters.isLogged"
+      class="nav nav-pills flex-column mb-auto"
+    >
       <li class="nav-item">
         <router-link
           :to="{ name: 'events' }"
@@ -46,7 +52,10 @@
         </router-link>
       </li>
     </ul>
-    <ul v-if="$auth.check()" class="nav nav-pills flex-column mb-auto">
+    <ul
+      v-if="$store.getters.isLogged"
+      class="nav nav-pills flex-column mb-auto"
+    >
       <li class="nav-item">
         <form autocomplete="off" @submit.prevent="searchRedirect">
           <div class="input-group nav-link bg-transparent d-flex py-1">
@@ -91,7 +100,10 @@
       </li>
       <li class="nav-item">
         <router-link
-          :to="{ name: 'profile', params: { username: $auth.user().username } }"
+          :to="{
+            name: 'profile',
+            params: { username: $store.state.user.username },
+          }"
           active-class="bg-primary text-light"
           class="nav-link bg-transparent"
         >
@@ -146,13 +158,13 @@
     <hr />
     <ul class="nav nav-pills flex-column mb-0">
       <li class="nav-item">
-        <ChangeLanguageButton navbar="true" />
+        <ChangeLanguageButton :navbar="true" />
       </li>
-      <li v-if="$auth.check()" class="nav-item">
+      <li v-if="$store.getters.isLogged" class="nav-item">
         <a
           class="nav-link bg-transparent"
           href="#"
-          @click.prevent="$auth.logout()"
+          @click.prevent="$store.dispatch('logout')"
         >
           <i aria-hidden="true" class="fas fa-sign-out-alt me-2"></i>
           {{ i18n.get("_.menu.logout") }}

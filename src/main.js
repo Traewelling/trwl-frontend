@@ -87,3 +87,68 @@ new Vue({
   auth: Object(),
   render: (h) => h(App),
 }).$mount("#app");
+
+Vue.mixin({
+  methods: {
+    apiErrorHandler: (response) => {
+      if (response.status === 406) {
+        if (router.currentRoute.name !== "privacy") {
+          //we do not need any "privacy policy not accepted" errors on the privacy policy
+          router.push({
+            name: "privacy",
+            query: {
+              validFrom: response.meta.validFrom,
+              acceptedAt: response.meta.acceptedAt,
+            },
+          });
+        }
+      } else {
+        if (response.errors.length > 0) {
+          response.errors.forEach((error) => {
+            Vue.prototype.notyf.error(error);
+          });
+        } else {
+          Vue.prototype.notyf.error(
+            this.i18n.get("_.messages.exception.general")
+          );
+        }
+      }
+    },
+    fetchMoreData(next) {
+      return new Promise(function (resolve) {
+        let returnObject = {};
+        axios
+          .get(next)
+          .then((response) => {
+            returnObject.data = response.data.data;
+            returnObject.links = response.data.links;
+            resolve(returnObject);
+          })
+          .catch((error) => {
+            this.apiErrorHandler(error);
+          });
+      });
+    },
+    localizeThousands(number, fixed = 0) {
+      return parseFloat(number.toFixed(fixed)).toLocaleString(
+        Vue.prototype.i18n.getLocale()
+      );
+    },
+    localizeDistance(distance) {
+      return this.localizeThousands(distance / 1000, 1);
+    },
+    hoursAndMinutes(duration) {
+      const dur = moment.duration(duration, "minutes").asMinutes();
+      let minutes = dur % 60;
+      let hours = Math.floor(dur / 60);
+
+      return "".concat(
+        hours.toString(),
+        this.i18n.get("_.time.hours.short"),
+        " ",
+        minutes.toString(),
+        this.i18n.get("_.time.minutes.short")
+      );
+    },
+  },
+});
