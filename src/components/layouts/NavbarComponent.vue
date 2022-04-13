@@ -140,9 +140,9 @@
 </template>
 
 <script>
-import NotificationsButton from "../../../../traewelling/resources/components/NotificationsButton";
-import NotificationsModal from "../../../../traewelling/resources/components/NotificationsModal";
-import Notifications from "../../../../traewelling/resources/js/ApiClient/Notifications";
+import NotificationsButton from "@/components/NotificationsButton";
+import NotificationsModal from "@/components/NotificationsModal";
+import Notifications from "@/ApiClient/Notifications";
 
 export default {
   name: "NavbarComponent",

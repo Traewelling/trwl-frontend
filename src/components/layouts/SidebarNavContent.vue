@@ -176,8 +176,7 @@
 </template>
 
 <script>
-import ChangeLanguageButton from "../../../../traewelling/resources/components/ChangeLanguageButton";
-import moment from "moment";
+import ChangeLanguageButton from "@/components/ChangeLanguageButton";
 
 export default {
   name: "SidebarNavContent",
@@ -187,7 +186,12 @@ export default {
     };
   },
   components: { ChangeLanguageButton },
-  props: { desktop: false },
+  props: {
+    desktop: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
     dashboard() {
       return this.$route.name === "dashboard";

@@ -29,7 +29,7 @@ export default new Vuex.Store({
     setUserToken(state, token) {
       state.token = token;
       axios.defaults.headers.common.Authorization = `Bearer ${token.token}`;
-      vuexLocal.saveState("token", JSON.stringify(state.token));
+      localStorage.setItem("token", JSON.stringify(state.token));
       this.commit("setAuthenticated", true);
     },
     setAuthenticated(state, authenticated) {

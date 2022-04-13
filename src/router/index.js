@@ -11,6 +11,9 @@ const routes = [
     path: "/",
     name: "Wecome",
     component: WelcomePage,
+    meta: {
+      auth: false,
+    },
   },
   {
     path: "/about2",

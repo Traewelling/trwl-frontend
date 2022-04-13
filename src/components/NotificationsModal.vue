@@ -61,8 +61,8 @@
 
 <script>
 import { Modal } from "bootstrap";
-import Notification from "../../../traewelling/resources/components/Notification";
-import Notifications from "../../../traewelling/resources/js/ApiClient/Notifications";
+import Notification from "@/components/Notification";
+import Notifications from "@/ApiClient/Notifications";
 
 export default {
   name: "NotificationsModal",

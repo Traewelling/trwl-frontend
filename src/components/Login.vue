@@ -83,32 +83,19 @@ export default {
       loginLoading: false,
     };
   },
-  mounted() {
-    //
-  },
   methods: {
     authenticate() {
-      // get the redirect object
-      // let redirect = this.$auth.redirect();
-      // this.loginLoading = true;
-      // this.$auth
-      //   .login({
-      //     data: {
-      //       login: this.login,
-      //       password: this.password,
-      //     },
-      //     redirect: { name: redirect ? redirect.from.name : "dashboard" },
-      //     staySignedIn: true,
-      //     fetchUser: true,
-      //   })
-      //   .then(() => {
-      //     this.$auth.fetch();
-      //     this.loginLoading = false;
-      //   })
-      //   .catch((error) => {
-      //     this.notyf.error(this.i18n.get("_.messages.exception.general"));
-      //     this.loginLoading = false;
-      //   });
+      this.$store
+        .dispatch("login", {
+          login: this.login,
+          password: this.password,
+        })
+        .then(() => {
+          this.$router.push({ name: "About" });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
