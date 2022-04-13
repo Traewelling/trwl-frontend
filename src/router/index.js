@@ -4,6 +4,9 @@ import WelcomePage from "@/views/WelcomePage";
 import Login from "@/views/Login.vue";
 import Dashboard from "@/views/Dashboard";
 import SingleStatus from "@/views/SingleStatus";
+import ActiveStatuses from "@/views/ActiveStatuses";
+import Profile from "@/views/Profile";
+import Event from "@/views/Event";
 
 Vue.use(VueRouter);
 
@@ -26,14 +29,29 @@ const routes = [
     props: true,
   },
   {
+    name: "singleStatus",
     path: "/status/:id",
     component: SingleStatus,
     props: true,
-    name: "singleStatus",
   },
   {
-    path: "/about",
+    name: "statuses.active",
+    path: "/statuses/active",
+    component: ActiveStatuses,
+  },
+  {
+    name: "profile",
+    path: "/@:username",
+    component: Profile,
+  },
+  {
+    name: "event",
+    path: "/event/:slug",
+    component: Event,
+  },
+  {
     name: "About",
+    path: "/about",
     meta: {
       auth: true,
     },
@@ -41,8 +59,8 @@ const routes = [
       import(/* webpackChunkName: "about" */ "@/views/About.vue"),
   },
   {
-    path: "/login",
     name: "Login",
+    path: "/login",
     component: Login,
     meta: {
       auth: false,

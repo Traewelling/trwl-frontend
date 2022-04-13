@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import htmlWebpackPlugin from "@vue/test-utils";
 import "mdb-ui-kit/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "mdb-ui-kit/js/mdb.min";
@@ -13,7 +12,7 @@ export default {
   metaInfo() {
     return {
       title: "Träwelling",
-      titleTemplate: "%s - " + htmlWebpackPlugin.options.title,
+      titleTemplate: "%s - " + this.$appName,
       htmlAttrs: {
         lang: this.i18n.getLocale(),
       },
@@ -92,6 +91,21 @@ body {
 .product-icon {
   width: 1em;
   height: 1em;
+}
+
+.image-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    border-radius: 50%;
+  }
+}
+
+.search-image-box {
+  display: block !important;
 }
 
 ul.timeline {
