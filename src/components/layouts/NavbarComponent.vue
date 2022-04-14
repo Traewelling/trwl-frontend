@@ -12,11 +12,10 @@
         :aria-label="$i18n.get('_.Toggle navigation')"
         aria-controls="offcanvasNavigation"
         class="navbar-toggler float-start"
-        data-mdb-target="#offcanvasNavigation"
-        data-mdb-toggle="offcanvas"
         type="button"
+        @click="$emit('offCanvas')"
       >
-        <i aria-hidden="true" class="fas fa-bars"></i>
+        <v-icon>mdi-menu</v-icon>
       </button>
       <div class="navbar-toggler">
         <NotificationsButton

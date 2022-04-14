@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavbarComponent />
+    <NavbarComponent v-on:offCanvas="drawer = !drawer" />
     <main class="py-4">
       <div class="container">
         <div class="row mb-3 justify-content-around">
@@ -9,7 +9,7 @@
           </div>
           <slot />
         </div>
-        <OffCanvasNavigation />
+        <OffCanvasNavigation v-model="drawer" />
       </div>
     </main>
     <FooterComponent :hideFooter="false" />
@@ -32,6 +32,11 @@ export default {
     MobileFooterNav,
     FooterComponent,
     NavbarComponent,
+  },
+  data: () => {
+    return {
+      drawer: false,
+    };
   },
 };
 </script>

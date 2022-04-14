@@ -36,7 +36,6 @@
           <v-divider />
         </template>
         <SidebarNavContent :desktop="true" />
-        <v-divider />
       </v-navigation-drawer>
     </v-card>
     <SidebarLinkCloud />
@@ -54,7 +53,7 @@ export default {
   name: "SidebarNav",
   components: { SidebarLinkCloud, SidebarNavContent },
   data() {
-    return {
+    return {//ToDo move this to custom component
       stats: [
         {
           name: this.$i18n.get("_.leaderboard.points"),
