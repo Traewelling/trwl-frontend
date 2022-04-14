@@ -60,7 +60,7 @@ export default {
     setLang(language) {
       if (typeof language === "string" && Object.hasOwn(languages, language)) {
         this.$store.commit("setLocale", language);
-        this.i18n.setLocale(language);
+        this.$i18n.setLocale(language);
         this.moment.locale(language.substr(0, 2));
         this.$forceUpdate();
         window.location.reload(); //ToDo change this to a better concept, so that the whole page doesn't need to be reloaded

@@ -18,16 +18,18 @@
     </div>
     <div class="offcanvas-body">
       <SidebarNavContent />
+      <SidebarLinkCloud />
     </div>
   </div>
 </template>
 
 <script>
 import SidebarNavContent from "./SidebarNavContent";
+import SidebarLinkCloud from "@/components/layouts/SidebarLinkCloud";
 
 export default {
   name: "offcanvasNavigation",
-  components: { SidebarNavContent },
+  components: { SidebarLinkCloud, SidebarNavContent },
 };
 </script>
 

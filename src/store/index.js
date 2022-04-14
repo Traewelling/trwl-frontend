@@ -10,7 +10,7 @@ const vuexLocal = new VuexPersistence({
 Vue.use(Vuex);
 
 //ToDo: Set this into the config file
-axios.defaults.baseURL = "http://localhost:8000/api/v1";
+axios.defaults.baseURL = "https://traewelling.de/api/v1";
 
 export default new Vuex.Store({
   state: {

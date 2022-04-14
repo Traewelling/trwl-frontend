@@ -4,15 +4,14 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
-// import Vuetify from "vuetify";
-// import "vuetify/dist/vuetify.min.css";
-// import vuetify from "./plugins/vuetify";
+import Vuetify from "vuetify";
+import vuetify from "./plugins/vuetify";
 import { Notyf } from "notyf";
 import moment from "moment";
 import VueMeta from "vue-meta";
 import i18n from "@/i18n";
 
-// Vue.use(Vuetify);
+Vue.use(Vuetify);
 
 Vue.prototype.notyf = new Notyf({
   duration: 5000,
@@ -56,7 +55,7 @@ axios.interceptors.response.use(
         Vue.prototype.notyf.error(error);
       });
     } else {
-      // Vue.prototype.notyf.error(this.$i18n.get("_.messages.exception.general"));
+      Vue.prototype.notyf.error(this.$i18n.get("_.messages.exception.general"));
     }
     return Promise.reject(error);
   }
@@ -83,7 +82,7 @@ new Vue({
     }
     this.$store.dispatch("fetchLocale");
   },
-  // vuetify,
+  vuetify,
   auth: Object(),
   render: (h) => h(App),
 }).$mount("#app");

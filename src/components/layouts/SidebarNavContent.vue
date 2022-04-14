@@ -1,209 +1,87 @@
 <template>
-  <div>
-    <router-link
-      v-if="$store.state.authenticated"
-      :to="{
-        name: 'profile',
-        params: { username: $store.state.user.username },
-      }"
-      class="d-flex align-items-center link-dark text-decoration-none"
-    >
-      <img
-        :alt="$i18n.get('_.settings.picture')"
-        :src="$store.state.user.profilePicture"
-        class="rounded-circle me-2"
-        height="32"
-        width="32"
-      />
-      <strong>{{ $store.state.user.displayName }}</strong
-      >&nbsp;
-      <small class="text-muted">@{{ $store.state.user.username }}</small>
-    </router-link>
-    <div v-if="$store.state.authenticated" class="row text-black-50 mt-1 justify">
-      <div class="col">
-        <i aria-hidden="true" class="fas fa-dice-d20" />
-        <span class="sr-only">{{ $i18n.get("_.leaderboard.points") }}</span>
-        {{ localizeThousands($store.state.user.points) }}
-      </div>
-      <div class="col">
-        <i aria-hidden="true" class="fas fa-clock" />
-        <span class="sr-only">{{ $i18n.get("_.leaderboard.duration") }}</span>
-        {{ hoursAndMinutes($store.state.user.trainDuration) }}
-      </div>
-      <div class="col">
-        <i aria-hidden="true" class="fas fa-route" />
-        <span class="sr-only">{{ $i18n.get("_.leaderboard.distance") }}</span>
-        {{ localizeDistance($store.state.user.trainDistance) }}km
-      </div>
-    </div>
-    <hr />
-    <ul
-      v-if="!$store.state.authenticated"
-      class="nav nav-pills flex-column mb-auto"
-    >
-      <li class="nav-item">
-        <router-link
-          :to="{ name: 'events' }"
-          active-class="bg-primary text-light"
-          class="nav-link bg-transparent"
-        >
-          <i aria-hidden="true" class="fas fa-calendar me-2"></i>
-          {{ $i18n.get("_.events") }}
-        </router-link>
-      </li>
-    </ul>
-    <ul
-      v-if="$store.state.authenticated"
-      class="nav nav-pills flex-column mb-auto"
-    >
-      <li class="nav-item">
-        <form autocomplete="off" @submit.prevent="searchRedirect">
-          <div class="input-group nav-link bg-transparent d-flex py-1">
-            <div class="form-outline w-75">
-              <input
-                id="search-focus"
-                type="search"
-                class="form-control border-bottom rounded-0"
-                v-model="searchInput"
-                :class="{ active: isSearchPage }"
-              />
-              <label class="form-label" for="search-focus">{{
-                $i18n.get("_.stationboard.submit-search")
-              }}</label>
-            </div>
-            <button class="btn btn-primary btn-sm" type="submit">
-              <i class="fas fa-search" aria-hidden="true"></i>
-            </button>
-          </div>
-        </form>
-      </li>
-      <li v-if="desktop && dashboard" class="nav-item">
-        <router-link
-          :to="{ name: 'dashboard.global' }"
-          class="nav-link bg-transparent"
-          role="tab"
-        >
-          <i aria-hidden="true" class="fas fa-globe me-2"></i>
-          {{ $i18n.get("_.menu.globaldashboard") }}
-        </router-link>
-      </li>
-      <li v-else-if="desktop" class="nav-item">
-        <router-link
-          :to="{ name: 'dashboard' }"
-          active-class=""
-          class="nav-link bg-transparent"
-          role="tab"
-        >
-          <i aria-hidden="true" class="fas fa-user-friends me-2"></i>
-          {{ $i18n.get("_.menu.dashboard") }}
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
-          :to="{
-            name: 'profile',
-            params: { username: $store.state.user.username },
-          }"
-          active-class="bg-primary text-light"
-          class="nav-link bg-transparent"
-        >
-          <i aria-hidden="true" class="fas fa-user-alt me-2"></i>
-          {{ $i18n.get("_.menu.profile") }}
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
-          :to="{ name: 'events' }"
-          active-class="bg-primary text-light"
-          class="nav-link bg-transparent"
-        >
-          <i aria-hidden="true" class="fas fa-calendar me-2"></i>
-          {{ $i18n.get("_.events") }}
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link
-          :to="{ name: 'settings' }"
-          active-class="bg-primary text-light"
-          class="nav-link bg-transparent"
-        >
-          <i aria-hidden="true" class="fas fa-cog me-2"></i>
-          {{ $i18n.get("_.menu.settings") }}
-        </router-link>
-      </li>
-    </ul>
-    <hr />
-    <ul class="nav flex-column text-dark">
-      <li class="nav-item">
-        <router-link :to="{ name: 'about' }" class="nav-link text-black-50">
-          {{ $i18n.get("_.menu.about") }}
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-black-50" href="https://blog.traewelling.de">
-          {{ $i18n.get("_.menu.blog") }}
-        </a>
-      </li>
-      <li class="nav-item">
-        <router-link class="nav-link text-black-50" :to="{ name: 'privacy' }">
-          {{ $i18n.get("_.menu.privacy") }}
-        </router-link>
-      </li>
-      <li class="nav-item">
-        <router-link :to="{ name: 'legal' }" class="nav-link text-black-50">
-          {{ $i18n.get("_.menu.legal-notice") }}
-        </router-link>
-      </li>
-    </ul>
-    <hr />
-    <ul class="nav nav-pills flex-column mb-0">
-      <li class="nav-item">
-        <ChangeLanguageButton :navbar="true" />
-      </li>
-      <li v-if="$store.state.authenticated" class="nav-item">
-        <a
-          class="nav-link bg-transparent"
-          href="#"
-          @click.prevent="$store.dispatch('logout')"
-        >
-          <i aria-hidden="true" class="fas fa-sign-out-alt me-2"></i>
-          {{ $i18n.get("_.menu.logout") }}
-        </a>
-      </li>
-    </ul>
-    <hr />
-    <p class="mb-0" v-html="$i18n.get('_.menu.developed')"></p>
-    <p class="mb-0">&copy; {{ moment().format("Y") }} Tr&auml;welling</p>
-    <p class="mb-0 text-muted small">
-      commit:
-      <!--          ToDo: get current commit -->
-      <a
-        class="text-muted"
-        href="https://github.com/Traewelling/traewelling/commit/get_current_git_commit()"
+  <v-list>
+    <template v-for="item in items">
+      <router-link
+        v-if="item.show"
+        tag="v-list-item"
+        :to="{ name: item.route, params: item.params }"
+        :key="item.title"
+        :class="{ 'd-none': item.hide }"
+        link
       >
-        get_current_git_commit()
-      </a>
-    </p>
-  </div>
+        <v-list-item-icon>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item-content>
+      </router-link>
+    </template>
+    <v-divider />
+    <ChangeLanguageButton :navbar="true" />
+    <v-list-item v-if="$store.state.authenticated" link @click="$store.dispatch('logout')">
+      <v-icon>mdi-logout</v-icon>
+      {{ $i18n.get("_.menu.logout") }}
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
-import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
+// import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
 import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
 import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
 import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
+import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
 
 export default {
   name: "SidebarNavContent",
+  components: { ChangeLanguageButton },
   data() {
     return {
       searchInput: "",
       localizeThousands,
       hoursAndMinutes,
       localizeDistance,
+      items: [
+        {
+          title: this.$i18n.get("_.menu.dashboard"),
+          route: "dashboard",
+          icon: "mdi-account-group",
+          show: this.$store.state.authenticated,
+          hide: !this.desktop && !this.dashboard,
+        },
+        {
+          title: this.$i18n.get("_.menu.globaldashboard"),
+          route: "dashboard.global",
+          icon: "mdi-earth",
+          show: this.$store.state.authenticated,
+          hide: !this.desktop && this.dashboard,
+        },
+        {
+          title: this.$i18n.get("_.menu.profile"),
+          route: "profile",
+          params: { username: this.$store.state.user.username },
+          icon: "mdi-account",
+          show: this.$store.state.authenticated,
+        },
+        {
+          title: this.$i18n.get("_.events"),
+          route: "events",
+          icon: "mdi-calendar",
+          show: true,
+        },
+        {
+          title: this.$i18n.get("_.menu.settings"),
+          route: "settings",
+          icon: "mdi-cog",
+          show: this.$store.state.authenticated,
+        },
+        { title: "About", icon: "mdi-forum" },
+      ],
     };
   },
-  components: { ChangeLanguageButton },
+  // components: { ChangeLanguageButton },
   props: {
     desktop: {
       type: Boolean,

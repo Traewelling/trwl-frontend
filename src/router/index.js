@@ -167,6 +167,13 @@ const routes = [
       auth: false,
     },
   },
+  {
+    name: "blog",
+    path: "/blog",
+    beforeEnter() {
+      location.href = "https://blog.traewelling.de";
+    },
+  },
 ];
 
 const router = new VueRouter({

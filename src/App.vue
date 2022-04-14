@@ -6,6 +6,7 @@
 import "mdb-ui-kit/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "mdb-ui-kit/js/mdb.min";
+import "@mdi/font/css/materialdesignicons.min.css";
 
 export default {
   name: "App",
@@ -60,7 +61,7 @@ export default {
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: "Nunito", sans-serif;
+/*$font-family-sans-serif: "Nunito", sans-serif;*/
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
