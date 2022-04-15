@@ -1,41 +1,33 @@
 <template>
-  <nav class="navbar fixed-bottom navbar-dark bg-trwl px-2 d-md-none">
-    <router-link
-      :to="{ name: 'dashboard' }"
-      active-class="text-white"
-      class="navbar-brand nav-link"
-    >
-      <i class="fa fa-home" aria-hidden="true"></i>
-      <span class="sr-only">{{ $i18n.get("_.menu.dashboard") }}</span>
-    </router-link>
-    <router-link :to="{ name: 'leaderboard' }" class="navbar-brand nav-link">
-      <i class="fa fa-crown" aria-hidden="true"></i>
-      <span class="sr-only">{{ $i18n.get("_.menu.leaderboard") }}</span>
-    </router-link>
-    <router-link
-      :to="{ name: 'trains.stationboard' }"
-      class="navbar-brand nav-link"
-    >
-      <i aria-hidden="true" class="fas fa-ticket-alt"></i>
-      <span class="sr-only">{{ $i18n.get("_.menu.leaderboard") }}</span>
-    </router-link>
-    <router-link
-      :to="{ name: 'statuses.active' }"
-      class="navbar-brand nav-link"
-    >
-      <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
-      <span class="sr-only">{{ $i18n.get("_.menu.active") }}</span>
-    </router-link>
-    <router-link :to="{ name: 'statistics' }" class="navbar-brand nav-link">
-      <i class="fas fa-chart-pie" aria-hidden="true"></i>
-      <span class="sr-only">{{ $i18n.get("_.stats") }}</span>
-    </router-link>
-  </nav>
+  <v-bottom-navigation :value="value" color="#C72730" fixed grow>
+    <v-btn :to="{ name: 'dashboard' }">
+      <span class="d-sr-only">{{ $i18n.get("_.menu.dashboard") }}</span>
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+    <v-btn :to="{ name: 'leaderboard' }">
+      <span class="d-sr-only">{{ $i18n.get("_.menu.leaderboard") }}</span>
+      <v-icon>mdi-crown</v-icon>
+    </v-btn>
+    <v-btn :to="{ name: 'trains.stationboard' }">
+      <!--      ToDo: new Translation for this-->
+      <span class="d-sr-only">{{ $i18n.get("_.stationboard.btn-checkin") }}</span>
+      <v-icon>mdi-ticket-confirmation</v-icon>
+    </v-btn>
+    <v-btn :to="{ name: 'statuses.active' }">
+      <span class="d-sr-only">{{ $i18n.get("_.menu.active") }}</span>
+      <v-icon>mdi-map</v-icon>
+    </v-btn>
+    <v-btn :to="{ name: 'statistics' }">
+      <span class="d-sr-only">{{ $i18n.get("_.stats") }}</span>
+      <v-icon>mdi-chart-arc</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
 </template>
 
 <script>
 export default {
   name: "MobileFooterNav",
+  data: () => ({ value: "dashboard" }),
 };
 </script>
 

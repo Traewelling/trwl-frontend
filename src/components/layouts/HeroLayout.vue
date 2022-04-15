@@ -19,8 +19,8 @@
       </div>
       <OffCanvasNavigation v-model="drawer" />
     </main>
-    <FooterComponent />
     <MobileFooterNav />
+    <FooterComponent />
   </div>
 </template>
 

@@ -12,8 +12,8 @@
         <OffCanvasNavigation v-model="drawer" />
       </div>
     </main>
-    <FooterComponent :hideFooter="false" />
     <MobileFooterNav />
+    <FooterComponent :hideFooter="false" />
   </div>
 </template>
 

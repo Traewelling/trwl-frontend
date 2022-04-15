@@ -7,8 +7,8 @@
         <OffCanvasNavigation v-model="drawer" />
       </div>
     </main>
-    <FooterComponent :class="footerclass" />
     <MobileFooterNav />
+    <FooterComponent :class="footerclass" />
   </div>
 </template>
 
