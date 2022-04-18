@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation :value="value" color="#C72730" fixed grow>
+  <v-bottom-navigation :value="value" color="#C72730" class="d-md-none" fixed grow>
     <v-btn :to="{ name: 'dashboard' }">
       <span class="d-sr-only">{{ $i18n.get("_.menu.dashboard") }}</span>
       <v-icon>mdi-home</v-icon>

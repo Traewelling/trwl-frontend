@@ -1,7 +1,7 @@
 <template>
   <v-app-bar color="#C72730" dense dark>
     <v-app-bar-nav-icon
-      class="navbar-toggler"
+      class="navbar-toggler d-md-none"
       :aria-label="$i18n.get('_.Toggle navigation')"
       @click="$emit('offCanvas')"
     />

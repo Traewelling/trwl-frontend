@@ -1,6 +1,6 @@
 <template>
   <LayoutBasic>
-    <v-tabs grow>
+    <v-tabs grow class="d-md-none">
       <v-tab :to="{ name: 'dashboard' }">
         {{ $i18n.get("_.menu.dashboard") }}
       </v-tab>
