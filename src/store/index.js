@@ -64,7 +64,7 @@ export default new Vuex.Store({
     },
     fetchLocale({ commit }) {
       const locale = localStorage.getItem("locale");
-      if (locale.length > 0) {
+      if (locale.length !== null && locale.length > 0) {
         commit("setLocale", locale);
       } else {
         commit("setLocale", navigator.language.substr(0, 2));
