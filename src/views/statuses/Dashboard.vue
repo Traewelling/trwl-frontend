@@ -1,31 +1,13 @@
 <template>
   <LayoutBasic>
-    <ul
-      id="ex1"
-      class="nav nav-tabs nav-fill d-md-none px-0 mt-n4"
-      role="tablist"
-    >
-      <li class="nav-item" role="presentation">
-        <router-link
-          :to="{ name: 'dashboard' }"
-          active-class=""
-          class="nav-link"
-          exact-active-class="active"
-          role="tab"
-        >
-          {{ $i18n.get("_.menu.dashboard") }}
-        </router-link>
-      </li>
-      <li class="nav-item" role="presentation">
-        <router-link
-          :to="{ name: 'dashboard.global' }"
-          class="nav-link"
-          role="tab"
-        >
-          {{ $i18n.get("_.menu.globaldashboard") }}
-        </router-link>
-      </li>
-    </ul>
+    <v-tabs grow>
+      <v-tab :to="{ name: 'dashboard' }">
+        {{ $i18n.get("_.menu.dashboard") }}
+      </v-tab>
+      <v-tab :to="{ name: 'dashboard.global' }">
+        {{ $i18n.get("_.menu.globaldashboard") }}
+      </v-tab>
+    </v-tabs>
     <div class="col-sm-12 col-md-7">
       <StationForm class="d-none d-md-block" />
       <Spinner v-if="loading" class="mt-5" />

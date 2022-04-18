@@ -1,155 +1,53 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-dark bg-trwl">
-    <div class="container">
-      <router-link
-        :to="{ name: 'base' }"
-        class="navbar-brand d-none d-md-block"
-      >
-        {{ $appName }}
-      </router-link>
+  <v-app-bar color="#C72730" dense dark>
+    <v-app-bar-nav-icon
+      class="navbar-toggler"
+      :aria-label="$i18n.get('_.Toggle navigation')"
+      @click="$emit('offCanvas')"
+    />
+    <router-link tag="v-toolbar-title" :to="{ name: 'base' }">
+      {{ $appName }}
+    </router-link>
+    <v-spacer />
 
-      <button
-        :aria-label="$i18n.get('_.Toggle navigation')"
-        aria-controls="offcanvasNavigation"
-        class="navbar-toggler float-start"
-        type="button"
-        @click="$emit('offCanvas')"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </button>
-      <div class="navbar-toggler">
-        <NotificationsButton
-          v-if="$store.state.authenticated"
-          :notifications-count="notificationsCount"
-          :toggler="true"
-          @click="showNotifications"
-        ></NotificationsButton>
-      </div>
-      <div id="navbarCollapse" ref="navbar" class="collapse navbar-collapse">
-        <ul class="navbar-nav me-auto">
-          <li v-if="$store.state.authenticated" class="nav-item">
-            <router-link :to="{ name: 'dashboard' }" class="nav-link"
-              >{{ $i18n.get("_.menu.dashboard") }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'leaderboard' }" class="nav-link">
-              {{ $i18n.get("_.menu.leaderboard") }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'statuses.active' }" class="nav-link">
-              {{ $i18n.get("_.menu.active") }}
-            </router-link>
-          </li>
-          <li v-if="$store.state.authenticated" class="nav-item">
-            <router-link :to="{ name: 'statistics' }" class="nav-link">
-              {{ $i18n.get("_.stats") }}
-            </router-link>
-          </li>
-        </ul>
-        <ul v-if="!$store.state.authenticated" class="navbar-nav w-auto">
-          <li class="nav-item">
-            <router-link :to="{ name: 'auth.login' }" class="nav-link"
-              >{{ $i18n.get("_.menu.login") }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">{{ $i18n.get("_.menu.register") }}</a>
-          </li>
-        </ul>
-        <ul v-else class="navbar-nav w-auto">
-          <form action="#" class="form-inline">
-            <div class="input-group ps-0 m-0" hidden>
-              <input
-                :placeholder="$i18n.get('_.stationboard.submit-search')"
-                aria-label="User suchen"
-                class="border border-white rounded-left form-control my-0 py-1"
-                name="searchQuery"
-                type="text"
-              />
-              <button class="input-group-text btn-primary" type="submit">
-                <i aria-hidden="true" class="fas fa-search"></i>
-              </button>
-            </div>
-          </form>
-          <li class="nav-item d-none d-md-inline-block">
-            <NotificationsButton
-              :notifications-count="notificationsCount"
-              @click="showNotifications"
-            ></NotificationsButton>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              aria-expanded="false"
-              aria-haspopup="true"
-              class="nav-link dropdown-toggle"
-              data-mdb-toggle="dropdown"
-              href="#"
-              role="button"
-            >
-              {{ $store.state.user.displayName }}
-            </a>
+    <v-btn icon>
+      <NotificationsButton
+        v-if="$store.state.authenticated"
+        :notifications-count="notificationsCount"
+        :toggler="true"
+        @click="showNotifications"
+      />
+    </v-btn>
 
-            <div
-              aria-labelledby="navbarDropdown"
-              class="dropdown-menu dropdown-menu-right"
-            >
-              <router-link
-                :to="{
-                  name: 'profile',
-                  params: { username: $store.state.user.username },
-                }"
-                class="dropdown-item"
-              >
-                <i aria-hidden="true" class="fas fa-user"></i>
-                {{ $i18n.get("_.menu.profile") }}
-              </router-link>
-              <router-link :to="{ name: 'settings' }" class="dropdown-item">
-                <i aria-hidden="true" class="fas fa-cog"></i>
-                {{ $i18n.get("_.menu.settings") }}
-              </router-link>
-              <router-link class="dropdown-item" :to="{ name: 'support' }">
-                <i class="fas fa-headset" aria-hidden="true"></i>
-                {{ $i18n.get("_.support") }}
-              </router-link>
-              <!--                {{ &#45;&#45;@if(Auth::user()->role >= 5)&#45;&#45; }}-->
-              <!--                {{-->
-              <!--                  &#45;&#45; <a class="dropdown-item" href="#">&#45;&#45;}}-->
-              <!--                {{ &#45;&#45; <i class="fas fa-tools" aria-hidden="true"></i> {{ $i18n.get('_.menu.admin') }}&#45;&#45;}}-->
-              <!--                {{ &#45;&#45;                                        </a>&#45;&#45;}}-->
-              <!--                {{ &#45;&#45;@endif&#45;&#45; }}-->
-              <div class="dropdown-divider"></div>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click.prevent="$store.dispatch('logout')"
-              >
-                <i aria-hidden="true" class="fas fa-sign-out-alt"></i>
-                {{ $i18n.get("_.menu.logout") }}
-              </a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <NotificationsModal
-      ref="notifModal"
-      v-on:decrease="notificationsCount--"
-      v-on:increase="notificationsCount++"
-      v-on:reset="notificationsCount = 0"
-    ></NotificationsModal>
-  </nav>
+    <v-btn icon>
+      <v-icon>mdi-magnify</v-icon>
+    </v-btn>
+
+
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="n in 5" :key="n"
+        >
+          <v-list-item-title>{{ n }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-app-bar>
 </template>
 
 <script>
 import NotificationsButton from "@/components/buttons/NotificationsButton";
-import NotificationsModal from "@/components/modals/NotificationsModal";
 import Notifications from "@/ApiClient/Notifications";
 
 export default {
   name: "NavbarComponent",
-  components: { NotificationsModal, NotificationsButton },
+  components: {  NotificationsButton },
   data() {
     return {
       notificationsCount: 0,
