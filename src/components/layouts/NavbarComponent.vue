@@ -110,6 +110,18 @@
       v-on:increase="notificationsCount++"
       v-on:reset="notificationsCount = 0"
     ></NotificationsModal>
+    <template v-slot:extension v-if="$route.name.startsWith('dashboard') && $vuetify.breakpoint.mobile">
+      <v-tabs align-with-title grow class="d-md-none">
+        <v-tab
+          :to="{ name: 'dashboard' }"
+          v-text="$i18n.get('_.menu.dashboard')"
+        />
+        <v-tab
+          :to="{ name: 'dashboard.global' }"
+          v-text="$i18n.get('_.menu.globaldashboard')"
+        />
+      </v-tabs>
+    </template>
   </v-toolbar>
 </template>
 

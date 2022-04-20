@@ -1,5 +1,11 @@
 <template>
-  <v-bottom-navigation :value="value" color="#C72730" class="d-md-none" fixed grow>
+  <v-bottom-navigation
+    :value="value"
+    color="#C72730"
+    class="d-md-none"
+    fixed
+    grow
+  >
     <v-btn :to="{ name: 'dashboard' }">
       <span class="d-sr-only">{{ $i18n.get("_.menu.dashboard") }}</span>
       <v-icon>mdi-home</v-icon>
@@ -10,7 +16,9 @@
     </v-btn>
     <v-btn :to="{ name: 'trains.stationboard' }">
       <!--      ToDo: new Translation for this-->
-      <span class="d-sr-only">{{ $i18n.get("_.stationboard.btn-checkin") }}</span>
+      <span class="d-sr-only">{{
+        $i18n.get("_.stationboard.btn-checkin")
+      }}</span>
       <v-icon>mdi-ticket-confirmation</v-icon>
     </v-btn>
     <v-btn :to="{ name: 'statuses.active' }">
@@ -27,7 +35,7 @@
 <script>
 export default {
   name: "MobileFooterNav",
-  data: () => ({ value: "dashboard" }),
+  data: () => ({ value: this.$route.name }),
 };
 </script>
 

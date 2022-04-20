@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavbarComponent v-on:offCanvas="drawer = !drawer" />
-    <main class="py-4">
+    <main>
       <div class="container">
         <div class="row mb-3 justify-content-around">
           <div class="col-md-3 d-none d-md-block">
