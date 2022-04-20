@@ -26,33 +26,7 @@
               <v-list-item-subtitle v-text="`@` + $store.state.user.username" />
             </v-list-item-content>
           </router-link>
-          <v-simple-table dense>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th
-                    v-for="item in stats"
-                    :key="item.name"
-                    class="text-center"
-                  >
-                    <v-icon>{{ item.icon }}</v-icon>
-                    <span class="d-sr-only">{{ item.name }}</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td
-                    v-for="item in stats"
-                    :key="item.name"
-                    class="text-center text-small"
-                  >
-                    {{ item.content }}
-                  </td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
+          <SidebarStats />
           <v-divider />
         </template>
         <SidebarNavContent :desktop="true" />
@@ -64,37 +38,12 @@
 
 <script>
 import SidebarNavContent from "./SidebarNavContent";
-import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
-import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
-import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
 import SidebarLinkCloud from "@/components/layouts/SidebarLinkCloud";
+import SidebarStats from "./SidebarStats";
 
 export default {
   name: "SidebarNav",
-  components: { SidebarLinkCloud, SidebarNavContent },
-  data() {
-    return {
-      //ToDo move this to custom component
-      stats: [
-        {
-          name: this.$i18n.get("_.leaderboard.points"),
-          icon: "mdi-language-ruby",
-          content: localizeThousands(this.$store.state.user.points),
-        },
-        {
-          name: this.$i18n.get("_.leaderboard.duration"),
-          icon: "mdi-clock-time-five",
-          content: hoursAndMinutes(this.$store.state.user.trainDuration),
-        },
-        {
-          name: this.$i18n.get("_.leaderboard.distance"),
-          icon: "mdi-map-marker-distance",
-          content:
-            localizeDistance(this.$store.state.user.trainDistance) + "km",
-        },
-      ],
-    };
-  },
+  components: { SidebarStats, SidebarLinkCloud, SidebarNavContent },
 };
 </script>
 

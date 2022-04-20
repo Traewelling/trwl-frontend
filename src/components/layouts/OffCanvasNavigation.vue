@@ -28,14 +28,7 @@
           <v-list-item-subtitle v-text="`@` + $store.state.user.username" />
         </v-list-item-content>
       </router-link>
-      <v-row dense>
-        <v-col v-for="item in stats" :key="item.name" class="text-center">
-          <v-icon>{{ item.icon }}</v-icon
-          ><br />
-          <span class="d-sr-only">{{ item.name }}</span>
-          {{ item.content }}
-        </v-col>
-      </v-row>
+      <SidebarStats />
       <v-divider />
     </template>
     <SidebarNavContent :desktop="true" />
@@ -47,10 +40,11 @@
 <script>
 import SidebarNavContent from "./SidebarNavContent";
 import SidebarLinkCloud from "@/components/layouts/SidebarLinkCloud";
+import SidebarStats from "./SidebarStats";
 
 export default {
   name: "offcanvasNavigation",
-  components: { SidebarLinkCloud, SidebarNavContent },
+  components: { SidebarStats, SidebarLinkCloud, SidebarNavContent },
   props: {
     value: null,
   },
