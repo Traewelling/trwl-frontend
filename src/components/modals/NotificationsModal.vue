@@ -12,7 +12,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 id="notifications-board-title" class="modal-title">
-            {{ $i18n.get("_.notifications.title") }}
+
           </h4>
           <button
             id="mark-all-read"
@@ -41,14 +41,7 @@
           ref="list"
           class="modal-body"
         >
-          <Notification
-            v-for="data in notifications"
-            v-bind:key="data.id"
-            :data="data"
-            v-on:close="hide"
-            v-on:decrease="$emit('decrease')"
-            v-on:increase="$emit('increase')"
-          ></Notification>
+
         </div>
         <div v-else id="notifications-empty" class="text-center text-muted">
           {{ $i18n.get("_.notifications.empty") }}
@@ -61,12 +54,9 @@
 
 <script>
 import { Modal } from "bootstrap";
-import Notification from "@/components/Notification";
-import Notifications from "@/ApiClient/Notifications";
 
 export default {
   name: "NotificationsModal",
-  components: { Notification },
   data() {
     return {
       modal: null,
@@ -83,25 +73,6 @@ export default {
     },
     hide() {
       this.modal.hide();
-    },
-    fetchNotifications() {
-      Notifications.fetchNotifications()
-        .then((data) => {
-          this.notifications = data;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    readAll() {
-      Notifications.readAll()
-        .then((data) => {
-          this.notifications = data;
-          this.$emit("reset");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     },
   },
 };

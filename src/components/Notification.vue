@@ -1,50 +1,50 @@
 <template>
-  <div
-    v-if="notification"
-    :class="[severity, { unread: !read }]"
-    class="row"
-    @click="clickMessage"
-  >
-    <a class="col-1 col-sm-1 align-left lead" href="#">
-      <i :class="icon" aria-hidden="true"></i>
-    </a>
-    <a class="col-7 col-sm-8 align-middle" href="#">
-      <p
-        class="lead"
-        v-html="
-          $i18n.choice(i18nKey, 1, notification.detail.message.lead.values)
-        "
-      ></p>
-      <span
-        v-if="notification.detail.message.notice.key"
-        v-html="
-          $i18n.choice(
-            i18nNoticeKey,
-            1,
-            notification.detail.message.notice.values
-          )
-        "
-      >
-      </span>
-    </a>
-    <div class="col col-sm-3 text-end">
-      <button
-        :aria-label="readLabel"
-        class="interact toggleReadState"
-        type="button"
-        @click.stop="readMessage"
-      >
-        <i
-          :class="{ 'fa-envelope-open': read, 'fa-envelope': !read }"
-          aria-hidden="true"
-          class="far"
-        ></i>
-      </button>
-      <div class="text-muted">
-        {{ moment(notification.createdAt).format("LLL") }}
-      </div>
-    </div>
-  </div>
+  <v-list-item v-if="notification" @click="clickMessage">
+    <template v-slot:default="{ read }">
+      <v-list-item-icon>
+        <v-icon v-text="icon"></v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title
+          v-html="
+            $i18n.choice(i18nKey, 1, notification.detail.message.lead.values)
+          "
+        />
+
+        <!-- v-list-item-subtitle
+          class="text--primary"
+          v-text="item.headline"
+        ></v-list-item-subtitle -->
+
+        <v-list-item-subtitle
+          v-if="notification.detail.message.notice.key"
+          v-html="
+            $i18n.choice(
+              i18nNoticeKey,
+              1,
+              notification.detail.message.notice.values
+            )
+          "
+        >
+        </v-list-item-subtitle>
+      </v-list-item-content>
+
+      <v-list-item-action>
+        <v-list-item-action-text
+          v-text="moment(notification.createdAt).format('LLL')"
+        ></v-list-item-action-text>
+
+        <v-btn icon @click.stop="readMessage">
+          <v-icon v-if="!read" color="grey lighten-1">
+            mdi-email-outline
+          </v-icon>
+          <v-icon v-else color="yellow darken-3" @click.stop="readMessage">
+            mdi-email-open-outline
+          </v-icon>
+        </v-btn>
+      </v-list-item-action>
+    </template>
+  </v-list-item>
 </template>
 
 <script>

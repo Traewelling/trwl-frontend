@@ -51,6 +51,9 @@
       v-if="$store.state.authenticated"
       :notifications-count="notificationsCount"
       :toggler="true"
+      v-on:decrease="notificationsCount--"
+      v-on:increase="notificationsCount++"
+      v-on:reset="notificationsCount = 0"
       @click="showNotifications"
     />
 
@@ -102,12 +105,6 @@
         {{ $i18n.get("_.menu.logout") }}
       </a>
     </div>
-    <NotificationsModal
-      ref="notifModal"
-      v-on:decrease="notificationsCount--"
-      v-on:increase="notificationsCount++"
-      v-on:reset="notificationsCount = 0"
-    ></NotificationsModal>
     <template
       v-slot:extension
       v-if="$route.name.startsWith('dashboard') && $vuetify.breakpoint.mobile"
@@ -129,11 +126,10 @@
 <script>
 import NotificationsButton from "@/components/buttons/NotificationsButton";
 import Notifications from "@/ApiClient/Notifications";
-import NotificationsModal from "@/components/modals/NotificationsModal";
 
 export default {
   name: "NavbarComponent",
-  components: { NotificationsButton, NotificationsModal },
+  components: { NotificationsButton },
   data() {
     return {
       notificationsCount: 0,
