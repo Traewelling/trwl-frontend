@@ -60,28 +60,66 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
 
-    <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn icon v-bind="attrs" v-on="on">
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
-      </template>
-      <v-list>
-        <v-list-item v-for="n in 5" :key="n">
-          <v-list-item-title>{{ n }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <v-btn
+      text
+      aria-expanded="false"
+      aria-haspopup="true"
+      class="nav-link dropdown-toggle"
+      data-mdb-toggle="dropdown"
+      role="button"
+    >
+      {{ $store.state.user.displayName }}
+    </v-btn>
+
+    <div
+      aria-labelledby="navbarDropdown"
+      class="dropdown-menu dropdown-menu-right"
+    >
+      <router-link
+        :to="{
+          name: 'profile',
+          params: { username: $store.state.user.username },
+        }"
+        class="dropdown-item"
+      >
+        <i aria-hidden="true" class="fas fa-user"></i>
+        {{ $i18n.get("_.menu.profile") }}
+      </router-link>
+      <router-link :to="{ name: 'settings' }" class="dropdown-item">
+        <i aria-hidden="true" class="fas fa-cog"></i>
+        {{ $i18n.get("_.menu.settings") }}
+      </router-link>
+      <router-link class="dropdown-item" :to="{ name: 'support' }">
+        <i class="fas fa-headset" aria-hidden="true"></i>
+        {{ $i18n.get("_.support") }}
+      </router-link>
+      <div class="dropdown-divider"></div>
+      <a
+        class="dropdown-item"
+        href="#"
+        @click.prevent="$store.dispatch('logout')"
+      >
+        <i aria-hidden="true" class="fas fa-sign-out-alt"></i>
+        {{ $i18n.get("_.menu.logout") }}
+      </a>
+    </div>
+    <NotificationsModal
+      ref="notifModal"
+      v-on:decrease="notificationsCount--"
+      v-on:increase="notificationsCount++"
+      v-on:reset="notificationsCount = 0"
+    ></NotificationsModal>
   </v-toolbar>
 </template>
 
 <script>
 import NotificationsButton from "@/components/buttons/NotificationsButton";
 import Notifications from "@/ApiClient/Notifications";
+import NotificationsModal from "@/components/modals/NotificationsModal";
 
 export default {
   name: "NavbarComponent",
-  components: { NotificationsButton },
+  components: { NotificationsButton, NotificationsModal },
   data() {
     return {
       notificationsCount: 0,
@@ -113,7 +151,7 @@ export default {
 .fixed-bar {
   position: sticky;
   position: -webkit-sticky; /* for Safari */
-  top: 0em;
+  top: 0;
   z-index: 999;
 }
 </style>
