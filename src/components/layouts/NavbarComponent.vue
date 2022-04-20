@@ -47,14 +47,12 @@
     </v-toolbar-items>
     <v-spacer />
 
-    <v-btn icon>
-      <NotificationsButton
-        v-if="$store.state.authenticated"
-        :notifications-count="notificationsCount"
-        :toggler="true"
-        @click="showNotifications"
-      />
-    </v-btn>
+    <NotificationsButton
+      v-if="$store.state.authenticated"
+      :notifications-count="notificationsCount"
+      :toggler="true"
+      @click="showNotifications"
+    />
 
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
@@ -110,7 +108,10 @@
       v-on:increase="notificationsCount++"
       v-on:reset="notificationsCount = 0"
     ></NotificationsModal>
-    <template v-slot:extension v-if="$route.name.startsWith('dashboard') && $vuetify.breakpoint.mobile">
+    <template
+      v-slot:extension
+      v-if="$route.name.startsWith('dashboard') && $vuetify.breakpoint.mobile"
+    >
       <v-tabs align-with-title grow class="d-md-none">
         <v-tab
           :to="{ name: 'dashboard' }"

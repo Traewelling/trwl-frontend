@@ -35,7 +35,10 @@
 <script>
 export default {
   name: "MobileFooterNav",
-  data: () => ({ value: this.$route.name }),
+  data: () => ({ value: "" }),
+  mounted() {
+    this.value = this.$route.name;
+  },
 };
 </script>
 
