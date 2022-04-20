@@ -26,13 +26,33 @@
               <v-list-item-subtitle v-text="`@` + $store.state.user.username" />
             </v-list-item-content>
           </router-link>
-          <v-row dense>
-            <v-col v-for="item in stats" :key="item.name" class="text-center">
-              <v-icon>{{ item.icon }}</v-icon><br>
-              <span class="d-sr-only">{{ item.name }}</span>
-              {{ item.content }}
-            </v-col>
-          </v-row>
+          <v-simple-table dense>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th
+                    v-for="item in stats"
+                    :key="item.name"
+                    class="text-center"
+                  >
+                    <v-icon>{{ item.icon }}</v-icon>
+                    <span class="d-sr-only">{{ item.name }}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td
+                    v-for="item in stats"
+                    :key="item.name"
+                    class="text-center text-small"
+                  >
+                    {{ item.content }}
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
           <v-divider />
         </template>
         <SidebarNavContent :desktop="true" />
@@ -53,7 +73,8 @@ export default {
   name: "SidebarNav",
   components: { SidebarLinkCloud, SidebarNavContent },
   data() {
-    return {//ToDo move this to custom component
+    return {
+      //ToDo move this to custom component
       stats: [
         {
           name: this.$i18n.get("_.leaderboard.points"),
@@ -77,4 +98,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.text-small {
+  font-size: 0.75rem;
+}
+</style>

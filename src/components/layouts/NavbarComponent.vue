@@ -8,7 +8,7 @@
     <router-link tag="v-toolbar-title" :to="{ name: 'index' }" class="me-4">
       {{ $appName }}
     </router-link>
-    <v-toolbar-items>
+    <v-toolbar-items class="d-none d-md-block">
       <v-btn
         v-if="$store.state.authenticated"
         text
@@ -64,11 +64,12 @@
       text
       aria-expanded="false"
       aria-haspopup="true"
-      class="nav-link dropdown-toggle"
+      class="d-none d-md-block"
       data-mdb-toggle="dropdown"
       role="button"
     >
       {{ $store.state.user.displayName }}
+      <v-icon>mdi-menu-down</v-icon>
     </v-btn>
 
     <div
@@ -152,6 +153,6 @@ export default {
   position: sticky;
   position: -webkit-sticky; /* for Safari */
   top: 0;
-  z-index: 999;
+  z-index: 6;
 }
 </style>
