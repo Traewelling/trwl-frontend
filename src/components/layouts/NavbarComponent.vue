@@ -49,11 +49,7 @@
 
     <NotificationsButton
       v-if="$store.state.authenticated"
-      :notifications-count="notificationsCount"
       :toggler="true"
-      v-on:decrease="notificationsCount--"
-      v-on:increase="notificationsCount++"
-      v-on:reset="notificationsCount = 0"
       @click="showNotifications"
     />
 
@@ -125,34 +121,14 @@
 
 <script>
 import NotificationsButton from "@/components/buttons/NotificationsButton";
-import Notifications from "@/ApiClient/Notifications";
 
 export default {
   name: "NavbarComponent",
   components: { NotificationsButton },
-  data() {
-    return {
-      notificationsCount: 0,
-    };
-  },
   methods: {
     showNotifications() {
       this.$refs.notifModal.show();
     },
-    fetchNotificationsCount() {
-      if (this.$store.state.authenticated === true) {
-        Notifications.getCount()
-          .then((count) => {
-            this.notificationsCount = parseInt(count);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    },
-  },
-  mounted() {
-    this.fetchNotificationsCount();
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <LayoutBasic>
     <div class="col-sm-12 col-md-7">
       <StationForm class="d-none d-md-block" />
-      <Spinner v-if="loading" class="mt-0" />
+      <Spinner v-if="loading" class="mt-5" />
       <div
         v-if="futureStatuses.length > 0 && !loading"
         id="accordionFutureCheckIns"

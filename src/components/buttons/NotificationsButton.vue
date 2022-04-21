@@ -1,6 +1,11 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="700" scrollable>
+    <v-dialog
+      v-model="dialog"
+      width="700"
+      scrollable
+      transition="dialog-top-transition"
+    >
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-badge
@@ -16,18 +21,28 @@
       </template>
 
       <v-card>
-        <v-card-title class="text-h5 grey lighten-2">
-          {{ $i18n.get("_.notifications.title") }}
-        </v-card-title>
-
+        <v-toolbar dense>
+          <v-toolbar-title class="text-h5 grey lighten-2">
+            {{ $i18n.get("_.notifications.title") }}
+          </v-toolbar-title>
+          <v-btn icon @click="readAll">
+            <v-icon>mdi-check-all</v-icon>
+          </v-btn>
+          <v-spacer />
+          <v-btn icon @click="dialog = false">
+            <v-icon :aria-label="$i18n.get('_.notifications.mark-all-read')">
+              mdi-close
+            </v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-card-text class="p-0 overflow-x-hidden">
-          <Spinner v-if="loading" />
-          <v-list three-line>
+          <Spinner v-if="loading" class="overflow-x-hidden" />
+          <v-list three-line v-if="!loading">
             <v-list-item-group
               active-class="pink--text"
               v-model="unreadNotifications"
               multiple
-              v-if="notifications"
+              v-if="notifications && notifications.length"
             >
               <template v-for="(notification, index) in notifications">
                 <v-list-item
@@ -74,14 +89,18 @@
                         <v-icon
                           v-if="!!notification.readAt"
                           color="grey lighten-1"
-                          :aria-label="$i18n.get('_.notifications.mark-as-unread')"
+                          :aria-label="
+                            $i18n.get('_.notifications.mark-as-unread')
+                          "
                         >
                           mdi-email-open-outline
                         </v-icon>
                         <v-icon
                           v-else
                           color="yellow darken-3"
-                          :aria-label="$i18n.get('_.notifications.mark-as-read')"
+                          :aria-label="
+                            $i18n.get('_.notifications.mark-as-read')
+                          "
                         >
                           mdi-email-outline
                         </v-icon>
@@ -96,15 +115,13 @@
                 ></v-divider>
               </template>
             </v-list-item-group>
+            <v-list-item v-else class="text-center text-muted">
+              {{ $i18n.get("_.notifications.empty") }}
+              <br />
+              ¯\_(ツ)_/¯
+            </v-list-item>
           </v-list>
         </v-card-text>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="dialog = false"> I accept </v-btn>
-        </v-card-actions>
       </v-card>
     </v-dialog>
   </div>
@@ -122,17 +139,12 @@ import moment from "moment";
 export default {
   name: "NotificationsButton",
   components: { Spinner },
-  props: {
-    notificationsCount: {
-      type: Number,
-      default: 0,
-    },
-  },
   data() {
     return {
       dialog: false,
       loading: true,
       notifications: null,
+      notificationsCount: 0,
     };
   },
   watch: {
@@ -156,7 +168,21 @@ export default {
       return unreadArray;
     },
   },
+  mounted() {
+    this.fetchNotificationsCount();
+  },
   methods: {
+    fetchNotificationsCount() {
+      if (this.$store.state.authenticated === true) {
+        Notifications.getCount()
+          .then((count) => {
+            this.notificationsCount = parseInt(count);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    },
     fetchNotifications() {
       Notifications.fetchNotifications()
         .then((data) => {
@@ -172,7 +198,7 @@ export default {
       Notifications.readAll()
         .then((data) => {
           this.notifications = data;
-          this.$emit("reset");
+          this.notificationsCount = 0;
         })
         .catch((error) => {
           console.error(error);
@@ -204,9 +230,9 @@ export default {
           let index = this.notifications.indexOf(message);
           this.$set(this.notifications, index, response.data);
           if (response.data.read) {
-            this.$emit("decrease");
+            this.notificationsCount--;
           } else {
-            this.$emit("increase");
+            this.notificationsCount++;
           }
         })
         .catch((error) => {
@@ -226,7 +252,7 @@ export default {
           params: { id: message.detail.status.id },
         });
       }
-      this.$emit("close");
+      this.dialog = false;
     },
   },
 };
