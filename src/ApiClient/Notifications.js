@@ -1,4 +1,4 @@
-import { getContent, postToApi, putToApi } from "./Helpers";
+import { getContent, postToApi, putReturnToApi } from "./Helpers";
 
 export default class Notifications {
   static fetchNotifications() {
@@ -10,7 +10,7 @@ export default class Notifications {
   }
 
   static toggleRead(notificationId) {
-    return putToApi(`/notifications/${notificationId}`);
+    return putReturnToApi(`/notifications/${notificationId}`);
   }
 
   static getCount() {

@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="500" scrollable>
+    <v-dialog v-model="dialog" width="700" scrollable>
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon v-bind="attrs" v-on="on">
           <v-badge
@@ -20,24 +20,77 @@
           {{ $i18n.get("_.notifications.title") }}
         </v-card-title>
 
-        <v-card-text class="p-0">
+        <v-card-text class="p-0 overflow-x-hidden">
           <Spinner v-if="loading" />
           <v-list three-line>
             <v-list-item-group
               active-class="pink--text"
+              v-model="unreadNotifications"
               multiple
               v-if="notifications"
             >
-              <template>
-                <Notification
-                  v-for="data in notifications"
-                  v-bind:key="data.id"
-                  :data="data"
-                  v-on:close="dialog = false"
-                  v-on:decrease="$emit('decrease')"
-                  v-on:increase="$emit('increase')"
-                />
+              <template v-for="(notification, index) in notifications">
+                <v-list-item
+                  :key="notification.id"
+                  v-if="notification && notification.detail"
+                  @click="clickMessage(notification)"
+                >
+                  <template>
+                    <v-list-item-icon>
+                      <v-icon v-text="icon(notification)" />
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        class="text-wrap"
+                        v-html="
+                          $i18n.choice(
+                            '_.' + notification.detail.message.lead.key,
+                            1,
+                            notification.detail.message.lead.values
+                          )
+                        "
+                      />
+
+                      <v-list-item-subtitle
+                        class="text-wrap"
+                        v-if="notification.detail.message.notice.key"
+                        v-html="
+                          $i18n.choice(
+                            '_.' + notification.detail.message.notice.key,
+                            1,
+                            notification.detail.message.notice.values
+                          )
+                        "
+                      >
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                      <v-list-item-action-text
+                        v-text="createdAt(notification)"
+                      ></v-list-item-action-text>
+
+                      <v-btn icon @click.stop="readMessage(notification)">
+                        <v-icon
+                          v-if="!!notification.readAt"
+                          color="grey lighten-1"
+                          :aria-label="$i18n.get('_.notifications.mark-as-unread')"
+                        >
+                          mdi-email-open-outline
+                        </v-icon>
+                        <v-icon
+                          v-else
+                          color="yellow darken-3"
+                          :aria-label="$i18n.get('_.notifications.mark-as-read')"
+                        >
+                          mdi-email-outline
+                        </v-icon>
+                      </v-btn>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
                 <v-divider
+                  class="my-0"
                   v-if="index < notifications.length - 1"
                   :key="index"
                 ></v-divider>
@@ -58,13 +111,17 @@
 </template>
 
 <script>
-import Notification from "@/components/Notification";
 import Notifications from "@/ApiClient/Notifications";
 import Spinner from "../Spinner";
+import {
+  profileNotifications,
+  statusNotifications,
+} from "@/ApiClient/APImodels";
+import moment from "moment";
 
 export default {
   name: "NotificationsButton",
-  components: { Spinner, Notification },
+  components: { Spinner },
   props: {
     notificationsCount: {
       type: Number,
@@ -84,6 +141,19 @@ export default {
         this.loading = true;
         this.fetchNotifications();
       }
+    },
+  },
+  computed: {
+    unreadNotifications() {
+      let unreadArray = [];
+      this.notifications.forEach((notification, index) => {
+        console.log(notification);
+        if (!notification.readAt) {
+          unreadArray.push(index);
+        }
+      });
+      console.log(unreadArray);
+      return unreadArray;
     },
   },
   methods: {
@@ -107,6 +177,56 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    icon(message) {
+      if (!message.detail && !message.detail.message.icon) {
+        return "mdi-information-outline";
+      }
+      let icon = message.detail.message.icon;
+      icon = icon.replace("fas fa-user-plus", "mdi-account-plus");
+      icon = icon.replace("fas fa-heart", "mdi-heart");
+      return icon;
+    },
+    createdAt(message) {
+      let diff = moment().diff(moment(message.createdAt));
+      let duration = moment.duration(diff);
+      return duration.humanize();
+    },
+    clickMessage(message) {
+      if (!message.read) {
+        this.readMessage(message);
+      }
+      this.goToSender(message);
+    },
+    readMessage(message) {
+      Notifications.toggleRead(message.id)
+        .then((response) => {
+          let index = this.notifications.indexOf(message);
+          this.$set(this.notifications, index, response.data);
+          if (response.data.read) {
+            this.$emit("decrease");
+          } else {
+            this.$emit("increase");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    goToSender(message) {
+      if (profileNotifications.indexOf(message.type) >= 0) {
+        this.$router.push({
+          name: "profile",
+          params: { username: message.detail.sender.username },
+        });
+      }
+      if (statusNotifications.indexOf(message.type) >= 0) {
+        this.$router.push({
+          name: "singleStatus",
+          params: { id: message.detail.status.id },
+        });
+      }
+      this.$emit("close");
     },
   },
 };
