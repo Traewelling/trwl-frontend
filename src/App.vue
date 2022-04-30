@@ -72,6 +72,10 @@ body {
   overflow-x: hidden;
 }
 
+tbody tr:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, .05);
+}
+
 .product-icon {
   width: 1em;
   height: 1em;

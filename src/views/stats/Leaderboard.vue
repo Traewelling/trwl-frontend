@@ -11,85 +11,23 @@
           </router-link>
           {{ $i18n.get("_.menu.leaderboard") }}
         </div>
-        <div v-if="!loading" class="card-body p-0">
-          <ul id="myTab" class="nav nav-tabs nav-fill" role="tablist">
-            <li class="nav-item">
-              <a
-                id="main-tab"
-                aria-controls="home"
-                aria-selected="true"
-                class="nav-link active px-4"
-                data-mdb-toggle="tab"
-                href="#leaderboard-main"
-                role="tab"
-              >
-                {{ $i18n.get("_.leaderboard.top") }} {{ topCnt }}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                id="distance-tab"
-                aria-controls="profile"
-                aria-selected="false"
-                class="nav-link px-4"
-                data-mdb-toggle="tab"
-                href="#leaderboard-distance"
-                role="tab"
-              >
-                {{ $i18n.get("_.leaderboard.distance") }}
-              </a>
-            </li>
-            <li v-if="$store.state.authenticated && friends" class="nav-item">
-              <a
-                id="friends-tab"
-                aria-controls="contact"
-                aria-selected="false"
-                class="nav-link px-4"
-                data-mdb-toggle="tab"
-                href="#leaderboard-friends"
-                role="tab"
-              >
-                {{ $i18n.get("_.leaderboard.friends") }}
-              </a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div
-              id="leaderboard-main"
-              class="tab-pane fade show active table-responsive"
-              role="tabpanel"
-            >
-              <LeaderboardTable
-                :users="users"
-                described-by="main-tab"
-              ></LeaderboardTable>
-            </div>
-            <div
-              id="leaderboard-distance"
-              class="tab-pane fade table-responsive"
-              role="tabpanel"
-            >
-              <LeaderboardTable
-                :users="distance"
-                described-by="distance-tab"
-              ></LeaderboardTable>
-            </div>
-            <div
-              v-if="$store.state.authenticated && friends"
-              id="leaderboard-friends"
-              class="tab-pane fade table-responsive"
-              role="tabpanel"
-            >
-              <LeaderboardTable
-                :users="friends"
-                described-by="distance-tab"
-              ></LeaderboardTable>
-            </div>
-          </div>
+        <div class="card-body p-0">
+          <v-tabs v-model="tab" background-color="transparent" grow>
+            <template v-for="item in tabs">
+              <v-tab :key="item" v-if="item.show">
+                {{ item.title }}
+              </v-tab>
+            </template>
+          </v-tabs>
+
+          <v-tabs-items v-model="tab">
+            <v-tab-item v-for="item in tabs" :key="item">
+              <LeaderboardTable v-if="!item.loading" :users="item.data" />
+              <Spinner v-else />
+            </v-tab-item>
+          </v-tabs-items>
         </div>
-        <div v-else class="card-body">
-          <Spinner class="mt-5" />
-        </div>
+
         <div class="card-footer text-muted">
           <i aria-hidden="true" class="far fa-question-circle"></i>
           {{ $i18n.get("_.leaderboard.notice") }}
@@ -98,7 +36,6 @@
     </div>
   </LayoutBasic>
 </template>
-
 <script>
 import moment from "moment";
 import LeaderboardTable from "@/components/tables/LeaderboardTable";
@@ -113,8 +50,27 @@ export default {
       month: moment().format("YYYY-MM"),
       users: null,
       distance: null,
-      friends: null,
-      loading: false,
+      tab: null,
+      tabs: {
+        top: {
+          title: this.$i18n.get("_.leaderboard.top"),
+          data: [],
+          show: true,
+          loading: false,
+        },
+        distance: {
+          title: this.$i18n.get("_.leaderboard.distance"),
+          data: [],
+          show: true,
+          loading: false,
+        },
+        friends: {
+          title: this.$i18n.get("_.leaderboard.friends"),
+          data: [],
+          show: this.$store.state.authenticated,
+          loading: false,
+        },
+      },
     };
   },
   metaInfo() {
@@ -146,40 +102,49 @@ export default {
       }
       return 0;
     },
+    loading: function () {
+      return (
+        this.tabs.distance.loading &&
+        this.tabs.friends.loading &&
+        this.tabs.top.loading
+      );
+    },
   },
   methods: {
     fetchData() {
       this.error = null;
-      this.loading = true;
+      this.tabs.top.loading = true;
+      this.tabs.distance.loading = true;
       Statistics.getLeaderBoard()
         .then((data) => {
-          this.loading = false;
-          this.users = data;
+          this.tabs.top.loading = false;
+          this.tabs.top.data = data;
         })
         .catch((error) => {
-          this.loading = false;
+          this.tabs.top.loading = false;
           console.error(error);
         });
       Statistics.getLeaderBoardDistance()
         .then((data) => {
-          this.loading = false;
-          this.distance = data;
+          this.tabs.distance.loading = false;
+          this.tabs.distance.data = data;
         })
         .catch((error) => {
-          this.loading = false;
+          this.tabs.distance.loading = false;
           console.error(error);
         });
       if (this.$store.state.authenticated) {
+        this.tabs.friends.loading = true;
         Statistics.getLeaderBoardFriends()
           .then((data) => {
-            this.loading = false;
-            this.friends = data;
+            this.tabs.friends.loading = false;
+            this.tabs.friends.data = data;
             if (!Object.keys(this.friends).length) {
-              this.friends = null;
+              this.tabs.friends.show = false;
             }
           })
           .catch((error) => {
-            this.loading = false;
+            this.tabs.friends.loading = false;
             console.error(error);
           });
       }
