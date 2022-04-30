@@ -20,9 +20,14 @@
             {{ row.username }}
           </router-link>
         </td>
-        <td data-mdb-toggle="tooltip" :title="fullTime(row.trainDuration)">
-          {{ hoursAndMinutes(row.trainDuration) }}
-        </td>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <td v-bind="attrs" v-on="on">
+              {{ hoursAndMinutes(row.trainDuration) }}
+            </td>
+          </template>
+          <span>{{ fullTime(row.trainDuration) }}</span>
+        </v-tooltip>
         <td>{{ localizeDistance(row.trainDistance) }} <small>km</small></td>
         <td>
           {{ localizeDistance(row.trainSpeed.toFixed(0)) }} <small>km/h</small>
@@ -45,13 +50,11 @@ export default {
     describedBy: null,
     users: null, //Idk, it doesn't want the model...
   },
-  data: () => {
-    return {
-      localizeDistance,
-      localizeThousands,
-      hoursAndMinutes,
-      fullTime,
-    };
+  methods: {
+    localizeThousands,
+    localizeDistance,
+    hoursAndMinutes,
+    fullTime,
   },
 };
 </script>

@@ -36,14 +36,16 @@
             {{ localizeDistance(user.trainDistance) }}
           </span>
           <span class="small font-weight-lighter">km</span>
-          <span
-            class="font-weight-bold ps-sm-2"
-            data-mdb-toggle="tooltip"
-            :title="fullTime(user.trainDuration)"
-          >
-            <i aria-hidden="true" class="fa fa-stopwatch d-inline" />&nbsp;
-            {{ fullTime(user.trainDuration, true) }}
-          </span>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs" v-on="on" class="font-weight-bold ps-sm-2">
+                <i aria-hidden="true" class="fa fa-stopwatch d-inline" />&nbsp;
+                {{ fullTime(user.trainDuration, true) }}
+              </span>
+            </template>
+            <span>{{ fullTime(user.trainDuration) }}</span>
+          </v-tooltip>
+
           <span class="font-weight-bold ps-sm-2">
             <i aria-hidden="true" class="fa fa-dice-d20 d-inline" />&nbsp;{{
               localizeThousands(user.points)

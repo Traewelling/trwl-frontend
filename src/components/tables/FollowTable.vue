@@ -67,39 +67,52 @@
           }}</span>
         </td>
         <td class="pe-0 text-end" v-if="followers">
-          <button
-            type="submit"
-            class="btn btn-sm btn-danger"
-            data-mdb-toggle="tooltip"
-            :title="$i18n.get('_.settings.follower.delete')"
-            @click="removeFollower(row)"
-          >
-            <i class="fas fa-user-minus" aria-hidden="true"></i>
-          </button>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                v-bind="attrs"
+                v-on="on"
+                @click="removeFollower(row)"
+              >
+                <i class="fas fa-user-minus" aria-hidden="true"></i>
+              </button>
+            </template>
+            <span>{{ $i18n.get("_.settings.follower.delete") }}</span>
+          </v-tooltip>
         </td>
         <td class="pe-0" v-if="request">
-          <button
-            type="submit"
-            class="btn btn-danger btn-sm"
-            data-mdb-toggle="tooltip"
-            data-mdb-placement="top"
-            :title="$i18n.get('_.settings.request.delete')"
-            @click="rejectFollowRequest(row)"
-          >
-            <i class="fas fa-user-times" aria-hidden="true"></i>
-          </button>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                v-bind="attrs"
+                v-on="on"
+                @click="rejectFollowRequest(row)"
+              >
+                <i class="fas fa-user-times" aria-hidden="true"></i>
+              </button>
+            </template>
+            <span>{{ $i18n.get("_.settings.request.delete") }}</span>
+          </v-tooltip>
         </td>
         <td class="ps-0" v-if="request">
-          <button
-            type="submit"
-            class="btn btn-success btn-sm"
-            data-mdb-toggle="tooltip"
-            data-mdb-placement="top"
-            :title="$i18n.get('_.settings.request.accept')"
-            @click="approveFollowRequest(row)"
-          >
-            <i class="fas fa-user-check" aria-hidden="true"></i>
-          </button>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <button
+                type="submit"
+                class="btn btn-sm btn-danger"
+                v-bind="attrs"
+                v-on="on"
+                @click="approveFollowRequest(row)"
+              >
+                <i class="fas fa-user-check" aria-hidden="true"></i>
+              </button>
+            </template>
+            <span>{{ $i18n.get("_.settings.request.accept") }}</span>
+          </v-tooltip>
         </td>
         <td class="px-0 text-end">
           <MuteButton :user="row"></MuteButton>

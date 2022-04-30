@@ -1,39 +1,23 @@
 <template>
-  <div :class="{ 'btn-group': !navbar }" class="dropup">
-    <button
-      :aria-label="$i18n.get('_.settings.language.set')"
-      :class="{
-        'btn-sm btn-light': dashboard && !navbar,
-        'btn-primary': !dashboard,
-        'nav-link bg-transparent': navbar,
-        btn: !navbar,
-      }"
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="dropdown-toggle"
-      data-mdb-toggle="dropdown"
-      type="button"
-    >
-      <i aria-hidden="true" class="fas fa-globe-europe"></i>
-      <span
-        :class="{ 'd-none d-md-inline': !navbar, 'd-inline': navbar }"
-        aria-hidden="true"
-      >
-        {{ $i18n.get("_.settings.language.set") }}
-      </span>
-    </button>
-    <div class="dropdown-menu">
-      <a
+  <v-menu offset-y>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn :text="navbar" v-bind="attrs" v-on="on">
+        <v-icon dark>mdi-earth</v-icon>
+        <span :class="{ 'd-none d-md-inline': !navbar, 'd-inline': navbar }">
+          {{ $i18n.get("_.settings.language.set") }}
+        </span>
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
         v-for="(lang, key) in langs"
-        v-bind:key="lang"
-        class="dropdown-item"
-        href="?language=$key"
-        @click.prevent="setLang(key)"
+        :key="lang"
+        @click="setLang(key)"
       >
-        {{ lang }}
-      </a>
-    </div>
-  </div>
+        <v-list-item-title>{{ lang }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script>

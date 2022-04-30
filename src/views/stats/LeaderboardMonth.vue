@@ -76,22 +76,25 @@
                       }}</span>
                       {{ localizeThousands(place.points) }}
                     </td>
-                    <td
-                      data-mdb-toggle="tooltip"
-                      :title="fullTime(place.trainDuration)"
-                    >
-                      <i aria-hidden="true" class="fas fa-clock" />
-                      <span class="sr-only">{{
-                        $i18n.get("_.leaderboard.duration")
-                      }}</span>
-                      {{ hoursAndMinutes(place.trainDuration) }}
-                    </td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <td v-bind="attrs" v-on="on">
+                          <i aria-hidden="true" class="fas fa-clock" />
+                          <span class="sr-only">{{
+                            $i18n.get("_.leaderboard.duration")
+                          }}</span>
+                          {{ hoursAndMinutes(place.trainDuration) }}
+                        </td>
+                      </template>
+                      <span>{{ fullTime(place.trainDuration) }}</span>
+                    </v-tooltip>
+
                     <td>
                       <i aria-hidden="true" class="fas fa-route" />
                       <span class="sr-only">{{
                         $i18n.get("_.leaderboard.distance")
                       }}</span>
-                      {{ this.localizeDistance(place.trainDistance) }}km
+                      {{ localizeDistance(place.trainDistance) }}km
                     </td>
                   </tr>
                 </tbody>
@@ -160,13 +163,16 @@
                         {{ place.username }}
                       </router-link>
                     </td>
-                    <td
-                      data-mdb-toggle="tooltip"
-                      :title="fullTime(place.trainDuration)"
-                    >
-                      {{ hoursAndMinutes(place.trainDuration) }}
-                    </td>
-                    <td>{{ this.localizeDistance(place.trainDistance) }}km</td>
+                    <v-tooltip top>
+                      <template v-slot:activator="{ on, attrs }">
+                        <td v-bind="attrs" v-on="on">
+                          {{ hoursAndMinutes(place.trainDuration) }}
+                        </td>
+                      </template>
+                      <span>{{ fullTime(place.trainDuration) }}</span>
+                    </v-tooltip>
+
+                    <td>{{ localizeDistance(place.trainDistance) }}km</td>
                     <td>
                       {{ localizeThousands(place.points) }}
                     </td>
@@ -206,10 +212,6 @@ export default {
       metaData: {
         description: undefined,
       },
-      localizeDistance,
-      localizeThousands,
-      hoursAndMinutes,
-      fullTime,
     };
   },
   metaInfo() {
@@ -249,6 +251,10 @@ export default {
     Spinner,
   },
   methods: {
+    localizeDistance,
+    localizeThousands,
+    hoursAndMinutes,
+    fullTime,
     fetchData() {
       this.error = null;
       this.loading = true;

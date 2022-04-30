@@ -65,15 +65,19 @@
                   ><i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
                   &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
                 </span>
-                <span v-if="statusData.business > 0" class="pl-sm-2">
-                  <i
-                    :class="travelReason[statusData.business].icon"
-                    :title="$i18n.get(travelReason[statusData.business].desc)"
-                    aria-hidden="true"
-                    data-mdb-placement="top"
-                    data-mdb-toggle="tooltip"
-                  ></i>
-                </span>
+                <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
+                  <template v-slot:activator="{ on, attrs }">
+                    <span v-bind="attrs" v-on="on">
+                      <i
+                        :class="travelReason[statusData.business].icon"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                  </template>
+                  <span>{{
+                    $i18n.get(travelReason[statusData.business].desc)
+                  }}</span>
+                </v-tooltip>
                 <br />
                 <span v-if="statusData.event != null" class="pl-sm-2">
                   <i aria-hidden="true" class="fa fa-calendar-day"></i>
@@ -143,14 +147,18 @@
       </div>
       <div class="card-footer text-muted">
         <span class="float-end like-text small">
-          <i
-            :class="visibilityIcon.icon"
-            :title="$i18n.get(visibilityIcon.desc)"
-            aria-hidden="true"
-            class="fas visibility-icon text-small"
-            data-mdb-placement="top"
-            data-mdb-toggle="tooltip"
-          ></i>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <i
+                v-bind="attrs"
+                v-on="on"
+                :class="visibilityIcon.icon"
+                aria-hidden="true"
+                class="fas visibility-icon text-small"
+              ></i>
+            </template>
+            <span>{{ $i18n.get(visibilityIcon.desc) }}</span>
+          </v-tooltip>
           <router-link
             :to="{ name: 'profile', params: { username: statusData.username } }"
           >

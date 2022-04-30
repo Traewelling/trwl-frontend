@@ -15,14 +15,19 @@
               {{ event.trainDistance.toFixed(0) }}
             </span>
             <span class="small font-weight-lighter">km</span>
-            <span
-              class="font-weight-bold ps-sm-2"
-              data-mdb-toggle="tooltip"
-              :title="fullTime(event.trainDuration)"
-            >
-              <i aria-hidden="true" class="fa fa-stopwatch d-inline" />&nbsp;
-              {{ fullTime(event.trainDuration, true) }}
-            </span>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <span v-bind="attrs" v-on="on">
+                  <i
+                    aria-hidden="true"
+                    class="fa fa-stopwatch d-inline"
+                  />&nbsp;
+                  {{ fullTime(event.trainDuration, true) }}
+                </span>
+              </template>
+              <span>{{ fullTime(event.trainDuration) }}</span>
+            </v-tooltip>
+
             <br class="d-block d-sm-none" />
             <span class="font-weight-bold ps-sm-2">
               <i aria-hidden="true" class="fa fa-user" />&nbsp;{{ event.host }}
@@ -86,7 +91,6 @@ export default {
       event: EventModel,
       statuses: [StatusModel],
       links: null,
-      fullTime,
     };
   },
   metaInfo() {
@@ -103,6 +107,7 @@ export default {
     this.fetchData();
   },
   methods: {
+    fullTime,
     fetchData() {
       this.error = null;
       this.loading = true;
