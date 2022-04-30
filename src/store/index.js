@@ -55,9 +55,17 @@ export default new Vuex.Store({
   },
   actions: {
     login({ commit }, credentials) {
-      return axios.post("/auth/login", credentials).then(({ data }) => {
-        commit("setUserToken", data.data);
-        this.dispatch("fetchUserData");
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/auth/login", credentials)
+          .then(({ data }) => {
+            commit("setUserToken", data.data);
+            this.dispatch("fetchUserData");
+            resolve();
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
     },
     fetchUserData({ commit }) {

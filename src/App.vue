@@ -7,7 +7,6 @@
 <script>
 import "mdb-ui-kit/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
-import "mdb-ui-kit/js/mdb.min";
 import "@mdi/font/css/materialdesignicons.min.css";
 
 export default {
