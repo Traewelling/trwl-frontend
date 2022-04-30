@@ -57,50 +57,39 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
 
-    <v-btn
-      text
-      aria-expanded="false"
-      aria-haspopup="true"
-      class="d-none d-md-block"
-      data-mdb-toggle="dropdown"
-      role="button"
-    >
-      {{ $store.state.user.displayName }}
-      <v-icon>mdi-menu-down</v-icon>
-    </v-btn>
+    <v-menu rounded="xl" offset-y>
+      <template v-slot:activator="{ attrs, on }">
+        <v-btn text v-on="on" v-bind="attrs">
+          {{ $store.state.user.displayName }}
+          <v-icon>mdi-menu-down</v-icon>
+        </v-btn>
+      </template>
 
-    <div
-      aria-labelledby="navbarDropdown"
-      class="dropdown-menu dropdown-menu-right"
-    >
-      <router-link
-        :to="{
-          name: 'profile',
-          params: { username: $store.state.user.username },
-        }"
-        class="dropdown-item"
-      >
-        <i aria-hidden="true" class="fas fa-user"></i>
-        {{ $i18n.get("_.menu.profile") }}
-      </router-link>
-      <router-link :to="{ name: 'settings' }" class="dropdown-item">
-        <i aria-hidden="true" class="fas fa-cog"></i>
-        {{ $i18n.get("_.menu.settings") }}
-      </router-link>
-      <router-link class="dropdown-item" :to="{ name: 'support' }">
-        <i class="fas fa-headset" aria-hidden="true"></i>
-        {{ $i18n.get("_.support") }}
-      </router-link>
-      <div class="dropdown-divider"></div>
-      <a
-        class="dropdown-item"
-        href="#"
-        @click.prevent="$store.dispatch('logout')"
-      >
-        <i aria-hidden="true" class="fas fa-sign-out-alt"></i>
-        {{ $i18n.get("_.menu.logout") }}
-      </a>
-    </div>
+      <v-list>
+        <v-list-item
+          :to="{
+            name: 'profile',
+            params: { username: $store.state.user.username },
+          }"
+        >
+          <v-icon>mdi-account</v-icon>
+          <span>{{ $i18n.get("_.menu.profile") }}</span>
+        </v-list-item>
+        <v-list-item :to="{ name: 'settings' }">
+          <v-icon>mdi-cog</v-icon>
+          <span>{{ $i18n.get("_.menu.settings") }}</span>
+        </v-list-item>
+        <v-list-item :to="{ name: 'support' }">
+          <v-icon>mdi-headset</v-icon>
+          <span>{{ $i18n.get("_.support") }}</span>
+        </v-list-item>
+        <v-divider />
+        <v-list-item @click="$store.dispatch('logout')">
+          <v-icon>mdi-logout</v-icon>
+          <span>{{ $i18n.get("_.menu.logout") }}</span>
+        </v-list-item>
+      </v-list>
+    </v-menu>
     <template
       v-slot:extension
       v-if="$route.name.startsWith('dashboard') && $vuetify.breakpoint.mobile"
