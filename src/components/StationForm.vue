@@ -323,8 +323,7 @@ export default {
         position.coords.longitude
       )
         .then((data) => {
-          this.station = data.name;
-          this.submitStation();
+          this.changeStation(data.name);
         })
         .catch((error) => {
           console.error(error);
