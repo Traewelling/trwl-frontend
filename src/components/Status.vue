@@ -202,52 +202,40 @@
               statusData.likes
             }}</span>
           </li>
-          <li class="list-inline-item like-text">
-            <a
-              :aria-label="$i18n.get('_.menu.show-more')"
-              class="like-text"
-              data-mdb-toggle="dropdown"
-              role="button"
-              tabindex="0"
-              @click="fetchUser"
-            >
-              <i aria-hidden="true" class="fas fa-ellipsis-h small"></i>
-            </a>
-            <ul class="dropdown-menu">
-              <li v-if="shareable">
-                <a class="dropdown-item" href="#" v-on:click.prevent="share">
-                  <i aria-hidden="true" class="fas fa-share"></i>&nbsp;
-                  {{ $i18n.get("_.menu.share") }}
-                </a>
-              </li>
-              <li v-if="!editable && user">
+          <v-menu offset-y rounded="xl">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                :aria-label="$i18n.get('_.menu.show-more')"
+                class="like-text"
+                @click="fetchUser"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item v-if="shareable" @click="share">
+                <v-icon>mdi-share</v-icon>
+                <span>{{ $i18n.get("_.menu.share") }}</span>
+              </v-list-item>
+              <v-list-item v-if="!editable && user">
                 <FollowButton :user="user" dropdown="true" />
-              </li>
-              <li v-if="!editable && user">
+              </v-list-item>
+              <v-list-item v-if="!editable && user">
                 <MuteButton :user="user" dropdown="true" />
-              </li>
-              <li v-if="editable">
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  v-on:click.prevent="toggleEditModal"
-                >
-                  <i aria-hidden="true" class="fas fa-edit"></i>&nbsp;
-                  {{ $i18n.get("_.modals.editStatus-title") }}
-                </a>
-              </li>
-              <li v-if="editable">
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  v-on:click.prevent="toggleDeleteModal"
-                >
-                  <i aria-hidden="true" class="fas fa-trash"></i>&nbsp;
-                  {{ $i18n.get("_.modals.delete-confirm") }}
-                </a>
-              </li>
-            </ul>
-          </li>
+              </v-list-item>
+              <v-list-item v-if="editable" @click="toggleEditModal">
+                <v-icon>mdi-pencil</v-icon>
+                <span>{{ $i18n.get("_.modals.editStatus-title") }}</span>
+              </v-list-item>
+              <v-list-item v-if="editable" @click="toggleDeleteModal">
+                <v-icon>mdi-delete</v-icon>
+                <span>{{ $i18n.get("_.modals.delete-confirm") }}</span>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </ul>
       </div>
 
