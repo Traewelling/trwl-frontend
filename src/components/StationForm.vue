@@ -15,11 +15,11 @@
     <v-card-text>
       <v-autocomplete
         clearable
-        dense
         class="mt-2 mb-1"
+        dense
+        outlined
         v-model="station"
-        persistent-hint
-        :hint="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
+        :label="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
         :items="entries"
         :loading="loading"
         :search-input.sync="search"
@@ -50,16 +50,18 @@
             key="history-heading"
             v-text="$i18n.get('_.stationboard.last-stations')"
           />
-          <v-list-item
-            v-for="(station, index) in history"
-            :key="index"
-            active-class="custom-active-class"
-            @click="stationRedirect(station.name)"
-          >
-            <v-list-item-content>
-              <v-list-item-title>{{ station.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <template v-for="(station, index) in history">
+            <v-divider class="m-0" :key="index" />
+            <v-list-item
+              :key="station.ibnr"
+              active-class="custom-active-class"
+              @click="stationRedirect(station.name)"
+            >
+              <v-list-item-content>
+                <v-list-item-title>{{ station.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </template>
         </v-container>
       </v-expand-transition>
       <v-expand-transition>
