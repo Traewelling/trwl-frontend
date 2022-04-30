@@ -29,6 +29,12 @@ Vue.use(VueMeta, {
   refreshOnceOnNavigation: true,
 });
 
+axios.interceptors.request.use(function (config) {
+  config.headers["User-Agent"] = "Vuetify-App-Alpha";
+
+  return config;
+});
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
