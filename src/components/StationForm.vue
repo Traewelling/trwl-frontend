@@ -14,18 +14,16 @@
     </v-toolbar>
     <v-autocomplete
       clearable
-      outlined
       dense
-      flat
-      class="mx-4 mt-2"
+      class="mx-4 mt-2 mb-1"
       v-model="station"
-      :label="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
+      persistent-hint
+      :hint="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
       :items="entries"
       :loading="loading"
       :search-input.sync="search"
       @keyup.enter="submitStation('')"
       prop="autocomplete"
-      color="white"
       hide-no-datay
       hide-selected
       item-text="name"
@@ -33,7 +31,39 @@
       hide-details
       hide-no-data
       return-object
-    />
+    >
+      <template v-slot:append-outer v-if="history.length > 0">
+        <v-icon
+          class="ms-1"
+          :title="$i18n.get('_.stationboard.last-stations')"
+          color="info"
+          @click="showHistory = !showHistory"
+        >
+          mdi-history
+        </v-icon>
+      </template>
+    </v-autocomplete>
+    <v-expand-transition>
+      <v-container v-if="showHistory">
+        <v-list-item
+          key="history-heading"
+          v-text="$i18n.get('_.stationboard.last-stations')"
+        />
+        <v-list-item
+          v-for="(station, index) in history"
+          :key="index"
+          :to="{
+            name: 'trains.stationboard',
+            query: { station: station.name },
+          }"
+          active-class="none"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ station.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-container>
+    </v-expand-transition>
     <v-card-actions>
       <v-btn text v-text="$i18n.get('_.stationboard.filter-products')" />
       <v-spacer />
@@ -45,12 +75,6 @@
         }"
       >
         <v-icon>mdi-home</v-icon>
-      </v-btn>
-      <v-btn
-        v-if="history.length > 0"
-        :title="$i18n.get('_.stationboard.last-stations')"
-      >
-        <v-icon>mdi-history</v-icon>
       </v-btn>
       <v-btn color="primary" @click.prevent="submitStation('')">
         {{ $i18n.get("_.stationboard.submit-search") }}
@@ -72,6 +96,8 @@ export default {
       errors: null,
       loading: false,
       history: [],
+      showHistory: false,
+      showFilter: false,
       descriptionLimit: 60,
       search: null,
       entries: [],

@@ -18,6 +18,7 @@ export default new Vuex.Store({
     token: null,
     authenticated: false,
     locale: null,
+    lastStation: null,
   },
 
   mutations: {
