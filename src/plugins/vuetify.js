@@ -4,10 +4,15 @@ import Vuetify from "vuetify/lib/framework";
 Vue.use(Vuetify);
 
 export default new Vuetify({
-  themes: {
-    light: {
-      background: "#f8fafc",
-      primary: "#C72730",
+  theme: {
+    themes: {
+      light: {
+        primary: "#C72730",
+        secondary: "#b0bec5",
+        background: "#f8fafc",
+        accent: "#8c9eff",
+        error: "#b71c1c",
+      },
     },
   },
 });

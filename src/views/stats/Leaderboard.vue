@@ -1,17 +1,22 @@
 <template>
   <LayoutBasic>
     <div class="col-md-9 col-lg-9">
-      <div id="leaderboard" class="card">
-        <div class="card-header">
-          <router-link
+      <v-card>
+        <v-toolbar flat dense>
+          <v-toolbar-title>{{
+            $i18n.get("_.menu.leaderboard")
+          }}</v-toolbar-title>
+          <v-spacer />
+          <v-btn
+            text
+            color="primary"
             :to="{ name: 'leaderboard.month', params: { month: month } }"
-            class="float-end"
           >
             {{ $i18n.get("_.leaderboard.month.title") }}
-          </router-link>
-          {{ $i18n.get("_.menu.leaderboard") }}
-        </div>
-        <div class="card-body p-0">
+          </v-btn>
+        </v-toolbar>
+        <v-divider class="my-0" />
+        <v-card-text class="p-0">
           <v-tabs v-model="tab" background-color="transparent" grow>
             <template v-for="item in tabs">
               <v-tab :key="item" v-if="item.show">
@@ -26,13 +31,13 @@
               <Spinner v-else />
             </v-tab-item>
           </v-tabs-items>
-        </div>
-
-        <div class="card-footer text-muted">
-          <i aria-hidden="true" class="far fa-question-circle"></i>
+        </v-card-text>
+        <v-divider class="my-0" />
+        <v-card-actions>
+          <v-icon>mdi-help-circle-outline</v-icon>
           {{ $i18n.get("_.leaderboard.notice") }}
-        </div>
-      </div>
+        </v-card-actions>
+      </v-card>
     </div>
   </LayoutBasic>
 </template>

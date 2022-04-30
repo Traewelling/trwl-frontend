@@ -7,7 +7,9 @@
           <th class="text-left">{{ $i18n.get("_.leaderboard.user") }}</th>
           <th class="text-left">{{ $i18n.get("_.leaderboard.duration") }}</th>
           <th class="text-left">{{ $i18n.get("_.leaderboard.distance") }}</th>
-          <th class="text-left">{{ $i18n.get("_.leaderboard.averagespeed") }}</th>
+          <th class="text-left">
+            {{ $i18n.get("_.leaderboard.averagespeed") }}
+          </th>
           <th class="text-left">{{ $i18n.get("_.leaderboard.points") }}</th>
         </tr>
       </thead>

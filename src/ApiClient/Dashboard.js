@@ -14,6 +14,6 @@ export default class Dashboard {
   }
 
   static getGlobalDashboard() {
-    return getContent("/dashboard/global");
+    return getBody("/dashboard/global");
   }
 }
