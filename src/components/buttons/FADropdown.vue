@@ -1,31 +1,39 @@
 <template>
-  <div class="btn-group">
-    <button
-      ref="dropdownButton"
-      :aria-label="dropDown[selected].desc"
-      :class="buttonClass"
-      aria-expanded="false"
-      class="btn btn-sm dropdown-toggle"
-      data-mdb-toggle="dropdown"
-      type="button"
-    >
-      <i :class="dropDown[selected].icon" aria-hidden="true"></i>
-      <span v-if="showText">{{ $i18n.get(dropDown[selected].desc) }}</span>
-    </button>
-    <ul :aria-labelledby="$refs.dropdownButton" class="dropdown-menu">
-      <li
+  <v-menu offset-y>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        ref="dropdownButton"
+        :class="buttonClass"
+        :aria-label="dropDown[selected].desc"
+        color="primary"
+        v-bind="attrs"
+        v-on="on"
+      >
+        <i :class="dropDown[selected].icon" aria-hidden="true"></i>
+        <span v-if="showText">{{ $i18n.get(dropDown[selected].desc) }}</span>
+      </v-btn>
+    </template>
+    <v-list>
+      <v-list-item
+        :two-line="!!item.detail"
         v-for="(item, key) in dropDown"
         :key="item.icon"
-        class="dropdown-item"
         @click="selectItem(key)"
       >
-        <i :class="item.icon" aria-hidden="true"></i> {{ $i18n.get(item.desc) }}
-        <span v-if="item.detail" class="text-muted"
-          ><br />{{ $i18n.get(item.detail) }}</span
-        >
-      </li>
-    </ul>
-  </div>
+        <v-list-item-icon>
+          <i :class="item.icon" aria-hidden="true"></i>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            {{ $i18n.get(item.desc) }}
+          </v-list-item-title>
+          <v-list-item-subtitle v-if="item.detail">
+            {{ $i18n.get(item.detail) }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script>
