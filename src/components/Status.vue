@@ -210,7 +210,7 @@
               statusData.likes
             }}</span>
           </li>
-          <v-menu offset-y rounded="xl">
+          <v-menu offset-y rounded="lg">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 icon

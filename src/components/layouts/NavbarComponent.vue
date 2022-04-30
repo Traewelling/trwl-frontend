@@ -57,7 +57,7 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
 
-    <v-menu rounded="xl" offset-y>
+    <v-menu rounded="lg" offset-y>
       <template v-slot:activator="{ attrs, on }">
         <v-btn text v-on="on" v-bind="attrs">
           {{ $store.state.user.displayName }}

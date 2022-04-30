@@ -11,22 +11,25 @@
           <i class="fa fa-save" aria-hidden="true"></i>
           {{ $i18n.get("_.export.submit") }}
         </button>
-        <button
-          class="btn btn-primary dropdown-toggle px-3"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <span class="sr-only">{{ $i18n.get("_.sr.dropdown.toggle") }}</span>
-        </button>
-        <div class="dropdown-menu">
-          <button class="dropdown-item" @click="generateExport('csv')">
-            .csv
-          </button>
-          <button class="dropdown-item" @click="generateExport('json')">
-            .json
-          </button>
-        </div>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn class="px-3" color="primary" v-bind="attrs" v-on="on">
+              <span class="sr-only">
+                {{ $i18n.get("_.sr.dropdown.toggle") }}
+              </span>
+              <v-icon>mdi-content-save</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="type in ['csv', 'json']"
+              :key="type"
+              @click="generateExport(type)"
+            >
+              <v-list-item-title> .{{ type }} </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </div>
       <div id="daterange" class="dropdown">
         <button
@@ -385,10 +388,15 @@ export default {
       Statistics.export(this.from, this.until, type)
         .then((res) => {
           const { data, headers } = res;
-          const fileName = headers["content-disposition"].replace(
-            /\w+; filename="(.*)"/,
-            "$1"
-          );
+          let fileName = "export." + type;
+
+          if (headers["content-disposition"]) {
+            fileName = headers["Content-Disposition"].replace(
+              /\w+; filename="(.*)"/,
+              "$1"
+            );
+          }
+
           const blob = new Blob([data], { type: headers["content-type"] });
           let dom = document.createElement("a");
           let url = window.URL.createObjectURL(blob);
