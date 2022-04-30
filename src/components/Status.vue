@@ -283,7 +283,9 @@
       </div>
     </div>
     <ModalConfirm
-      v-if="$store.state.authenticated && statusData.user === $store.state.user.id"
+      v-if="
+        $store.state.authenticated && statusData.user === $store.state.user.id
+      "
       ref="deleteModal"
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.modals.delete-confirm')"
@@ -292,7 +294,9 @@
       v-on:confirm="deleteStatus"
     ></ModalConfirm>
     <CheckInModal
-      v-if="$store.state.authenticated && statusData.user === $store.state.user.id"
+      v-if="
+        $store.state.authenticated && statusData.user === $store.state.user.id
+      "
       ref="editModal"
       :status-data="status"
       v-on:updated="updateStatus"
@@ -552,5 +556,4 @@ export default {
     color: #b3b3b3 !important;
   }
 }
-
 </style>

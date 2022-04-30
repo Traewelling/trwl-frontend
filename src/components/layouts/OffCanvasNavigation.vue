@@ -1,9 +1,5 @@
 <template>
-  <v-navigation-drawer
-    v-model="showDrawer"
-    absolute
-    temporary
-  >
+  <v-navigation-drawer v-model="showDrawer" absolute temporary>
     <template v-slot:prepend v-if="$store.state.authenticated">
       <router-link
         tag="v-list-item"

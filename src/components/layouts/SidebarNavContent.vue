@@ -20,7 +20,11 @@
     </template>
     <v-divider />
     <ChangeLanguageButton :navbar="true" />
-    <v-list-item v-if="$store.state.authenticated" link @click="$store.dispatch('logout')">
+    <v-list-item
+      v-if="$store.state.authenticated"
+      link
+      @click="$store.dispatch('logout')"
+    >
       <v-icon>mdi-logout</v-icon>
       {{ $i18n.get("_.menu.logout") }}
     </v-list-item>

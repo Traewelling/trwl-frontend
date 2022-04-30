@@ -52,11 +52,11 @@
         <v-list-item
           v-for="(station, index) in history"
           :key="index"
+          active-class="custom-active-class"
           :to="{
             name: 'trains.stationboard',
             query: { station: station.name },
           }"
-          active-class="none"
         >
           <v-list-item-content>
             <v-list-item-title>{{ station.name }}</v-list-item-title>
@@ -253,6 +253,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.custom-active-class :deep(.v-list-item__overlay) {
+  opacity: 0 !important;
+}
+</style>
 
 <style scoped lang="scss">
 #timepicker-wrapper {
