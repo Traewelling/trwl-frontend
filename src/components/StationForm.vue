@@ -16,7 +16,7 @@
       <v-autocomplete
         clearable
         dense
-        class="mx-4 mt-2 mb-1"
+        class="mt-2 mb-1"
         v-model="station"
         persistent-hint
         :hint="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"

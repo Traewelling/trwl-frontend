@@ -8,7 +8,7 @@
         :prev="times.prev"
         v-on:refresh="fetchData"
       ></StationForm>
-      <div v-if="this.$route.query.station" class="card">
+      <div v-if="this.$route.query.station" class="card mt-2">
         <div class="card-header">
           <div class="float-end">
             <a

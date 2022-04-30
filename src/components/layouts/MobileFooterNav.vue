@@ -14,7 +14,12 @@
       <span class="d-sr-only">{{ $i18n.get("_.menu.leaderboard") }}</span>
       <v-icon>mdi-crown</v-icon>
     </v-btn>
-    <v-btn :to="{ name: 'trains.stationboard' }">
+    <v-btn
+      :to="{
+        name: 'trains.stationboard',
+        query: { station: this.$store.state.lastStation },
+      }"
+    >
       <!--      ToDo: new Translation for this-->
       <span class="d-sr-only">{{
         $i18n.get("_.stationboard.btn-checkin")

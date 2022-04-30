@@ -73,6 +73,7 @@ new Vue({
 
     if (!authenticated) {
       this.$store.dispatch("fetchUserData");
+      this.$store.dispatch("fetchLastStation");
     }
     if (userInfo) {
       this.$store.commit("setUserData", JSON.parse(userInfo));

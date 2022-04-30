@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import VuexPersistence from "vuex-persist";
+import Checkin from "@/ApiClient/Checkin";
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
@@ -26,6 +27,10 @@ export default new Vuex.Store({
       state.user = userData;
       localStorage.setItem("user", JSON.stringify(userData));
       this.commit("setAuthenticated", true);
+    },
+    setLastStation(state, station) {
+      state.lastStation = station;
+      localStorage.setItem("lastStation", station);
     },
     setUserToken(state, token) {
       state.token = token;
@@ -69,6 +74,20 @@ export default new Vuex.Store({
         commit("setLocale", locale);
       } else {
         commit("setLocale", navigator.language.substr(0, 2));
+      }
+    },
+    fetchLastStation({ commit }) {
+      const lastStation = localStorage.getItem("lastStation");
+      if (lastStation.length !== null && lastStation.length > 0) {
+        commit("setLastStation", lastStation);
+      } else {
+        Checkin.getHistory()
+          .then((data) => {
+            commit("setLastStation", data.at(0).name);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
     },
   },

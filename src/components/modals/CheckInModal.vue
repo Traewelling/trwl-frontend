@@ -290,6 +290,7 @@ export default {
       Object.assign(formData, this.$props.trainData);
       Checkin.checkIn(formData)
         .then((data) => {
+          this.$store.commit("setLastStation", this.destination);
           this.$router.push({ name: "dashboard", params: { checkin: data } });
           this.hide();
         })
