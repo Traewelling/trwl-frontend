@@ -12,60 +12,125 @@
         <v-icon>mdi-map-marker</v-icon>
       </v-btn>
     </v-toolbar>
-    <v-autocomplete
-      clearable
-      dense
-      class="mx-4 mt-2 mb-1"
-      v-model="station"
-      persistent-hint
-      :hint="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
-      :items="entries"
-      :loading="loading"
-      :search-input.sync="search"
-      @keyup.enter="submitStation('')"
-      prop="autocomplete"
-      hide-no-datay
-      hide-selected
-      item-text="name"
-      item-value="name"
-      hide-details
-      hide-no-data
-      return-object
-    >
-      <template v-slot:append-outer v-if="history.length > 0">
-        <v-icon
-          class="ms-1"
-          :title="$i18n.get('_.stationboard.last-stations')"
-          color="info"
-          @click="showHistory = !showHistory"
-        >
-          mdi-history
-        </v-icon>
-      </template>
-    </v-autocomplete>
-    <v-expand-transition>
-      <v-container v-if="showHistory">
-        <v-list-item
-          key="history-heading"
-          v-text="$i18n.get('_.stationboard.last-stations')"
-        />
-        <v-list-item
-          v-for="(station, index) in history"
-          :key="index"
-          active-class="custom-active-class"
-          :to="{
-            name: 'trains.stationboard',
-            query: { station: station.name },
-          }"
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ station.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-container>
-    </v-expand-transition>
+    <v-card-text>
+      <v-autocomplete
+        clearable
+        dense
+        class="mx-4 mt-2 mb-1"
+        v-model="station"
+        persistent-hint
+        :hint="$i18n.get('_.stationboard.station-placeholder') + ' / DS100'"
+        :items="entries"
+        :loading="loading"
+        :search-input.sync="search"
+        @keyup.enter="submitStation('')"
+        prop="autocomplete"
+        hide-no-datay
+        hide-selected
+        item-text="name"
+        item-value="name"
+        hide-details
+        hide-no-data
+        return-object
+      >
+        <template v-slot:append-outer v-if="history.length > 0">
+          <v-icon
+            class="ms-1"
+            :title="$i18n.get('_.stationboard.last-stations')"
+            color="info"
+            @click="showHistory = !showHistory"
+          >
+            mdi-history
+          </v-icon>
+        </template>
+      </v-autocomplete>
+      <v-expand-transition>
+        <v-container v-show="showHistory">
+          <v-list-item
+            key="history-heading"
+            v-text="$i18n.get('_.stationboard.last-stations')"
+          />
+          <v-list-item
+            v-for="(station, index) in history"
+            :key="index"
+            active-class="custom-active-class"
+            @click="stationRedirect(station.name)"
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ station.name }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-container>
+      </v-expand-transition>
+      <v-expand-transition>
+        <v-row v-show="showFilter">
+          <v-col align="center" justify="space-around">
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('ferry')"
+            >
+              {{ $i18n.get("_.transport_types.ferry") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('bus')"
+            >
+              {{ $i18n.get("_.transport_types.bus") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('tram')"
+            >
+              {{ $i18n.get("_.transport_types.tram") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('subway')"
+            >
+              {{ $i18n.get("_.transport_types.subway") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('suburban')"
+            >
+              {{ $i18n.get("_.transport_types.suburban") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('regional')"
+            >
+              {{ $i18n.get("_.transport_types.regional") }}
+            </v-btn>
+            <v-btn
+              rounded
+              class="mx-1"
+              color="primary"
+              v-on:click.prevent="submitStation('express')"
+            >
+              {{ $i18n.get("_.transport_types.express") }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-expand-transition>
+    </v-card-text>
     <v-card-actions>
-      <v-btn text v-text="$i18n.get('_.stationboard.filter-products')" />
+      <v-btn
+        @click="showFilter = !showFilter"
+        text
+        v-text="$i18n.get('_.stationboard.filter-products')"
+      />
       <v-spacer />
       <v-btn
         v-if="$store.state.user.home"
@@ -155,19 +220,42 @@ export default {
     },
   },
   mounted() {
-    this.station = this.$route.query.station;
-    this.search = this.$route.query.station;
+    this.changeStation(this.$route.query.station);
     this.fetchData();
   },
   watch: {
     search(val) {
       val && val !== this.station && this.querySelections(val);
     },
+    station(val) {
+      if (val) {
+        this.submitStation();
+      }
+    },
   },
   methods: {
+    changeStation(station) {
+      if (station) {
+        this.entries.unshift({ name: station });
+        this.station = this.entries.at(0);
+        this.search = this.entries.at(0).name;
+      }
+    },
+    stationRedirect(station) {
+      this.changeStation(station);
+      this.$router.push({
+        name: "trains.stationboard",
+        query: { station: station.name },
+      });
+      this.showHistory = false;
+      this.submitStation();
+    },
     querySelections(query) {
+      if (query === this.entries.at(0)?.name) {
+        return;
+      }
       if (query.length <= 3 && query !== query.toUpperCase()) {
-        this.items = this.popularStations.map((e) => e.name);
+        this.entries = this.popularStations.map((e) => e.name);
         return;
       }
       try {
@@ -199,11 +287,15 @@ export default {
     },
     submitStation(travelType = null, time = this.when) {
       document.activeElement.blur();
+      this.showFilter = false;
+      this.showHistory = false;
       if (typeof travelType != "string") {
         travelType = this.currentTravelType;
       }
 
-      if (this.station != null) {
+      let station = this.station ? this.station.name : this.search;
+
+      if (station) {
         this.$router
           .push({
             name: "trains.stationboard",
@@ -255,8 +347,8 @@ export default {
 </script>
 
 <style scoped>
-.custom-active-class :deep(.v-list-item__overlay) {
-  opacity: 0 !important;
+.custom-active-class.v-list-item--active::before {
+  opacity: 0;
 }
 </style>
 
