@@ -93,14 +93,73 @@
         }}</span>
       </v-col>
       <v-col cols="auto">
-        <v-btn
-          color="blue"
-          outlined
-          elevation="1"
-          @click="$refs.password.show()"
-        >
-          {{ $i18n.get("_.generic.change") }}
-        </v-btn>
+        <v-dialog v-model="passwordDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              elevation="1"
+              color="blue"
+              outlined
+              v-bind="attrs"
+              v-on="on">
+              {{ $i18n.get("_.generic.change") }}
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">
+                {{ this.$i18n.get("_.settings.title-change-password") }}
+              </span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  {{ this.$i18n.get("_.email.change") }}
+                </v-row>
+                <v-row>
+                  <v-col v-if="value.password" cols="12">
+                    <v-text-field
+                      v-model="password"
+                      :label="$i18n.get('_.settings.current-password')"
+                      autocomplete="password"
+                      placeholder=""
+                      required
+                      type="password"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      :label="$i18n.get('_.settings.new-password')"
+                      v-model="newPassword"
+                      autocomplete="new-password"
+                      placeholder=""
+                      required
+                      type="password"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      :label="$i18n.get('_.settings.confirm-password')"
+                      v-model="newPasswordConfirm"
+                      autocomplete="new-password"
+                      placeholder=""
+                      required
+                      type="password"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey darken-1" text @click="passwordDialog = false">
+                {{ this.$i18n.get("_.menu.abort") }}
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="updatePassword">
+                {{ this.$i18n.get("_.modals.edit-confirm") }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
     <v-row class="mt-2">
@@ -126,59 +185,6 @@
         </v-btn>
       </v-col>
     </v-row>
-   <ModalConfirm
-      ref="password"
-      :abort-text="$i18n.get('_.menu.abort')"
-      :confirm-text="$i18n.get('_.modals.edit-confirm')"
-      :title-text="$i18n.get('_.settings.title-change-password')"
-      confirm-v-btn-color="btn-primary"
-      v-on:confirm="updatePassword"
-    >
-      <form>
-        <div v-if="value.password" class="form-floating mb-3">
-          <input
-            id="currentPassword"
-            v-model="password"
-            autocomplete="password"
-            class="form-control"
-            placeholder=""
-            required
-            type="password"
-          />
-          <label for="currentPassword">{{
-            $i18n.get("_.settings.current-password")
-          }}</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            id="newPassword"
-            v-model="newPassword"
-            autocomplete="new-password"
-            class="form-control"
-            placeholder=""
-            required
-            type="password"
-          />
-          <label for="newPassword">{{
-            $i18n.get("_.settings.new-password")
-          }}</label>
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            id="newPassword_confirm"
-            v-model="newPasswordConfirm"
-            autocomplete="new-password"
-            class="form-control"
-            placeholder=""
-            required
-            type="password"
-          />
-          <label for="newPassword_confirm">{{
-            $i18n.get("_.settings.confirm-password")
-          }}</label>
-        </div>
-      </form>
-    </ModalConfirm>
     <DeleteAccountModal :username="value.username" ref="delete">
     </DeleteAccountModal>
   </v-card>
@@ -186,13 +192,12 @@
 
 <script>
 import ChangeLanguageButton from "@/components/buttons/ChangeLanguageButton";
-import ModalConfirm from "@/components/modals/ModalConfirm";
 import Settings from "@/ApiClient/Settings";
 import DeleteAccountModal from "@/components/modals/DeleteAccountModal";
 
 export default {
   name: "AccountSettings",
-  components: { DeleteAccountModal, ModalConfirm, ChangeLanguageButton },
+  components: { DeleteAccountModal, ChangeLanguageButton },
   props: ["value"],
   model: { prop: "value", event: "input" },
   data() {
@@ -203,6 +208,7 @@ export default {
       email: null,
       setValue: null,
       mailDialog: false,
+      passwordDialog: false,
     };
   },
   mounted() {
@@ -217,14 +223,16 @@ export default {
       )
         .then((data) => {
           this.setValue = data.data;
-          this.$emit("input", this.setValue);
           this.password = this.newPassword = this.newPasswordConfirm = null;
+          this.passwordDialog = false;
+          this.$emit("input", this.setValue);
           this.notyf.success(
             this.$i18n.get("_.controller.user.password-changed-ok")
           );
         })
         .catch((error) => {
           this.password = this.email = null;
+          this.passwordDialog = false;
           this.apiErrorHandler(error);
         });
     },
@@ -242,12 +250,14 @@ export default {
       Settings.updateMail(this.email, this.password)
         .then((data) => {
           this.setValue = data.data;
+          this.mailDialog = false;
           this.$emit("input", this.setValue);
           this.password = null;
           this.email = null;
           this.notyf.success(this.$i18n.get("_.email.verification.sent"));
         })
         .catch((error) => {
+          this.mailDialog = false;
           this.password = this.email = null;
           this.apiErrorHandler(error);
         });

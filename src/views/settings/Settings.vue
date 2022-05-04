@@ -13,7 +13,7 @@
       </v-tab>
 
       <v-tab-item>
-        <ProfileSettings  v-model="userProfileSettings" />
+        <ProfileSettings v-model="userProfileSettings" />
       </v-tab-item>
       <v-tab-item>
         <AccountSettings v-model="userProfileSettings" />
