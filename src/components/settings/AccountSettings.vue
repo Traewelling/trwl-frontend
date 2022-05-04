@@ -17,23 +17,72 @@
       </v-col>
       <v-col cols="auto">
         <v-btn
-          color="blue"
-          outlined
-          elevation="1"
-          @click="$refs.mail.show()"
-        >
-          {{ $i18n.get("_.generic.change") }}
-        </v-btn>
-        <v-btn
           v-if="value.email && !value.email_verified"
           color="blue lighten-2"
-          class="ml-1"
+          class="mr-1"
           elevation="1"
           outlined
           @click="resendMail"
         >
           {{ $i18n.get("_.controller.status.email-resend-mail") }}
         </v-btn>
+        <v-dialog v-model="mailDialog" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              elevation="1"
+              color="blue"
+              outlined
+              v-bind="attrs"
+              v-on="on">
+              {{ $i18n.get("_.generic.change") }}
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">
+                {{ this.$i18n.get("_.user.email.change") }}
+              </span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  {{ this.$i18n.get("_.email.change") }}
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      id="mail"
+                      v-model="email"
+                      :label="$i18n.get('_.user.email.new')"
+                      placeholder="mail@example.com"
+                      required
+                      type="email"
+                    />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      id="password"
+                      v-model="password"
+                      placeholder=""
+                      required
+                      :label="$i18n.get('_.settings.current-password')"
+                      type="password"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="grey darken-1" text @click="mailDialog = false">
+                {{ this.$i18n.get("_.menu.abort") }}
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="updateMail">
+                {{ this.$i18n.get("_.modals.edit-confirm") }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
     <v-row class="mt-2">
@@ -71,51 +120,13 @@
         {{ $i18n.get("_.settings.delete-account.detail") }}
       </v-col>
       <v-col cols="auto">
-        <v-btn
-          color="red"
-          outlined
-          @click="$refs.delete.show()"
-        >
+        <v-btn color="red" outlined @click="$refs.delete.show()">
           <i aria-hidden="true" class="fa fa-trash"></i>
           {{ $i18n.get("_.settings.delete-account") }}
         </v-btn>
       </v-col>
     </v-row>
-    <ModalConfirm
-      ref="mail"
-      :abort-text="$i18n.get('_.menu.abort')"
-      :body-text="$i18n.get('_.email.change')"
-      :confirm-text="$i18n.get('_.modals.edit-confirm')"
-      :title-text="$i18n.get('_.user.email.change')"
-      confirm-v-btn-color="btn-primary"
-      v-on:confirm="updateMail"
-    >
-      <div class="form-floating mb-3">
-        <input
-          id="mail"
-          v-model="email"
-          class="form-control"
-          placeholder="mail@example.com"
-          required
-          type="email"
-        />
-        <label for="mail">{{ $i18n.get("_.user.email.new") }}</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input
-          id="password"
-          v-model="password"
-          class="form-control"
-          placeholder=""
-          required
-          type="password"
-        />
-        <label for="password">{{
-          $i18n.get("_.settings.current-password")
-        }}</label>
-      </div>
-    </ModalConfirm>
-    <ModalConfirm
+   <ModalConfirm
       ref="password"
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.modals.edit-confirm')"
@@ -168,10 +179,7 @@
         </div>
       </form>
     </ModalConfirm>
-    <DeleteAccountModal
-      :username="value.username"
-      ref="delete"
-    >
+    <DeleteAccountModal :username="value.username" ref="delete">
     </DeleteAccountModal>
   </v-card>
 </template>
@@ -194,6 +202,7 @@ export default {
       newPasswordConfirm: null,
       email: null,
       setValue: null,
+      mailDialog: false,
     };
   },
   mounted() {
