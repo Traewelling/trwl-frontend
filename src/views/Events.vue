@@ -19,7 +19,10 @@
                   <tr v-for="event in upcomingEvents" :key="event.id">
                     <td>
                       {{ event.name }}
-                      <small v-if="event.station" class="grey--text text--darken-1">
+                      <small
+                        v-if="event.station"
+                        class="grey--text text--darken-1"
+                      >
                         <br />
                         {{ $i18n.get("_.events.closestStation") }}:
                         <router-link

@@ -66,7 +66,10 @@
               >
                 {{ place.username }}
               </router-link>
-              <table class="table grey--text text--darken-1" role="presentation">
+              <table
+                class="table grey--text text--darken-1"
+                role="presentation"
+              >
                 <tbody>
                   <tr>
                     <td>

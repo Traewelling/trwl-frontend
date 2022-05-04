@@ -28,12 +28,7 @@
         </v-btn>
         <v-dialog v-model="mailDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              elevation="1"
-              color="blue"
-              outlined
-              v-bind="attrs"
-              v-on="on">
+            <v-btn elevation="1" color="blue" outlined v-bind="attrs" v-on="on">
               {{ $i18n.get("_.generic.change") }}
             </v-btn>
           </template>
@@ -95,12 +90,7 @@
       <v-col cols="auto">
         <v-dialog v-model="passwordDialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              elevation="1"
-              color="blue"
-              outlined
-              v-bind="attrs"
-              v-on="on">
+            <v-btn elevation="1" color="blue" outlined v-bind="attrs" v-on="on">
               {{ $i18n.get("_.generic.change") }}
             </v-btn>
           </template>
