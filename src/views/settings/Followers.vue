@@ -150,7 +150,7 @@
             </div>
           </div>
         </div>
-        <div class="card-footer text-muted"></div>
+        <div class="card-footer grey--text text--darken-1"></div>
       </div>
     </div>
   </LayoutBasicNoSidebar>

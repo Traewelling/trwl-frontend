@@ -2,7 +2,7 @@
   <v-card>
     <h2>{{ $i18n.get("_.settings.tab.connectivity") }}</h2>
     <!-- ToDo -->
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.title-loginservices") }}
     </h6>
     <div class="row">
@@ -67,7 +67,7 @@
       </div>
     </div>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.title-ics") }}
     </h6>
     <div class="row">
@@ -92,7 +92,7 @@
       </div>
     </div>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.title-sessions") }}
     </h6>
     <div class="row">

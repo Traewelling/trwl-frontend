@@ -2,7 +2,7 @@
   <footer class="footer mt-auto py-3">
     <div :class="{ 'd-md-block': !hideFooter }" class="container d-none">
       <ChangeLanguageButton :dashboard="dashboard" class="float-end" />
-      <nav class="text-muted mb-0">
+      <nav class="grey--text text--darken-1 mb-0">
         <router-link
           :class="{ 'text-white': dashboard }"
           :to="{ name: 'about' }"
@@ -54,11 +54,11 @@
         v-html="$i18n.get('_.menu.developed')"
       ></p>
       <p class="mb-0">&copy; {{ moment().format("Y") }} Tr&auml;welling</p>
-      <p v-if="!dashboard" class="mb-0 text-muted small">
+      <p v-if="!dashboard" class="mb-0 grey--text text--darken-1 small">
         commit:
         <!--          ToDo: get current commit -->
         <a
-          class="text-muted"
+          class="grey--text text--darken-1"
           href="https://github.com/Traewelling/traewelling/commit/get_current_git_commit()"
         >
           get_current_git_commit()

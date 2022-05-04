@@ -9,7 +9,7 @@
 
         <h2>
           F.A.Q.
-          <small class="text-muted">{{
+          <small class="grey--text text--darken-1">{{
             $i18n.get("_.about.faq-heading")
           }}</small>
         </h2>

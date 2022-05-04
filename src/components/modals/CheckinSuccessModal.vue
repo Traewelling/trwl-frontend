@@ -46,7 +46,7 @@
             <div aria-hidden="true" class="col">
               <h5 class="mb-1 w-100">
                 {{ otherStatus.displayName }}
-                <small class="text-muted">@{{ otherStatus.username }}</small>
+                <small class="grey--text text--darken-1">@{{ otherStatus.username }}</small>
               </h5>
               {{ otherStatus.train.origin.name }}
               <i aria-hidden="true" class="fas fa-arrow-right"></i>

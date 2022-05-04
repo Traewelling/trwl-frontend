@@ -7,7 +7,7 @@
   >
     <h2>{{ $i18n.get("_.settings.heading.profile") }}</h2>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.picture") }}
     </h6>
     <div class="row text-start">
@@ -36,7 +36,7 @@
       </div>
     </div>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.title-profile") }}
     </h6>
     <div class="form-floating mb-3">
@@ -62,7 +62,7 @@
       <label for="displayname">{{ $i18n.get("_.user.displayname") }}</label>
     </div>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.title-privacy") }}
     </h6>
 
@@ -104,7 +104,7 @@
       <div class="col-9 col-md-11">
         <label class="form-check-label" for="privateProfileSwitch">
           {{ $i18n.get("_.user.private-profile") }}<br />
-          <span class="small text-muted">{{
+          <span class="small grey--text text--darken-1">{{
             $i18n.get("_.settings.visibility.disclaimer")
           }}</span>
         </label>
@@ -123,7 +123,7 @@
       <div class="col-9 col-md-11">
         <label class="form-check-label" for="preventIndexSwitch">
           {{ $i18n.get("_.settings.prevent-indexing") }}<br />
-          <span class="text-muted small">
+          <span class="grey--text text--darken-1 small">
             {{ $i18n.get("_.settings.search-engines.description") }}
           </span>
         </label>

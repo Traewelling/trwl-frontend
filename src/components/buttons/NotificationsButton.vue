@@ -115,7 +115,7 @@
                 ></v-divider>
               </template>
             </v-list-item-group>
-            <v-list-item v-else class="text-center text-muted">
+            <v-list-item v-else class="text-center grey--text text--darken-1">
               {{ $i18n.get("_.notifications.empty") }}
               <br />
               ¯\_(ツ)_/¯

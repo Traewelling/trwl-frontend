@@ -93,7 +93,7 @@
                       </span>
                       <small
                         v-if="departure.delay"
-                        class="text-muted text-decoration-line-through"
+                        class="grey--text text--darken-1 text-decoration-line-through"
                       >
                         {{ moment(departure.plannedWhen).format("LT") }}
                       </small>

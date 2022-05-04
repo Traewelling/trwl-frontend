@@ -66,7 +66,7 @@
               >
                 {{ place.username }}
               </router-link>
-              <table class="table text-muted" role="presentation">
+              <table class="table grey--text text--darken-1" role="presentation">
                 <tbody>
                   <tr>
                     <td>

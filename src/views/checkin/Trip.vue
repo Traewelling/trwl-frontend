@@ -58,7 +58,7 @@
                     </span>
                     <small
                       v-if="stop.isArrivalDelayed"
-                      class="text-muted text-decoration-line-through"
+                      class="grey--text text--darken-1 text-decoration-line-through"
                     >
                       {{ moment(stop.arrivalPlanned).format("LT") }}
                     </small>
@@ -76,7 +76,7 @@
                     </span>
                     <small
                       v-if="stop.isDepartureDelayed"
-                      class="text-muted text-decoration-line-through"
+                      class="grey--text text--darken-1 text-decoration-line-through"
                     >
                       {{ moment(stop.departurePlanned).format("LT") }}
                     </small>
@@ -100,7 +100,7 @@
                     </span>
                     <small
                       v-if="stop.isArrivalDelayed"
-                      class="text-muted text-decoration-line-through"
+                      class="grey--text text--darken-1 text-decoration-line-through"
                     >
                       {{ moment(stop.arrivalPlanned).format("LT") }}
                     </small>
@@ -120,7 +120,7 @@
                     </span>
                     <small
                       v-if="stop.isDepartureDelayed"
-                      class="text-muted text-decoration-line-through"
+                      class="grey--text text--darken-1 text-decoration-line-through"
                     >
                       {{ moment(stop.departurePlanned).format("LT") }}
                     </small>

@@ -2,16 +2,16 @@
   <v-card>
     <h2>{{ $i18n.get("_.settings.heading.account") }}</h2>
 
-    <h6 class="text-capitalize text-muted border-bottom my-5">
+    <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
       {{ $i18n.get("_.settings.tab.account") }}
     </h6>
     <v-row>
       <v-col cols="auto" class="mr-auto">
         {{ $i18n.get("_.user.email") }}<br />
-        <span v-if="value.email" class="small text-muted">
+        <span v-if="value.email" class="small grey--text text--darken-1">
           {{ value.email }}
         </span>
-        <span v-else class="small text-muted">{{
+        <span v-else class="small grey--text text--darken-1">{{
           $i18n.get("_.user.email.not-set")
         }}</span>
       </v-col>
@@ -39,7 +39,7 @@
     <v-row class="mt-2">
       <v-col cols="auto" class="mr-auto">
         {{ $i18n.get("_.user.password") }}<br />
-        <span class="small text-muted">{{
+        <span class="small grey--text text--darken-1">{{
           $i18n.get("_.passwords.password")
         }}</span>
       </v-col>
@@ -63,7 +63,7 @@
       </v-col>
     </v-row>
 
-    <h6 class="text-capitalize text-danger border-bottom my-5">
+    <h6 class="text-uppercase text-danger border-bottom my-5">
       {{ $i18n.get("_.settings.delete-account") }}
     </h6>
     <v-row>

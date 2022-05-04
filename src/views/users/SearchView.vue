@@ -30,7 +30,7 @@
                   aria-hidden="true"
                   class="fas fa-user-lock"
                 ></i>
-                <small class="text-muted">@ {{ user.username }}</small>
+                <small class="grey--text text--darken-1">@ {{ user.username }}</small>
               </router-link>
               <br />
               <span style="font-size: 0.875em">

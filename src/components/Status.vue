@@ -27,7 +27,7 @@
               <span class="text-trwl float-end">
                 <small
                   v-if="statusData.train.origin.isDepartureDelayed"
-                  class="text-muted"
+                  class="grey--text text--darken-1"
                   style="text-decoration: line-through"
                   >{{
                     moment(statusData.train.origin.departurePlanned).format(
@@ -45,7 +45,7 @@
                 class="text-trwl clearfix"
                 >{{ statusData.train.origin.name }}
               </router-link>
-              <p class="train-status text-muted">
+              <p class="train-status grey--text text--darken-1">
                 <span>
                   <img
                     v-if="categories.indexOf(statusData.train.category) > -1"
@@ -96,7 +96,7 @@
                 {{ statusData.body }}
               </p>
               <div v-if="nextStop != null">
-                <p class="text-muted font-italic">
+                <p class="grey--text text--darken-1 font-italic">
                   {{ $i18n.get("_.stationboard.next-stop") }}
                   <router-link
                     :to="{
@@ -115,7 +115,7 @@
               <span class="text-trwl float-end">
                 <small
                   v-if="statusData.train.destination.isArrivalDelayed"
-                  class="text-muted"
+                  class="grey--text text--darken-1"
                   style="text-decoration: line-through"
                   >{{
                     moment(statusData.train.destination.arrivalPlanned).format(
@@ -145,7 +145,7 @@
           v-bind:style="{ width: percentage + '%' }"
         ></div>
       </div>
-      <div class="card-footer text-muted">
+      <div class="card-footer grey--text text--darken-1">
         <span class="float-end like-text small">
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
@@ -250,7 +250,7 @@
       <div
         v-for="like in likes"
         v-bind:key="like.id"
-        class="card-footer text-muted clearfix"
+        class="card-footer grey--text text--darken-1 clearfix"
       >
         <ul class="list-inline">
           <li class="list-inline-item">

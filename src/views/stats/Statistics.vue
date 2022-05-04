@@ -189,7 +189,7 @@
                   {{ this.localizeDistance(this.globalData.distance) }} km
                 </span>
                 <br />
-                <small class="text-muted">{{
+                <small class="grey--text text--darken-1">{{
                   $i18n.get("_.stats.global.distance")
                 }}</small>
               </div>
@@ -207,7 +207,7 @@
                   {{ fullTime(globalData.duration, true) }}
                 </span>
                 <br />
-                <small class="text-muted">{{
+                <small class="grey--text text--darken-1">{{
                   $i18n.get("_.stats.global.duration")
                 }}</small>
               </div>
@@ -225,7 +225,7 @@
                   {{ globalData.activeUsers }} x
                 </span>
                 <br />
-                <small class="text-muted">{{
+                <small class="grey--text text--darken-1">{{
                   $i18n.get("_.stats.global.active")
                 }}</small>
               </div>
@@ -233,7 +233,7 @@
           </div>
         </div>
         <hr />
-        <small class="text-muted">
+        <small class="grey--text text--darken-1">
           *{{
             $i18n.choice("_.stats.global.explain", 1, {
               fromDate: moment(this.fromGlobal).format("LLL"),
