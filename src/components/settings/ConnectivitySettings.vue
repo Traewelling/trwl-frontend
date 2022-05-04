@@ -1,10 +1,5 @@
 <template>
-  <div
-    id="settingsTabs-connectivity"
-    aria-labelledby="settingsTab-connectivity"
-    class="tab-pane fade"
-    role="tabpanel"
-  >
+  <v-card>
     <h2>{{ $i18n.get("_.settings.tab.connectivity") }}</h2>
     <!-- ToDo -->
     <h6 class="text-capitalize text-muted border-bottom my-5">
@@ -287,7 +282,7 @@
         </table>
       </div>
     </ModalConfirm>
-  </div>
+  </v-card>
 </template>
 
 <script>

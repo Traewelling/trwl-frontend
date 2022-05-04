@@ -1,54 +1,27 @@
 <template>
   <LayoutBasicNoSidebar footerclass="pt-5">
     <h1>{{ $i18n.get("_.menu.settings") }}</h1>
-    <ul id="settingsTabs" class="nav nav-tabs mb-3" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a
-          id="settingsTab-profile"
-          aria-controls="settingsTabs-profile"
-          class="nav-link active"
-          data-mdb-toggle="tab"
-          href="#settingsTabs-profile"
-          role="tab"
-          aria-selected="true"
-        >
-          {{ $i18n.get("_.settings.tab.profile") }}
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          class="nav-link"
-          id="settingsTab-account"
-          data-mdb-toggle="tab"
-          aria-controls="settingsTabs-account"
-          role="tab"
-          href="#settingsTabs-account"
-          aria-selected="false"
-        >
-          {{ $i18n.get("_.settings.tab.account") }}
-        </a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a
-          class="nav-link"
-          id="settingsTab-connectivity"
-          data-mdb-toggle="tab"
-          aria-controls="settingsTabs-connectivity"
-          role="tab"
-          href="#settingsTabs-connectivity"
-          aria-selected="false"
-        >
-          {{ $i18n.get("_.settings.tab.connectivity") }}
-        </a>
-      </li>
-    </ul>
-    <div id="settingsTabs-content" class="tab-content col-md-12 col-lg-8">
-      <ProfileSettings v-model="userProfileSettings"></ProfileSettings>
-      <AccountSettings v-model="userProfileSettings"></AccountSettings>
-      <ConnectivitySettings
-        v-model="userProfileSettings"
-      ></ConnectivitySettings>
-    </div>
+    <v-tabs background-color="transparent" class="col-md-12 col-lg-8 ml-9">
+      <v-tab>
+        {{ this.$i18n.get("_.settings.tab.profile") }}
+      </v-tab>
+      <v-tab>
+        {{ this.$i18n.get("_.settings.tab.account") }}
+      </v-tab>
+      <v-tab>
+        {{ this.$i18n.get("_.settings.tab.connectivity") }}
+      </v-tab>
+
+      <v-tab-item>
+        <ProfileSettings  v-model="userProfileSettings" />
+      </v-tab-item>
+      <v-tab-item>
+        <AccountSettings v-model="userProfileSettings" />
+      </v-tab-item>
+      <v-tab-item>
+        <ConnectivitySettings v-model="userProfileSettings" />
+      </v-tab-item>
+    </v-tabs>
   </LayoutBasicNoSidebar>
 </template>
 
