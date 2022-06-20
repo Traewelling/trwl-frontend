@@ -72,4 +72,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#mapContainer {
+  height: 400px;
+}
+</style>

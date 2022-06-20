@@ -5,7 +5,6 @@
         <div class="card sticky-top">
           <Map
             :poly-lines="polylines"
-            class="map embed-responsive embed-responsive-1by1"
           ></Map>
         </div>
       </div>

@@ -1,213 +1,229 @@
 // eslint-disable-file
 <template>
-  <v-card class="mb-2">
-    <v-card-text
-      v-if="statusData.body"
-      class="text-h5 font-weight-bold"
-    >
-      <v-icon>mdi-format-quote-close</v-icon>
-      {{ statusData.body }}
-    </v-card-text>
-    <v-card-text>
-      <v-timeline align-top dense class="ma-n5">
-        <v-timeline-item color="red darken-3" small>
-          <v-row class="pt-1">
-            <v-col cols="3">
-              <span
-                v-if="statusData.train.origin.isDepartureDelayed"
-                style="text-decoration: line-through"
-                class="me-1"
-              >
-                {{
-                  moment(statusData.train.origin.departurePlanned).format("LT")
-                }}
-              </span>
-              <strong>
-                {{ departure.format("LT") }}
-              </strong>
-            </v-col>
-            <v-col>
-              <strong>{{ statusData.train.origin.name }}</strong>
-              <div class="text-caption">
-                <span>
-                  <img
-                    v-if="categories.indexOf(statusData.train.category) > -1"
-                    :alt="statusData.train.category"
-                    :src="`/img/${statusData.train.category}.svg`"
-                    class="product-icon"
-                  />
-                  <i v-else aria-hidden="true" class="fa fa-train d-inline"></i>
-                  {{ statusData.train.lineName }}
+  <div v-if="status">
+    <h5 v-if="showDate || isSingleStatus" class="mt-4">
+      {{ moment(statusData.train.origin.departure).format("dddd[,] LL") }}
+    </h5>
+    <div v-if="polyline" class="card-img-top">
+      asdf
+      <Map :poly-lines="polyline" class="map"></Map>
+    </div>
+    <v-card class="mb-2">
+      <v-card-text v-if="statusData.body" class="text-h5 font-weight-bold">
+        <v-icon>mdi-format-quote-close</v-icon>
+        {{ statusData.body }}
+      </v-card-text>
+      <v-card-text>
+        <v-timeline align-top dense class="ma-n5">
+          <v-timeline-item color="red darken-3" small>
+            <v-row class="pt-1">
+              <v-col cols="3">
+                <span
+                  v-if="statusData.train.origin.isDepartureDelayed"
+                  style="text-decoration: line-through"
+                  class="me-1"
+                >
+                  {{
+                    moment(statusData.train.origin.departurePlanned).format(
+                      "LT"
+                    )
+                  }}
                 </span>
-                <span class="ps-2">
-                  <i aria-hidden="true" class="fa fa-route d-inline"></i>
-                  &nbsp;{{ localizeDistance(statusData.train.distance)
-                  }}<small>km</small>
-                </span>
-                <span class="ps-2">
-                  <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
-                  &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
-                </span>
-                <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
-                  <template v-slot:activator="{ on, attrs }">
-                    <span v-bind="attrs" v-on="on">
-                      <i
-                        :class="travelReason[statusData.business].icon"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </template>
+                <strong>
+                  {{ departure.format("LT") }}
+                </strong>
+              </v-col>
+              <v-col>
+                <strong>{{ statusData.train.origin.name }}</strong>
+                <div class="text-caption">
                   <span>
-                    {{ $i18n.get(travelReason[statusData.business].desc) }}
+                    <img
+                      v-if="categories.indexOf(statusData.train.category) > -1"
+                      :alt="statusData.train.category"
+                      :src="`/img/${statusData.train.category}.svg`"
+                      class="product-icon"
+                    />
+                    <i
+                      v-else
+                      aria-hidden="true"
+                      class="fa fa-train d-inline"
+                    ></i>
+                    {{ statusData.train.lineName }}
                   </span>
-                </v-tooltip>
-                <br />
-                <span v-if="statusData.event != null" class="pl-sm-2">
-                  <i aria-hidden="true" class="fa fa-calendar-day"></i>
-                  <router-link
-                    :to="{
-                      name: 'event',
-                      params: { slug: statusData.event.slug },
-                    }"
-                  >
-                    {{ statusData.event.name }}
-                  </router-link>
+                  <span class="ps-2">
+                    <i aria-hidden="true" class="fa fa-route d-inline"></i>
+                    &nbsp;{{ localizeDistance(statusData.train.distance)
+                    }}<small>km</small>
+                  </span>
+                  <span class="ps-2">
+                    <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
+                    &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
+                  </span>
+                  <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
+                    <template v-slot:activator="{ on, attrs }">
+                      <span v-bind="attrs" v-on="on">
+                        <i
+                          :class="travelReason[statusData.business].icon"
+                          aria-hidden="true"
+                        ></i>
+                      </span>
+                    </template>
+                    <span>
+                      {{ $i18n.get(travelReason[statusData.business].desc) }}
+                    </span>
+                  </v-tooltip>
+                  <br />
+                  <span v-if="statusData.event != null" class="pl-sm-2">
+                    <i aria-hidden="true" class="fa fa-calendar-day"></i>
+                    <router-link
+                      :to="{
+                        name: 'event',
+                        params: { slug: statusData.event.slug },
+                      }"
+                    >
+                      {{ statusData.event.name }}
+                    </router-link>
+                  </span>
+                </div>
+              </v-col>
+            </v-row>
+          </v-timeline-item>
+
+          <v-timeline-item v-if="nextStop != null" color="grey" small>
+            {{ $i18n.get("_.stationboard.next-stop") }}
+            <strong>
+              {{ nextStop.name }}
+            </strong>
+          </v-timeline-item>
+
+          <v-timeline-item color="red darken-3" small>
+            <v-row class="pt-1">
+              <v-col cols="3">
+                <span
+                  v-if="statusData.train.destination.isArrivalDelayed"
+                  style="text-decoration: line-through"
+                  class="me-1"
+                >
+                  {{
+                    moment(statusData.train.destination.arrivalPlanned).format(
+                      "LT"
+                    )
+                  }}
                 </span>
-              </div>
-            </v-col>
-          </v-row>
-        </v-timeline-item>
-
-        <v-timeline-item v-if="nextStop != null" color="grey" small>
-          {{ $i18n.get("_.stationboard.next-stop") }}
-          <strong>
-            {{ nextStop.name }}
-          </strong>
-        </v-timeline-item>
-
-        <v-timeline-item color="red darken-3" small>
-          <v-row class="pt-1">
-            <v-col cols="3">
-              <span
-                v-if="statusData.train.destination.isArrivalDelayed"
-                style="text-decoration: line-through"
-                class="me-1"
-              >
-                {{ moment(statusData.train.destination.arrivalPlanned).format("LT") }}
-              </span>
-              <strong>
-                {{ arrival.format("LT") }}
-              </strong>
-            </v-col>
-            <v-col>
-              <strong>{{ statusData.train.destination.name }}</strong>
-            </v-col>
-          </v-row>
-        </v-timeline-item>
-      </v-timeline>
-    </v-card-text>
-    <v-divider />
-    <v-card-actions>
-      <v-list-item class="grow">
-        <router-link
-          :to="{
-            name: 'profile',
-            params: { username: statusData.username },
-          }"
-        >
-          <v-list-item-avatar color="grey darken-3">
-            <v-img
-              class="elevation-6"
-              :alt="$i18n.get('_.settings.picture')"
-              :src="statusData.profilePicture"
-            ></v-img>
-          </v-list-item-avatar>
-        </router-link>
-        <v-list-item-content>
-          <v-list-item-title
-            v-if="
-              $store.state.authenticated &&
-              $store.state.user.id === statusData.user
-            "
-          >
-            {{ $i18n.get("_.user.you") }}
-          </v-list-item-title>
-          <v-list-item-title v-else>
-            {{ statusData.username }}
-          </v-list-item-title>
+                <strong>
+                  {{ arrival.format("LT") }}
+                </strong>
+              </v-col>
+              <v-col>
+                <strong>{{ statusData.train.destination.name }}</strong>
+              </v-col>
+            </v-row>
+          </v-timeline-item>
+        </v-timeline>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-list-item class="grow">
           <router-link
             :to="{
-              name: 'singleStatus',
-              params: { id: statusData.id, statusData: this.status },
+              name: 'profile',
+              params: { username: statusData.username },
             }"
-            tag="v-list-item-subtitle"
           >
-            {{ moment(statusData.createdAt).fromNow() }}
+            <v-list-item-avatar color="grey darken-3">
+              <v-img
+                class="elevation-6"
+                :alt="$i18n.get('_.settings.picture')"
+                :src="statusData.profilePicture"
+              ></v-img>
+            </v-list-item-avatar>
           </router-link>
-        </v-list-item-content>
+          <v-list-item-content>
+            <v-list-item-title
+              v-if="
+                $store.state.authenticated &&
+                $store.state.user.id === statusData.user
+              "
+            >
+              {{ $i18n.get("_.user.you") }}
+            </v-list-item-title>
+            <v-list-item-title v-else>
+              {{ statusData.username }}
+            </v-list-item-title>
+            <router-link
+              :to="{
+                name: 'singleStatus',
+                params: { id: statusData.id, statusData: this.status },
+              }"
+              tag="v-list-item-subtitle"
+            >
+              {{ moment(statusData.createdAt).fromNow() }}
+            </router-link>
+          </v-list-item-content>
 
-        <v-row align="center" justify="end">
-          <v-icon
-            @click="likeStatus"
-            class="mr-1"
-            :color="statusData.liked ? 'red' : ''"
-          >
-            mdi-heart
-          </v-icon>
-          <span class="subheading mr-2">{{ statusData.likes }}</span>
-          <span class="mr-1">·</span>
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-              <!-- ToDo: Change to material Design Icons -->
-              <i
-                v-bind="attrs"
-                v-on="on"
-                :class="visibilityIcon.icon"
-                aria-hidden="true"
-                class="fas visibility-icon text-small mr-1"
-              ></i>
-            </template>
-            <span>{{ $i18n.get(visibilityIcon.desc) }}</span>
-          </v-tooltip>
-          <span class="mr-1">·</span>
-          <v-menu offset-y rounded="lg">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                icon
-                :aria-label="$i18n.get('_.menu.show-more')"
-                class="like-text"
-                @click="fetchUser"
-                v-bind="attrs"
-                v-on="on"
-              >
-                <v-icon class="mr-1"> mdi-dots-vertical </v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item v-if="shareable" @click="share">
-                <v-icon>mdi-share</v-icon>
-                <span>{{ $i18n.get("_.menu.share") }}</span>
-              </v-list-item>
-              <v-list-item v-if="!editable && user">
-                <FollowButton :user="user" dropdown="true" />
-              </v-list-item>
-              <v-list-item v-if="!editable && user">
-                <MuteButton :user="user" dropdown="true" />
-              </v-list-item>
-              <v-list-item v-if="editable" @click="toggleEditModal">
-                <v-icon>mdi-pencil</v-icon>
-                <span>{{ $i18n.get("_.modals.editStatus-title") }}</span>
-              </v-list-item>
-              <v-list-item v-if="editable" @click="toggleDeleteModal">
-                <v-icon>mdi-delete</v-icon>
-                <span>{{ $i18n.get("_.modals.delete-confirm") }}</span>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-row>
-      </v-list-item>
-    </v-card-actions>
-  </v-card>
+          <v-row align="center" justify="end">
+            <v-icon
+              @click="likeStatus"
+              class="mr-1"
+              :color="statusData.liked ? 'red' : ''"
+            >
+              mdi-heart
+            </v-icon>
+            <span class="subheading mr-2">{{ statusData.likes }}</span>
+            <span class="mr-1">·</span>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <!-- ToDo: Change to material Design Icons -->
+                <i
+                  v-bind="attrs"
+                  v-on="on"
+                  :class="visibilityIcon.icon"
+                  aria-hidden="true"
+                  class="fas visibility-icon text-small mr-1"
+                ></i>
+              </template>
+              <span>{{ $i18n.get(visibilityIcon.desc) }}</span>
+            </v-tooltip>
+            <span class="mr-1">·</span>
+            <v-menu offset-y rounded="lg">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  :aria-label="$i18n.get('_.menu.show-more')"
+                  class="like-text"
+                  @click="fetchUser"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon class="mr-1"> mdi-dots-vertical </v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item v-if="shareable" @click="share">
+                  <v-icon>mdi-share</v-icon>
+                  <span>{{ $i18n.get("_.menu.share") }}</span>
+                </v-list-item>
+                <v-list-item v-if="!editable && user">
+                  <FollowButton :user="user" dropdown="true" />
+                </v-list-item>
+                <v-list-item v-if="!editable && user">
+                  <MuteButton :user="user" dropdown="true" />
+                </v-list-item>
+                <v-list-item v-if="editable" @click="toggleEditModal">
+                  <v-icon>mdi-pencil</v-icon>
+                  <span>{{ $i18n.get("_.modals.editStatus-title") }}</span>
+                </v-list-item>
+                <v-list-item v-if="editable" @click="toggleDeleteModal">
+                  <v-icon>mdi-delete</v-icon>
+                  <span>{{ $i18n.get("_.modals.delete-confirm") }}</span>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-row>
+        </v-list-item>
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -418,16 +434,13 @@ export default {
   height: calc(100% - 100px);
 }
 
-.status {
-  .map {
-    width: 100%;
-    overflow: hidden;
+.map {
+  width: 100%;
+  overflow: hidden;
 
-    &.large {
-      height: 280px;
-    }
+  &.large {
+    height: 280px;
   }
-
   .progress {
     height: 0.3rem;
     // background: lighten(rgb(192, 57, 43), 50%);
