@@ -9,13 +9,14 @@
       {{ statusData.body }}
     </v-card-text>
     <v-card-text>
-      <v-timeline align-top dense>
-        <v-timeline-item color="pink" small>
+      <v-timeline align-top dense class="ma-n5">
+        <v-timeline-item color="red darken-3" small>
           <v-row class="pt-1">
             <v-col cols="3">
               <span
                 v-if="statusData.train.origin.isDepartureDelayed"
                 style="text-decoration: line-through"
+                class="me-1"
               >
                 {{
                   moment(statusData.train.origin.departurePlanned).format("LT")
@@ -84,13 +85,22 @@
           </strong>
         </v-timeline-item>
 
-        <v-timeline-item color="pink" small>
+        <v-timeline-item color="red darken-3" small>
           <v-row class="pt-1">
             <v-col cols="3">
-              <strong>12pm</strong>
+              <span
+                v-if="statusData.train.destination.isArrivalDelayed"
+                style="text-decoration: line-through"
+                class="me-1"
+              >
+                {{ moment(statusData.train.destination.arrivalPlanned).format("LT") }}
+              </span>
+              <strong>
+                {{ arrival.format("LT") }}
+              </strong>
             </v-col>
             <v-col>
-              <strong>Lunch break</strong>
+              <strong>{{ statusData.train.destination.name }}</strong>
             </v-col>
           </v-row>
         </v-timeline-item>
@@ -402,6 +412,11 @@ export default {
 
 <style scoped lang="scss">
 @import "/src/sass/variables";
+
+.v-timeline::before {
+  top: 50px;
+  height: calc(100% - 100px);
+}
 
 .status {
   .map {
