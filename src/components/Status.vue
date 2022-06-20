@@ -1,6 +1,101 @@
 // eslint-disable-file
 <template>
-  <v-card>
+  <v-card class="mb-2">
+    <v-card-text
+      v-if="statusData.body"
+      class="text-h5 font-weight-bold"
+    >
+      <v-icon>mdi-format-quote-close</v-icon>
+      {{ statusData.body }}
+    </v-card-text>
+    <v-card-text>
+      <v-timeline align-top dense>
+        <v-timeline-item color="pink" small>
+          <v-row class="pt-1">
+            <v-col cols="3">
+              <span
+                v-if="statusData.train.origin.isDepartureDelayed"
+                style="text-decoration: line-through"
+              >
+                {{
+                  moment(statusData.train.origin.departurePlanned).format("LT")
+                }}
+              </span>
+              <strong>
+                {{ departure.format("LT") }}
+              </strong>
+            </v-col>
+            <v-col>
+              <strong>{{ statusData.train.origin.name }}</strong>
+              <div class="text-caption">
+                <span>
+                  <img
+                    v-if="categories.indexOf(statusData.train.category) > -1"
+                    :alt="statusData.train.category"
+                    :src="`/img/${statusData.train.category}.svg`"
+                    class="product-icon"
+                  />
+                  <i v-else aria-hidden="true" class="fa fa-train d-inline"></i>
+                  {{ statusData.train.lineName }}
+                </span>
+                <span class="ps-2">
+                  <i aria-hidden="true" class="fa fa-route d-inline"></i>
+                  &nbsp;{{ localizeDistance(statusData.train.distance)
+                  }}<small>km</small>
+                </span>
+                <span class="ps-2">
+                  <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
+                  &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
+                </span>
+                <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
+                  <template v-slot:activator="{ on, attrs }">
+                    <span v-bind="attrs" v-on="on">
+                      <i
+                        :class="travelReason[statusData.business].icon"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                  </template>
+                  <span>
+                    {{ $i18n.get(travelReason[statusData.business].desc) }}
+                  </span>
+                </v-tooltip>
+                <br />
+                <span v-if="statusData.event != null" class="pl-sm-2">
+                  <i aria-hidden="true" class="fa fa-calendar-day"></i>
+                  <router-link
+                    :to="{
+                      name: 'event',
+                      params: { slug: statusData.event.slug },
+                    }"
+                  >
+                    {{ statusData.event.name }}
+                  </router-link>
+                </span>
+              </div>
+            </v-col>
+          </v-row>
+        </v-timeline-item>
+
+        <v-timeline-item v-if="nextStop != null" color="grey" small>
+          {{ $i18n.get("_.stationboard.next-stop") }}
+          <strong>
+            {{ nextStop.name }}
+          </strong>
+        </v-timeline-item>
+
+        <v-timeline-item color="pink" small>
+          <v-row class="pt-1">
+            <v-col cols="3">
+              <strong>12pm</strong>
+            </v-col>
+            <v-col>
+              <strong>Lunch break</strong>
+            </v-col>
+          </v-row>
+        </v-timeline-item>
+      </v-timeline>
+    </v-card-text>
     <v-divider />
     <v-card-actions>
       <v-list-item class="grow">
