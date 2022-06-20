@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import "mdb-ui-kit/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@mdi/font/css/materialdesignicons.min.css";
 

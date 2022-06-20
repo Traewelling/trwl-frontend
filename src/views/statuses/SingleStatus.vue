@@ -15,12 +15,44 @@
 
       <div v-if="status">
         <Status
-          :likes="likes"
           :polyline="polyline"
           :status="status"
           :stopovers="stopovers"
           :show-date="true"
         ></Status>
+
+        <v-card v-if="likes">
+          <v-list>
+            <template v-for="like in likes">
+              <v-list-item :key="like.id">
+                <router-link
+                  :to="{ name: 'profile', params: { username: like.username } }"
+                >
+                  <v-list-item-avatar>
+                    <v-img
+                      :alt="$i18n.get('_.settings.picture')"
+                      :src="like.profilePicture"
+                    ></v-img>
+                  </v-list-item-avatar>
+                </router-link>
+                <v-list-item-content>
+                  <router-link
+                    :to="{
+                      name: 'profile',
+                      params: { username: like.username },
+                    }"
+                  >
+                    {{ like.username }}
+                  </router-link>
+                  <span v-if="like.id === status.user">{{
+                    $i18n.get("_.user.liked-own-status")
+                  }}</span>
+                  <span v-else>{{ $i18n.get("_.user.liked-status") }}</span>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+          </v-list>
+        </v-card>
       </div>
     </div>
   </LayoutBasic>

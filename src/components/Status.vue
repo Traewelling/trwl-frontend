@@ -1,11 +1,10 @@
 // eslint-disable-file
 <template>
   <div v-if="status">
-    <h5 v-if="showDate || isSingleStatus" class="mt-4">
+    <h3 v-if="showDate || isSingleStatus" class="mt-4">
       {{ moment(statusData.train.origin.departure).format("dddd[,] LL") }}
-    </h5>
+    </h3>
     <div v-if="polyline" class="card-img-top">
-      asdf
       <Map :poly-lines="polyline" class="map"></Map>
     </div>
     <v-card class="mb-2">
@@ -121,7 +120,7 @@
           </v-timeline-item>
         </v-timeline>
       </v-card-text>
-      <v-divider />
+      <v-progress-linear :value="percentage"></v-progress-linear>
       <v-card-actions>
         <v-list-item class="grow">
           <router-link
@@ -223,6 +222,25 @@
         </v-list-item>
       </v-card-actions>
     </v-card>
+    <ModalConfirm
+      v-if="
+        $store.state.authenticated && statusData.user === $store.state.user.id
+      "
+      ref="deleteModal"
+      :abort-text="$i18n.get('_.menu.abort')"
+      :confirm-text="$i18n.get('_.modals.delete-confirm')"
+      :title-text="$i18n.get('_.modals.deleteStatus-title')"
+      confirm-button-color="btn-danger"
+      v-on:confirm="deleteStatus"
+    ></ModalConfirm>
+    <CheckInModal
+      v-if="
+        $store.state.authenticated && statusData.user === $store.state.user.id
+      "
+      ref="editModal"
+      :status-data="status"
+      v-on:updated="updateStatus"
+    ></CheckInModal>
   </div>
 </template>
 
