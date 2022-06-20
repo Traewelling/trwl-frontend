@@ -1,215 +1,70 @@
+// eslint-disable-file
 <template>
-  <div v-if="status">
-    <h5 v-if="showDate || isSingleStatus" class="mt-4">
-      {{ moment(statusData.train.origin.departure).format("dddd[,] LL") }}
-    </h5>
-    <div class="card status mt-3">
-      <div v-if="polyline" class="card-img-top">
-        <Map
-          :poly-lines="polyline"
-          class="map embed-responsive embed-responsive-16by9"
-        ></Map>
-      </div>
-
-      <div class="card-body row py-1 ps-2 pe-3">
-        <div class="col-2 image-box pe-0 d-none d-lg-flex">
-          <router-link
-            :to="{ name: 'profile', params: { username: statusData.username } }"
+  <v-card>
+    <v-divider />
+    <v-card-actions>
+      <v-list-item class="grow">
+        <router-link
+          :to="{
+            name: 'profile',
+            params: { username: statusData.username },
+          }"
+        >
+          <v-list-item-avatar color="grey darken-3">
+            <v-img
+              class="elevation-6"
+              :alt="$i18n.get('_.settings.picture')"
+              :src="statusData.profilePicture"
+            ></v-img>
+          </v-list-item-avatar>
+        </router-link>
+        <v-list-item-content>
+          <v-list-item-title
+            v-if="
+              $store.state.authenticated &&
+              $store.state.user.id === statusData.user
+            "
           >
-            <img :alt="statusData.username" :src="statusData.profilePicture" />
-          </router-link>
-        </div>
-
-        <div class="col ps-0">
-          <ul class="timeline">
-            <li>
-              <i aria-hidden="true" class="trwl-bulletpoint"></i>
-              <span class="text-trwl float-end">
-                <small
-                  v-if="statusData.train.origin.isDepartureDelayed"
-                  class="grey--text text--darken-1"
-                  style="text-decoration: line-through"
-                  >{{
-                    moment(statusData.train.origin.departurePlanned).format(
-                      "LT"
-                    )
-                  }}
-                </small>
-                &nbsp; {{ departure.format("LT") }}
-              </span>
-              <router-link
-                :to="{
-                  name: 'trains.stationboard',
-                  query: { station: statusData.train.origin.name },
-                }"
-                class="text-trwl clearfix"
-                >{{ statusData.train.origin.name }}
-              </router-link>
-              <p class="train-status grey--text text--darken-1">
-                <span>
-                  <img
-                    v-if="categories.indexOf(statusData.train.category) > -1"
-                    :alt="statusData.train.category"
-                    :src="`/img/${statusData.train.category}.svg`"
-                    class="product-icon"
-                  />
-                  <i v-else aria-hidden="true" class="fa fa-train d-inline"></i>
-                  {{ statusData.train.lineName }}
-                </span>
-                <span class="ps-2">
-                  <i aria-hidden="true" class="fa fa-route d-inline"></i>
-                  &nbsp;{{ localizeDistance(statusData.train.distance)
-                  }}<small>km</small>
-                </span>
-                <span class="ps-2"
-                  ><i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
-                  &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
-                </span>
-                <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
-                  <template v-slot:activator="{ on, attrs }">
-                    <span v-bind="attrs" v-on="on">
-                      <i
-                        :class="travelReason[statusData.business].icon"
-                        aria-hidden="true"
-                      ></i>
-                    </span>
-                  </template>
-                  <span>{{
-                    $i18n.get(travelReason[statusData.business].desc)
-                  }}</span>
-                </v-tooltip>
-                <br />
-                <span v-if="statusData.event != null" class="pl-sm-2">
-                  <i aria-hidden="true" class="fa fa-calendar-day"></i>
-                  <router-link
-                    :to="{
-                      name: 'event',
-                      params: { slug: statusData.event.slug },
-                    }"
-                  >
-                    {{ statusData.event.name }}
-                  </router-link>
-                </span>
-              </p>
-              <p v-if="statusData.body" class="status-body">
-                <i aria-hidden="true" class="fas fa-quote-right"></i>
-                {{ statusData.body }}
-              </p>
-              <div v-if="nextStop != null">
-                <p class="grey--text text--darken-1 font-italic">
-                  {{ $i18n.get("_.stationboard.next-stop") }}
-                  <router-link
-                    :to="{
-                      name: 'trains.stationboard',
-                      query: { station: nextStop.name },
-                    }"
-                    class="text-trwl clearfix"
-                  >
-                    {{ nextStop.name }}
-                  </router-link>
-                </p>
-              </div>
-            </li>
-            <li>
-              <i aria-hidden="true" class="trwl-bulletpoint"></i>
-              <span class="text-trwl float-end">
-                <small
-                  v-if="statusData.train.destination.isArrivalDelayed"
-                  class="grey--text text--darken-1"
-                  style="text-decoration: line-through"
-                  >{{
-                    moment(statusData.train.destination.arrivalPlanned).format(
-                      "LT"
-                    )
-                  }}
-                </small>
-                &nbsp; {{ arrival.format("LT") }}
-              </span>
-              <router-link
-                :to="{
-                  name: 'trains.stationboard',
-                  query: { station: statusData.train.destination.name },
-                }"
-                class="text-trwl clearfix"
-              >
-                {{ statusData.train.destination.name }}
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="progress">
-        <div
-          class="progress-bar"
-          role="progressbar"
-          v-bind:style="{ width: percentage + '%' }"
-        ></div>
-      </div>
-      <div class="card-footer grey--text text--darken-1">
-        <span class="float-end like-text small">
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-              <i
-                v-bind="attrs"
-                v-on="on"
-                :class="visibilityIcon.icon"
-                aria-hidden="true"
-                class="fas visibility-icon text-small"
-              ></i>
-            </template>
-            <span>{{ $i18n.get(visibilityIcon.desc) }}</span>
-          </v-tooltip>
-          <router-link
-            :to="{ name: 'profile', params: { username: statusData.username } }"
-          >
-            <span
-              v-if="
-                $store.state.authenticated &&
-                $store.state.user.id === statusData.user
-              "
-              >{{ $i18n.get("_.user.you") }}</span
-            >
-            <span v-else>{{ statusData.username }}</span> </router-link
-          >,
+            {{ $i18n.get("_.user.you") }}
+          </v-list-item-title>
+          <v-list-item-title v-else>
+            {{ statusData.username }}
+          </v-list-item-title>
           <router-link
             :to="{
               name: 'singleStatus',
               params: { id: statusData.id, statusData: this.status },
             }"
+            tag="v-list-item-subtitle"
           >
             {{ moment(statusData.createdAt).fromNow() }}
           </router-link>
-        </span>
-        <ul class="list-inline">
-          <li class="list-inline-item d-lg-none me-1">
-            <router-link
-              :to="{
-                name: 'profile',
-                params: { username: statusData.username },
-              }"
-            >
-              <img
-                :alt="$i18n.get('_.settings.picture')"
-                :src="statusData.profilePicture"
-                class="profile-image"
-              />
-            </router-link>
-          </li>
-          <li
-            v-if="$store.state.authenticated"
-            class="list-inline-item like-text me-1"
-            tabindex="0"
-            v-on:click="likeStatus"
+        </v-list-item-content>
+
+        <v-row align="center" justify="end">
+          <v-icon
+            @click="likeStatus"
+            class="mr-1"
+            :color="statusData.liked ? 'red' : ''"
           >
-            <i
-              aria-hidden="true"
-              class="like fa-star small"
-              v-bind:class="{ fas: statusData.liked, far: !statusData.liked }"
-            ></i>
-            <span v-if="statusData.likes" class="pl-1">{{
-              statusData.likes
-            }}</span>
-          </li>
+            mdi-heart
+          </v-icon>
+          <span class="subheading mr-2">{{ statusData.likes }}</span>
+          <span class="mr-1">·</span>
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <!-- ToDo: Change to material Design Icons -->
+              <i
+                v-bind="attrs"
+                v-on="on"
+                :class="visibilityIcon.icon"
+                aria-hidden="true"
+                class="fas visibility-icon text-small mr-1"
+              ></i>
+            </template>
+            <span>{{ $i18n.get(visibilityIcon.desc) }}</span>
+          </v-tooltip>
+          <span class="mr-1">·</span>
           <v-menu offset-y rounded="lg">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -220,7 +75,7 @@
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>mdi-dots-horizontal</v-icon>
+                <v-icon class="mr-1"> mdi-dots-vertical </v-icon>
               </v-btn>
             </template>
             <v-list>
@@ -244,60 +99,10 @@
               </v-list-item>
             </v-list>
           </v-menu>
-        </ul>
-      </div>
-
-      <div
-        v-for="like in likes"
-        v-bind:key="like.id"
-        class="card-footer grey--text text--darken-1 clearfix"
-      >
-        <ul class="list-inline">
-          <li class="list-inline-item">
-            <router-link
-              :to="{ name: 'profile', params: { username: like.username } }"
-            >
-              <img
-                :alt="$i18n.get('_.settings.picture')"
-                :src="like.profilePicture"
-                class="profile-image"
-              />
-            </router-link>
-          </li>
-          <li class="list-inline-item like-text">
-            <router-link
-              :to="{ name: 'profile', params: { username: like.username } }"
-            >
-              {{ like.username }}
-            </router-link>
-            <span v-if="like.id === statusData.user">{{
-              $i18n.get("_.user.liked-own-status")
-            }}</span>
-            <span v-else>{{ $i18n.get("_.user.liked-status") }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <ModalConfirm
-      v-if="
-        $store.state.authenticated && statusData.user === $store.state.user.id
-      "
-      ref="deleteModal"
-      :abort-text="$i18n.get('_.menu.abort')"
-      :confirm-text="$i18n.get('_.modals.delete-confirm')"
-      :title-text="$i18n.get('_.modals.deleteStatus-title')"
-      confirm-button-color="btn-danger"
-      v-on:confirm="deleteStatus"
-    ></ModalConfirm>
-    <CheckInModal
-      v-if="
-        $store.state.authenticated && statusData.user === $store.state.user.id
-      "
-      ref="editModal"
-      :status-data="status"
-      v-on:updated="updateStatus"
-    ></CheckInModal>
-  </div>
+        </v-row>
+      </v-list-item>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -330,10 +135,15 @@ export default {
     };
   },
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     MuteButton,
+    // eslint-disable-next-line vue/no-unused-components
     FollowButton,
+    // eslint-disable-next-line vue/no-unused-components
     CheckInModal,
+    // eslint-disable-next-line vue/no-unused-components
     Map,
+    // eslint-disable-next-line vue/no-unused-components
     ModalConfirm,
   },
   props: {
@@ -420,6 +230,9 @@ export default {
         });
     },
     likeStatus() {
+      if (!this.$store.state.authenticated) {
+        return;
+      }
       if (this.statusData.liked === false) {
         Status.like(this.statusData.id)
           .then(() => {
