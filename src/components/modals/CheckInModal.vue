@@ -4,6 +4,7 @@
       v-model="dialog"
       :fullscreen="this.$vuetify.breakpoint.mobile"
       transition="dialog-bottom-transition"
+      max-width="450"
     >
       <v-card>
         <v-toolbar dark color="primary">
@@ -17,133 +18,82 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <form id="checkinForm" method="POST">
-            <div class="form-group">
-              <label class="col-form-label" for="message-text">
-                {{ $i18n.get("_.stationboard.label-message") }}
-              </label>
-              <textarea
-                id="message-text"
-                v-model="status.body"
-                class="form-control"
-              ></textarea>
-            </div>
-
-            <div class="mt-2">
-              <div
+          <form>
+            <v-textarea
+              class="mt-3"
+              solo
+              name="message-text"
+              v-model="status.body"
+              :label="$i18n.get('_.stationboard.label-message')"
+            />
+            <v-row>
+              <v-btn
+                class="me-1"
                 v-if="!edit && $store.state.user.twitterUrl != null"
-                class="btn-group"
+                :aria-label="$i18n.get('stationboard.check-tweet')"
+                :outlined="!status.tweet"
+                color="blue"
+                @click="status.tweet = !status.tweet"
               >
-                <input
-                  id="tweet_check"
-                  v-model="status.tweet"
-                  autocomplete="off"
-                  class="btn-check"
-                  type="checkbox"
-                />
-                <label
-                  class="btn btn-sm btn-outline-twitter"
-                  for="tweet_check"
-                >
-                  <i
-                    :title="$i18n.get('stationboard.check-tweet')"
-                    aria-hidden="true"
-                    class="fab fa-twitter"
-                  ></i>
-                  <span class="visually-hidden-focusable">{{
-                      $i18n.get("_.stationboard.check-tweet")
-                    }}</span>
-                </label>
-              </div>
-              <div
+                <v-icon>mdi-twitter</v-icon>
+              </v-btn>
+              <v-btn
                 v-if="!edit && $store.state.user.mastodonUrl != null"
-                class="btn-group"
+                :aria-label="$i18n.get('stationboard.check-toot')"
+                :outlined="!status.toot"
+                color="blue darken-2"
+                @click="status.toot = !status.toot"
               >
-                <input
-                  id="toot_check"
-                  v-model="status.toot"
-                  autocomplete="off"
-                  class="btn-check"
-                  type="checkbox"
-                />
-                <label
-                  class="btn btn-sm btn-outline-mastodon"
-                  for="toot_check"
-                >
-                  <i
-                    :title="$i18n.get('stationboard.check-toot')"
-                    aria-hidden="true"
-                    class="fab fa-mastodon"
-                  ></i>
-                  <span class="visually-hidden-focusable">{{
-                      $i18n.get("_.stationboard.check-toot")
-                    }}</span>
-                </label>
-              </div>
-
-              <div class="float-end">
-                <FADropdown
-                  v-model="status.business"
-                  :dropdown-content="travelReason"
-                  :pre-select="status.business"
-                ></FADropdown>
-                <!-- @todo Add features from PR#463 (Use default visibility) -->
-                <FADropdown
-                  v-model="status.visibility"
-                  :dropdown-content="visibility"
-                  :pre-select="status.visibility"
-                ></FADropdown>
-              </div>
-            </div>
-            <div
-              v-if="events && events.length > 0"
-              class="row w-100 mx-0 mb-0"
-            >
-              {{ $i18n.get("_.events.on-my-way-dropdown") }} <br />
-              <div
-                v-if="events.length === 1"
-                class="custom-control custom-checkbox mt-2"
+                <v-icon>mdi-mastodon</v-icon>
+              </v-btn>
+              <v-spacer />
+              <FADropdown
+                v-model="status.business"
+                btn-class="me-1"
+                :dropdown-content="travelReason"
+                :pre-select="status.business"
+              ></FADropdown>
+              <!-- @todo Add features from PR#463 (Use default visibility) -->
+              <FADropdown
+                v-model="status.visibility"
+                :dropdown-content="visibility"
+                :pre-select="status.visibility"
+              ></FADropdown>
+            </v-row>
+            <v-row v-if="events && events.length > 0">
+              <v-combobox
+                v-if="events.length > 1"
+                clearable
+                :filter="filter"
+                :items="events"
+                :label="$i18n.get('_.events.on-my-way-dropdown')"
               >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="event_check"
-                  v-model="eventCheck"
-                />
-                <label class="custom-control-label" for="event_check">
-                  {{ this.events[0].name }}
-                </label>
-              </div>
-              <div v-else class="form-group">
-                <select
-                  class="form-control"
-                  id="event-dropdown"
-                  name="event"
-                  v-model="selectedEvent"
-                >
-                  <option value="0" selected>
-                    {{ $i18n.get("_.events.no-event-dropdown") }}
-                  </option>
-                  <option
-                    v-for="event in events"
-                    :value="event.id"
-                    :key="event.name"
-                  >
-                    {{ event.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
+                <template v-slot:selection="{ attrs, item}">
+                  <span class="pr-2">
+                    {{ item.name }}
+                  </span>
+                </template>
+                <template v-slot:item="{ index, item }">
+                  {{ item.name }}
+                </template>
+              </v-combobox>
+              <template v-else>
+                {{ $i18n.get("_.events.on-my-way-dropdown") }} <br />
+                <v-checkbox v-model="eventCheck" :label="this.events[0].name">
+                </v-checkbox>
+              </template>
+            </v-row>
           </form>
         </v-card-text>
         <v-card-actions>
           <v-btn color="secondary" @click="hide">
             {{ $i18n.get("_.menu.abort") }}
           </v-btn>
+          <v-spacer />
           <v-btn v-if="edit" color="blue" @click="editCheckin">
             {{ $i18n.get("_.modals.edit-confirm") }}
           </v-btn>
-          <v-btn v-else color="blue" @click="submitCheckin">
+          <v-btn v-else color="blue white--text" @click="submitCheckin">
             {{ $i18n.get("_.stationboard.btn-checkin") }}
           </v-btn>
         </v-card-actions>
@@ -261,6 +211,17 @@ export default {
     },
     hide() {
       this.dialog = false;
+    },
+    filter (item, queryText, itemText) {
+
+      const hasValue = val => val != null ? val : ''
+
+      const text = hasValue(itemText)
+      const query = hasValue(queryText)
+
+      return text.toString()
+        .toLowerCase()
+        .indexOf(query.toString().toLowerCase()) > -1
     },
     forceCheckin() {
       this.status.force = true;
