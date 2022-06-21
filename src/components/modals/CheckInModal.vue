@@ -167,8 +167,8 @@
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.stationboard.btn-checkin')"
       :title-text="$i18n.get('_.generic.error')"
-      confirm-button-color="btn-primary"
-      header-class="bg-danger text-white"
+      confirm-button-color="blue"
+      header-class="red text--white"
       v-on:abort="$router.push({ name: 'dashboard' })"
       v-on:confirm="forceCheckin"
     >

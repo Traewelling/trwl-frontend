@@ -3,8 +3,8 @@
     ref="successModal"
     :title-text="$i18n.get('_.controller.transport.checkin-heading')"
     :confirm-text="$i18n.get('_.messages.cookie-notice-button')"
-    confirm-button-color="btn-success"
-    header-class="bg-success text-white"
+    confirm-button-color="green"
+    header-class="green text--white"
   >
     <div class="p-0 m-0">
       <p class="text-center">

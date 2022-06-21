@@ -121,7 +121,7 @@
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.modals.edit-confirm')"
       :title-text="$i18n.get('_.settings.create-ics-token')"
-      confirm-button-color="btn-primary"
+      confirm-button-color="blue"
       v-on:confirm="createIcsToken"
     >
       <div class="form-floating mb-3">
@@ -144,7 +144,7 @@
       :large="true"
       :title-text="$i18n.get('_.settings.ics.modal')"
       body-class="p-0"
-      confirm-button-color="btn-primary"
+      confirm-button-color="blue"
     >
       <Spinner v-if="icsLoading"></Spinner>
       <p
@@ -198,7 +198,7 @@
       :large="true"
       :title-text="$i18n.get('_.settings.title-sessions')"
       body-class="p-0"
-      confirm-button-color="btn-danger"
+      confirm-button-color="red"
       v-on:confirm="deleteSessions"
     >
       <Spinner v-if="sessionLoading"></Spinner>
@@ -244,7 +244,7 @@
       :large="true"
       :title-text="$i18n.get('_.settings.title-tokens')"
       body-class="p-0"
-      confirm-button-color="btn-danger"
+      confirm-button-color="red"
       v-on:confirm="revokeTokens"
     >
       <Spinner v-if="tokensLoading"></Spinner>

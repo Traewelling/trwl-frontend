@@ -1,65 +1,38 @@
 <template>
-  <div ref="deleteModal" class="modal fade" role="dialog" tabindex="-1">
-    <div
-      :class="{ 'modal-lg': large, 'modal-xl': extraLarge }"
-      class="modal-dialog modal-dialog-centered"
-    >
-      <div class="modal-content">
-        <div :class="headerClass" class="modal-header">
-          <h4 class="modal-title">{{ this.$props.titleText }}</h4>
-          <button
-            :aria-label="$i18n.get('_.menu.close')"
-            class="close"
-            type="button"
-            v-on:click="abort"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div
-          v-if="bodyText || slotPassed"
-          :class="bodyClass"
-          class="modal-body"
+  <v-dialog v-model="dialog" max-width="550">
+    <v-card>
+      <v-card-title :class="this.header">
+        {{ this.$props.titleText }}
+      </v-card-title>
+      <v-card-text v-if="bodyText || slotPassed">
+        <span v-html="this.$props.bodyText"></span>
+        <slot></slot>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          v-if="this.$props.abortText"
+          color="secondary"
+          text
+          @click="abort"
         >
-          <p v-if="bodyText" v-html="this.$props.bodyText"></p>
-          <slot></slot>
-        </div>
-        <div class="modal-footer">
-          <button
-            v-if="$props.abortText"
-            class="btn btn-light"
-            type="button"
-            v-on:click="abort"
-          >
-            {{ this.$props.abortText }}
-          </button>
-          <button
-            v-if="$props.confirmText"
-            :class="confirmButtonColor"
-            class="btn"
-            type="button"
-            v-on:click="confirm"
-          >
-            {{ this.$props.confirmText }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+          {{ this.$props.abortText }}
+        </v-btn>
+        <v-btn :color="confirmButtonColor" text @click="confirm">
+          {{ this.$props.confirmText }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
-import { Modal } from "bootstrap";
-
 export default {
   name: "ModalConfirm",
   data() {
     return {
-      modal: null,
+      dialog: false,
     };
-  },
-  mounted() {
-    this.modal = new Modal(this.$refs.deleteModal);
   },
   props: {
     titleText: null,
@@ -76,19 +49,25 @@ export default {
       default: false,
     },
     bodyClass: null,
-    headerClass: null,
+    headerClass: {
+      type: String,
+      default: "",
+    },
   },
   computed: {
     slotPassed() {
       return !!this.$slots.default;
     },
+    header() {
+      return "text-h5 " + this.$props.headerClass;
+    },
   },
   methods: {
     show() {
-      this.modal.show();
+      this.dialog = true;
     },
     hide() {
-      this.modal.hide();
+      this.dialog = false;
     },
     confirm() {
       this.$emit("confirm");
