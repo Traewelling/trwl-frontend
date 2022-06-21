@@ -1,174 +1,161 @@
 <template>
-  <div class="p-0 m-0">
-    <div ref="checkinModal" class="modal fade" role="dialog" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">
-              {{ this.lineName }}
-              <i aria-hidden="true" class="fas fa-arrow-alt-circle-right"></i>
-              {{ this.dest }}
-            </h4>
-            <button
-              aria-label="Close"
-              class="close"
-              type="button"
-              v-on:click="hide"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form id="checkinForm" method="POST">
-              <div class="form-group">
-                <label class="col-form-label" for="message-text">
-                  {{ $i18n.get("_.stationboard.label-message") }}
-                </label>
-                <textarea
-                  id="message-text"
-                  v-model="status.body"
-                  class="form-control"
-                ></textarea>
-              </div>
+  <div>
+    <v-dialog
+      v-model="dialog"
+      :fullscreen="this.$vuetify.breakpoint.mobile"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="hide">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>
+            {{ this.lineName }}
+            <v-icon>mdi-arrow-right-bold-circle</v-icon>
+            {{ this.dest }}
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <form id="checkinForm" method="POST">
+            <div class="form-group">
+              <label class="col-form-label" for="message-text">
+                {{ $i18n.get("_.stationboard.label-message") }}
+              </label>
+              <textarea
+                id="message-text"
+                v-model="status.body"
+                class="form-control"
+              ></textarea>
+            </div>
 
-              <div class="mt-2">
-                <div
-                  v-if="!edit && $store.state.user.twitterUrl != null"
-                  class="btn-group"
+            <div class="mt-2">
+              <div
+                v-if="!edit && $store.state.user.twitterUrl != null"
+                class="btn-group"
+              >
+                <input
+                  id="tweet_check"
+                  v-model="status.tweet"
+                  autocomplete="off"
+                  class="btn-check"
+                  type="checkbox"
+                />
+                <label
+                  class="btn btn-sm btn-outline-twitter"
+                  for="tweet_check"
                 >
-                  <input
-                    id="tweet_check"
-                    v-model="status.tweet"
-                    autocomplete="off"
-                    class="btn-check"
-                    type="checkbox"
-                  />
-                  <label
-                    class="btn btn-sm btn-outline-twitter"
-                    for="tweet_check"
-                  >
-                    <i
-                      :title="$i18n.get('stationboard.check-tweet')"
-                      aria-hidden="true"
-                      class="fab fa-twitter"
-                    ></i>
-                    <span class="visually-hidden-focusable">{{
+                  <i
+                    :title="$i18n.get('stationboard.check-tweet')"
+                    aria-hidden="true"
+                    class="fab fa-twitter"
+                  ></i>
+                  <span class="visually-hidden-focusable">{{
                       $i18n.get("_.stationboard.check-tweet")
                     }}</span>
-                  </label>
-                </div>
-                <div
-                  v-if="!edit && $store.state.user.mastodonUrl != null"
-                  class="btn-group"
-                >
-                  <input
-                    id="toot_check"
-                    v-model="status.toot"
-                    autocomplete="off"
-                    class="btn-check"
-                    type="checkbox"
-                  />
-                  <label
-                    class="btn btn-sm btn-outline-mastodon"
-                    for="toot_check"
-                  >
-                    <i
-                      :title="$i18n.get('stationboard.check-toot')"
-                      aria-hidden="true"
-                      class="fab fa-mastodon"
-                    ></i>
-                    <span class="visually-hidden-focusable">{{
-                      $i18n.get("_.stationboard.check-toot")
-                    }}</span>
-                  </label>
-                </div>
-
-                <div class="float-end">
-                  <FADropdown
-                    v-model="status.business"
-                    :dropdown-content="travelReason"
-                    :pre-select="status.business"
-                  ></FADropdown>
-                  <!-- @todo Add features from PR#463 (Use default visibility) -->
-                  <FADropdown
-                    v-model="status.visibility"
-                    :dropdown-content="visibility"
-                    :pre-select="status.visibility"
-                  ></FADropdown>
-                </div>
+                </label>
               </div>
               <div
-                v-if="events && events.length > 0"
-                class="row w-100 mx-0 mb-0"
+                v-if="!edit && $store.state.user.mastodonUrl != null"
+                class="btn-group"
               >
-                {{ $i18n.get("_.events.on-my-way-dropdown") }} <br />
-                <div
-                  v-if="events.length === 1"
-                  class="custom-control custom-checkbox mt-2"
+                <input
+                  id="toot_check"
+                  v-model="status.toot"
+                  autocomplete="off"
+                  class="btn-check"
+                  type="checkbox"
+                />
+                <label
+                  class="btn btn-sm btn-outline-mastodon"
+                  for="toot_check"
                 >
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    id="event_check"
-                    v-model="eventCheck"
-                  />
-                  <label class="custom-control-label" for="event_check">
-                    {{ this.events[0].name }}
-                  </label>
-                </div>
-                <div v-else class="form-group">
-                  <select
-                    class="form-control"
-                    id="event-dropdown"
-                    name="event"
-                    v-model="selectedEvent"
-                  >
-                    <option value="0" selected>
-                      {{ $i18n.get("_.events.no-event-dropdown") }}
-                    </option>
-                    <option
-                      v-for="event in events"
-                      :value="event.id"
-                      :key="event.name"
-                    >
-                      {{ event.name }}
-                    </option>
-                  </select>
-                </div>
+                  <i
+                    :title="$i18n.get('stationboard.check-toot')"
+                    aria-hidden="true"
+                    class="fab fa-mastodon"
+                  ></i>
+                  <span class="visually-hidden-focusable">{{
+                      $i18n.get("_.stationboard.check-toot")
+                    }}</span>
+                </label>
               </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button class="btn btn-light" type="button" v-on:click="hide">
-              {{ $i18n.get("_.menu.abort") }}
-            </button>
-            <button
-              v-if="edit"
-              class="btn btn-primary"
-              type="button"
-              v-on:click="editCheckin"
+
+              <div class="float-end">
+                <FADropdown
+                  v-model="status.business"
+                  :dropdown-content="travelReason"
+                  :pre-select="status.business"
+                ></FADropdown>
+                <!-- @todo Add features from PR#463 (Use default visibility) -->
+                <FADropdown
+                  v-model="status.visibility"
+                  :dropdown-content="visibility"
+                  :pre-select="status.visibility"
+                ></FADropdown>
+              </div>
+            </div>
+            <div
+              v-if="events && events.length > 0"
+              class="row w-100 mx-0 mb-0"
             >
-              {{ $i18n.get("_.modals.edit-confirm") }}
-            </button>
-            <button
-              v-else
-              class="btn btn-primary"
-              type="button"
-              v-on:click="submitCheckin"
-            >
-              {{ $i18n.get("_.stationboard.btn-checkin") }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+              {{ $i18n.get("_.events.on-my-way-dropdown") }} <br />
+              <div
+                v-if="events.length === 1"
+                class="custom-control custom-checkbox mt-2"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="event_check"
+                  v-model="eventCheck"
+                />
+                <label class="custom-control-label" for="event_check">
+                  {{ this.events[0].name }}
+                </label>
+              </div>
+              <div v-else class="form-group">
+                <select
+                  class="form-control"
+                  id="event-dropdown"
+                  name="event"
+                  v-model="selectedEvent"
+                >
+                  <option value="0" selected>
+                    {{ $i18n.get("_.events.no-event-dropdown") }}
+                  </option>
+                  <option
+                    v-for="event in events"
+                    :value="event.id"
+                    :key="event.name"
+                  >
+                    {{ event.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="secondary" @click="hide">
+            {{ $i18n.get("_.menu.abort") }}
+          </v-btn>
+          <v-btn v-if="edit" color="blue" @click="editCheckin">
+            {{ $i18n.get("_.modals.edit-confirm") }}
+          </v-btn>
+          <v-btn v-else color="blue" @click="submitCheckin">
+            {{ $i18n.get("_.stationboard.btn-checkin") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <ModalConfirm
       ref="conflict"
       :abort-text="$i18n.get('_.menu.abort')"
       :confirm-text="$i18n.get('_.stationboard.btn-checkin')"
       :title-text="$i18n.get('_.generic.error')"
       confirm-button-color="blue"
-      header-class="red text--white"
+      header-class="red white--text"
       v-on:abort="$router.push({ name: 'dashboard' })"
       v-on:confirm="forceCheckin"
     >
@@ -191,7 +178,6 @@
 </template>
 
 <script>
-import { Modal } from "bootstrap";
 import FADropdown from "@/components/buttons/FADropdown";
 import { travelReason, visibility } from "@/ApiClient/APImodels";
 import Checkin from "@/ApiClient/Checkin";
@@ -202,7 +188,7 @@ export default {
   components: { ModalConfirm, FADropdown },
   data() {
     return {
-      modal: null,
+      dialog: false,
       notifications: null,
       status: {
         body: "",
@@ -246,7 +232,6 @@ export default {
     },
   },
   mounted() {
-    this.modal = new Modal(this.$refs.checkinModal);
     if (this.edit) {
       this.status.body = this.$props.statusData.body;
       this.status.business = this.$props.statusData.business;
@@ -272,10 +257,10 @@ export default {
   },
   methods: {
     show() {
-      this.modal.show();
+      this.dialog = true;
     },
     hide() {
-      this.modal.hide();
+      this.dialog = false;
     },
     forceCheckin() {
       this.status.force = true;
