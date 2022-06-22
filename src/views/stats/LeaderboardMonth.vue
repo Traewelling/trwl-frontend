@@ -1,196 +1,128 @@
 <template>
   <LayoutBasicNoSidebar>
-    <div v-if="!loading">
-      <div class="row">
-        <div class="col-md-12">
-          <h4>
+    <div v-if="loading">
+      <Spinner class="mt-5" />
+    </div>
+    <template v-else>
+      <v-row>
+        <v-col>
+          <span class="text-h4">
             {{ $i18n.get("_.leaderboard.month") }}
             <strong>{{ month.format("MMMM YYYY") }}</strong>
-          </h4>
-          <hr />
-          <router-link
+          </span>
+          <v-divider />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn
+            color="primary"
             :to="{ name: 'leaderboard.month', params: { month: lastMonth } }"
-            class="btn btn-sm btn-primary float-left"
           >
-            <i aria-hidden="true" class="fas fa-arrow-left" />
+            <v-icon>mdi-chevron-left</v-icon>
             {{ moment(lastMonth).format("MMMM YYYY") }}
-          </router-link>
-
-          <router-link
+          </v-btn>
+        </v-col>
+        <v-spacer />
+        <v-col>
+          <v-btn
             v-if="moment(nextMonth).isBefore()"
             :to="{ name: 'leaderboard.month', params: { month: nextMonth } }"
-            class="btn btn-sm btn-primary float-end"
+            color="primary"
+            class="float-end"
           >
             {{ moment(nextMonth).format("MMMM YYYY") }}
-            <i aria-hidden="true" class="fas fa-arrow-right" />
-          </router-link>
-          <div class="clearfix"></div>
-          <hr />
-        </div>
-
-        <div v-if="users.length === 0" class="col-md-12">
-          <div class="card">
-            <div class="card-body text-center text-danger text-bold">
-              {{ $i18n.get("_.leaderboard.no_data") }}
-            </div>
-          </div>
-        </div>
-
-        <div
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="12">
+          <v-divider />
+        </v-col>
+      </v-row>
+      <v-row v-if="users.length === 0">
+        <v-card>
+          <v-card-text class="red--text">
+            {{ $i18n.get("_.leaderboard.no_data") }}
+          </v-card-text>
+        </v-card>
+      </v-row>
+      <v-row v-else>
+        <v-col
           v-for="(place, index) in users.slice(0, 3)"
-          class="col-md-4"
           :key="place"
+          md="4"
+          :cols="index === 0 ? 12 : 6"
         >
-          <div class="card mb-2">
-            <div class="card-header">
-              {{ $i18n.get("_.leaderboard.rank") }} {{ index + 1 }}
-            </div>
-            <div class="card-body text-center">
-              <div class="image-box pe-0 d-lg-flex">
+          <v-card>
+            <v-card-text>
+              <div class="text-overline mb-4">
+                {{ $i18n.get("_.leaderboard.rank") }} {{ index + 1 }}
+              </div>
+              <v-row class="justify-center">
+                <v-avatar size="128">
+                  <img :alt="place.username" :src="place.profilePicture" />
+                </v-avatar>
+              </v-row>
+              <v-row class="justify-center">
                 <router-link
                   :to="{
                     name: 'profile',
                     params: { username: place.username },
                   }"
+                  style="font-size: 1.3em"
                 >
-                  <img
-                    :alt="place.username"
-                    :src="place.profilePicture"
-                    style="width: 50%"
-                  />
+                  {{ place.username }}
                 </router-link>
-              </div>
-              <router-link
-                :to="{ name: 'profile', params: { username: place.username } }"
-                style="font-size: 1.3em"
-              >
-                {{ place.username }}
-              </router-link>
-              <table
-                class="table grey--text text--darken-1"
-                role="presentation"
-              >
-                <tbody>
-                  <tr>
-                    <td>
-                      <i aria-hidden="true" class="fas fa-dice-d20" />
-                      <span class="sr-only">{{
-                        $i18n.get("_.leaderboard.points")
-                      }}</span>
-                      {{ localizeThousands(place.points) }}
-                    </td>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <td v-bind="attrs" v-on="on">
-                          <i aria-hidden="true" class="fas fa-clock" />
-                          <span class="sr-only">{{
-                            $i18n.get("_.leaderboard.duration")
-                          }}</span>
-                          {{ hoursAndMinutes(place.trainDuration) }}
-                        </td>
-                      </template>
-                      <span>{{ fullTime(place.trainDuration) }}</span>
-                    </v-tooltip>
-
-                    <td>
-                      <i aria-hidden="true" class="fas fa-route" />
-                      <span class="sr-only">{{
-                        $i18n.get("_.leaderboard.distance")
-                      }}</span>
-                      {{ localizeDistance(place.trainDistance) }}km
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-      <div v-if="users.length > 3" class="row justify-content-center">
-        <div class="col-md-8 col-lg-7">
-          <div class="card">
-            <div class="card-body table-responsive p-0">
-              <table
-                :aria-label="$i18n.get('_.menu.leaderboard')"
-                class="table table-vertical-center"
-              >
-                <thead>
-                  <tr>
-                    <th scope="col">{{ $i18n.get("_.leaderboard.rank") }}</th>
-                    <th colspan="2" scope="col">
-                      {{ $i18n.get("_.leaderboard.user") }}
-                    </th>
-                    <th scope="col">
-                      {{ $i18n.get("_.leaderboard.duration") }}
-                    </th>
-                    <th scope="col">
-                      {{ $i18n.get("_.leaderboard.distance") }}
-                    </th>
-                    <th scope="col">{{ $i18n.get("_.leaderboard.points") }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="(place, index) in users.slice(3, 100)"
-                    :key="place.id"
+              </v-row>
+              <v-row class="justify-space-around">
+                <v-col class="text-center">
+                  <v-icon
+                    :aria-label="$i18n.get('_.leaderboard.points')"
+                    aria-hidden="false"
                   >
-                    <td>{{ index + 4 }}</td>
-                    <td>
-                      <div
-                        class="image-box pe-0 d-lg-flex"
-                        style="width: 4em; height: 4em"
+                    mdi-language-ruby
+                  </v-icon>
+                  {{ localizeThousands(place.points) }}
+                </v-col>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-col v-bind="attrs" v-on="on" class="text-center">
+                      <v-icon
+                        :aria-label="$i18n.get('_.leaderboard.duration')"
+                        aria-hidden="false"
                       >
-                        <router-link
-                          :to="{
-                            name: 'profile',
-                            params: { username: place.username },
-                          }"
-                        >
-                          <img
-                            :alt="place.username"
-                            :src="place.profilePicture"
-                            style="width: 50%"
-                          />
-                        </router-link>
-                      </div>
-                    </td>
-                    <td>
-                      <router-link
-                        :to="{
-                          name: 'profile',
-                          params: { username: place.username },
-                        }"
-                        style="font-size: 1.3em"
-                      >
-                        {{ place.username }}
-                      </router-link>
-                    </td>
-                    <v-tooltip top>
-                      <template v-slot:activator="{ on, attrs }">
-                        <td v-bind="attrs" v-on="on">
-                          {{ hoursAndMinutes(place.trainDuration) }}
-                        </td>
-                      </template>
-                      <span>{{ fullTime(place.trainDuration) }}</span>
-                    </v-tooltip>
-
-                    <td>{{ localizeDistance(place.trainDistance) }}km</td>
-                    <td>
-                      {{ localizeThousands(place.points) }}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr />
-    </div>
-    <div v-else>
-      <Spinner class="mt-5" />
-    </div>
+                        mdi-clock-time-five
+                      </v-icon>
+                      {{ hoursAndMinutes(place.trainDuration) }}
+                    </v-col>
+                  </template>
+                  <span>{{ fullTime(place.trainDuration) }}</span>
+                </v-tooltip>
+                <v-col class="text-center">
+                  <v-icon
+                    :aria-label="$i18n.get('_.leaderboard.distance')"
+                    aria-hidden="false"
+                  >
+                    mdi-map-marker-distance
+                  </v-icon>
+                  {{ localizeDistance(place.trainDistance) }}km
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-divider />
+      </v-row>
+      <v-row v-if="users.length > 3" class="justify-center mt-5">
+        <v-col md="6">
+          <v-card>
+            <LeaderboardTable :users="users.slice(3, 100)" avatars offset="4" />
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
   </LayoutBasicNoSidebar>
 </template>
 
@@ -204,6 +136,7 @@ import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
 import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
 import hoursAndMinutes from "@/helpers/timeHelpers/hoursAndMinutes";
 import fullTime from "@/helpers/timeHelpers/fullTime";
+import LeaderboardTable from "../../components/tables/LeaderboardTable";
 
 export default {
   name: "LeaderboardMonth",
@@ -250,6 +183,7 @@ export default {
     },
   },
   components: {
+    LeaderboardTable,
     LayoutBasicNoSidebar,
     Spinner,
   },

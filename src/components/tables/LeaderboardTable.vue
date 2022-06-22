@@ -15,11 +15,14 @@
       </thead>
       <tbody>
         <tr v-for="(row, index) in users" :key="row.id">
-          <td>{{ index + 1 }}</td>
+          <td>{{ index + parseInt(offset) }}</td>
           <td>
             <router-link
               :to="{ name: 'profile', params: { username: row.username } }"
             >
+              <v-avatar v-if="avatars" class="me-1 my-1">
+                <img :src="row.profilePicture" :alt="row.username" />
+              </v-avatar>
               {{ row.username }}
             </router-link>
           </td>
@@ -54,6 +57,14 @@ export default {
   props: {
     describedBy: null,
     users: null, //Idk, it doesn't want the model...
+    offset: {
+      type: Number,
+      default: 1,
+    },
+    avatars: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     localizeThousands,
