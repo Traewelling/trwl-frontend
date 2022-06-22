@@ -88,12 +88,52 @@
             </v-row>
           </v-timeline-item>
 
-          <v-timeline-item v-if="nextStop != null" color="grey" small>
-            {{ $i18n.get("_.stationboard.next-stop") }}
-            <strong>
-              {{ nextStop.name }}
-            </strong>
+          <v-timeline-item v-if="!showLinerun && stopovers" color="grey" small>
+            <v-btn small @click="showLinerun = true">
+              <template v-if="nextStop != null">
+                {{ $i18n.get("_.stationboard.next-stop") }}
+                <strong>{{ nextStop.name }}</strong>
+              </template>
+              <v-icon>mdi-chevron-down</v-icon>
+            </v-btn>
           </v-timeline-item>
+          <v-expand-transition v-if="stopovers">
+            <transition-group v-show="showLinerun">
+              <v-timeline-item
+                color="grey"
+                small
+                v-for="stop in this.stopovers[this.statusData.train.trip].slice(1, -1)"
+                :key="stop.id"
+              >
+                <v-row class="pt-1">
+                  <v-col cols="3">
+                    <span
+                      v-if="stop.isArrivalDelayed"
+                      style="text-decoration: line-through"
+                      class="me-1"
+                    >
+                      {{ moment(stop.arrivalPlanned).format("LT") }}
+                    </span>
+                    <strong>
+                      {{ moment(stop.arrival).format("LT") }}
+                    </strong>
+                  </v-col>
+                  <v-col>
+                    <strong>{{ stop.name }}</strong>
+                  </v-col>
+                </v-row>
+              </v-timeline-item>
+              <v-timeline-item
+                hide-dot
+                key="interactive-button"
+                v-show="showLinerun"
+              >
+                <v-btn small @click="showLinerun = false">
+                  <v-icon>mdi-chevron-up</v-icon>
+                </v-btn>
+              </v-timeline-item>
+            </transition-group>
+          </v-expand-transition>
 
           <v-timeline-item color="red darken-3" small>
             <v-row class="pt-1">
@@ -261,6 +301,7 @@ export default {
   name: "Status.vue",
   data() {
     return {
+      showLinerun: false,
       hoursAndMinutes,
       localizeDistance,
       isSingleStatus: false,
@@ -274,15 +315,10 @@ export default {
     };
   },
   components: {
-    // eslint-disable-next-line vue/no-unused-components
     MuteButton,
-    // eslint-disable-next-line vue/no-unused-components
     FollowButton,
-    // eslint-disable-next-line vue/no-unused-components
     CheckInModal,
-    // eslint-disable-next-line vue/no-unused-components
     Map,
-    // eslint-disable-next-line vue/no-unused-components
     ModalConfirm,
   },
   props: {

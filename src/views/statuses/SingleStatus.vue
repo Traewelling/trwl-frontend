@@ -21,7 +21,7 @@
           :show-date="true"
         ></Status>
 
-        <v-card v-if="likes">
+        <v-card v-if="likes.count">
           <v-list>
             <template v-for="like in likes">
               <v-list-item :key="like.id">
