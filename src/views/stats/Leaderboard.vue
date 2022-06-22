@@ -1,6 +1,6 @@
 <template>
   <LayoutBasic>
-    <div class="col-md-9 col-lg-9">
+    <v-col md="9" lg="9">
       <v-card>
         <v-toolbar flat dense>
           <v-toolbar-title>{{
@@ -38,7 +38,7 @@
           {{ $i18n.get("_.leaderboard.notice") }}
         </v-card-actions>
       </v-card>
-    </div>
+    </v-col>
   </LayoutBasic>
 </template>
 <script>
