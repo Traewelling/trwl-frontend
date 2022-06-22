@@ -87,7 +87,7 @@ export default {
       loading: true,
       statuses: [],
       futureStatuses: [StatusModel],
-      stopovers: [], //ToDo Typedef
+      stopovers: null, //ToDo Typedef
       moment: moment,
       links: null,
     };
@@ -160,6 +160,9 @@ export default {
       });
     },
     fetchStopovers(statuses) {
+      if (!this.stopovers) {
+        this.stopovers = {};
+      }
       let tripIds = "";
       statuses.forEach((status) => {
         if (!(status.train.trip in this.stopovers)) {
@@ -168,7 +171,9 @@ export default {
       });
       ApiStatus.fetchStopovers(tripIds)
         .then((data) => {
-          this.stopovers = this.stopovers.concat(data);
+          Object.keys(data).forEach((key) => {
+            this.stopovers[key] = data[key];
+          });
         })
         .catch((error) => {
           this.loading = false;

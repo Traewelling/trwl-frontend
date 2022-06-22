@@ -388,7 +388,7 @@ export default {
       return null;
     },
     visibilityIcon() {
-      return visibility[this.statusData.visibility];
+      return visibility[this.statusData.visibility] ?? visibility[0];
     },
   },
   methods: {
