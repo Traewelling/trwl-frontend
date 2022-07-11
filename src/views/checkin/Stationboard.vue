@@ -8,9 +8,10 @@
         :prev="times.prev"
         v-on:refresh="fetchData"
       ></StationForm>
-      <div v-if="this.$route.query.station" class="card mt-2">
-        <div class="card-header">
-          <div class="float-end">
+
+      <template v-if="this.$route.query.station">
+        <v-subheader>
+          <span class="pe-1">
             <a
               :aria-label="$i18n.get('_.modals.setHome-title')"
               href="#"
@@ -18,7 +19,7 @@
             >
               <i aria-hidden="true" class="fa fa-home"></i>
             </a>
-          </div>
+          </span>
           <span v-if="station" id="stationTableHeader">
             {{ station.name }}
             <small>
@@ -28,113 +29,111 @@
               }})
             </small>
           </span>
-        </div>
-
+        </v-subheader>
         <Spinner v-if="loading" class="mt-5" />
         <div
           v-else-if="!departures || Object.keys(departures).length === 0"
-          class="card-body text-center text-danger text-bold"
+          class="card-body text-center red--text text--darken-4 text-bold"
         >
           {{ $i18n.get("_.stationboard.no-departures") }}
         </div>
-        <div v-else class="card-body p-0 table-responsive">
-          <table
-            aria-labelledby="stationTableHeader"
-            class="table table-dark table-borderless table-hover table-striped m-0"
+        <template v-else v-for="(departure, index) in departures">
+          <v-subheader
+            :key="index"
+            v-if="
+              index > 0 &&
+              index < Object.keys(departures).length &&
+              moment(departures[index - 1].when).isBefore(requestTime) &&
+              moment(departure.when).isAfter(requestTime)
+            "
           >
-            <thead>
-              <tr>
-                <th class="ps-2 ps-md-4" scope="col">
-                  {{ $i18n.get("_.stationboard.dep-time") }}
-                </th>
-                <th class="px-0" scope="col">
-                  {{ $i18n.get("_.stationboard.line") }}
-                </th>
-                <th scope="col">
-                  {{ $i18n.get("_.stationboard.destination") }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="(departure, index) in departures">
-                <tr
-                  :key="index"
-                  v-if="
-                    index > 0 &&
-                    index < Object.keys(departures).length &&
-                    moment(departures[index - 1].when).isBefore(requestTime) &&
-                    moment(departure.when).isAfter(requestTime)
-                  "
-                  class="text-center table-primary py-0"
+            {{
+              $i18n.choice("_.request-time", 1, {
+                time: requestTime.format("LT"),
+              })
+            }}
+          </v-subheader>
+          <v-card
+            class="mx-auto mt-2"
+            :key="index"
+            v-else
+            v-on:click="goToTrip(departure)"
+          >
+            <v-card-text>
+              <v-row>
+                <v-col
+                  class="text-h5 col-4 col-md-3 col-lg-2 d-flex"
+                  :class="{
+                    'text-decoration-line-through red--text text--darken-4':
+                      departure.cancelled,
+                  }"
                 >
-                  <td class="py-0" colspan="3">
-                    <small>{{
-                      $i18n.choice("_.request-time", 1, {
-                        time: requestTime.format("LT"),
-                      })
-                    }}</small>
-                  </td>
-                </tr>
-                <tr v-else :key="index" v-on:click="goToTrip(departure)">
-                  <td class="ps-2 ps-md-4">
-                    <span v-if="departure.cancelled" class="text-danger">
-                      {{ $i18n.get("_.stationboard.stop-cancelled") }}
-                    </span>
-                    <span v-else>
-                      <span
-                        :class="{
-                          'text-success': departure.delay === 0,
-                          'text-warning':
-                            departure.delay && departure.delay < 600,
-                          'text-danger': departure.delay >= 600,
-                        }"
-                      >
-                        <span>{{ moment(departure.when).format("LT") }}</span>
+                  <v-row class="text-center" no-gutters>
+                    <v-col class="pa-0 align-self-center">
+                      <img
+                        v-if="images.includes(departure.line.product)"
+                        :alt="departure.line.product"
+                        :src="`/img/${departure.line.product}.svg`"
+                        class="product-icon"
+                      />
+                      <i v-else aria-hidden="true" class="fa fa-train"></i>
+                    </v-col>
+                    <v-col class="pa-0 align-self-center">
+                      <span v-if="departure.line.name" class="ps-1">
+                        {{ departure.line.name }}
                       </span>
-                      <small
-                        v-if="departure.delay"
-                        class="grey--text text--darken-1 text-decoration-line-through"
-                      >
-                        {{ moment(departure.plannedWhen).format("LT") }}
-                      </small>
-                    </span>
-                  </td>
-                  <td class="text-nowrap px-0">
-                    <img
-                      v-if="images.includes(departure.line.product)"
-                      :alt="departure.line.product"
-                      :src="`/img/${departure.line.product}.svg`"
-                      class="product-icon"
-                    />
-                    <i v-else aria-hidden="true" class="fa fa-train"></i>
-                    &nbsp;
-                    <span
-                      :class="{
-                        'text-decoration-line-through text-danger':
-                          departure.cancelled,
-                      }"
-                    >
-                      <span v-if="departure.line.name">{{
-                        departure.line.name
-                      }}</span>
-                      <span v-else>{{ departure.line.fahrtNr }}</span>
-                    </span>
-                  </td>
-                  <td
+                      <span v-else class="ps-1 align-self-center">
+                        {{ departure.line.fahrtNr }}
+                      </span>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-divider vertical />
+                <v-col class="text-subtitle-1">
+                  <span
                     :class="{
-                      'text-decoration-line-through text-danger':
+                      'text-decoration-line-through red--text text--darken-4':
                         departure.cancelled,
                     }"
-                    class="text-wrap"
+                    class="text-wrap text--primary text-h6"
                   >
                     {{ departure.direction }}
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
-      </div>
+                  </span>
+                  <br />
+                  <span
+                    v-if="departure.cancelled"
+                    class="red--text text--darken-4"
+                  >
+                    {{ $i18n.get("_.stationboard.stop-cancelled") }}
+                  </span>
+                  <span v-else>
+                    <span
+                      :class="{
+                        'text-success': departure.delay === 0,
+                        'text-warning':
+                          departure.delay && departure.delay < 600,
+                        'red--text text--darken-4': departure.delay >= 600,
+                      }"
+                    >
+                      <span>{{ moment(departure.when).format("LT") }}</span>
+                    </span>
+                    <small
+                      v-if="departure.delay"
+                      class="grey--text text--darken-1 text-decoration-line-through"
+                    >
+                      {{ moment(departure.plannedWhen).format("LT") }}
+                    </small>
+                    <span v-if="departure.platform">
+                      | {{ departure.platform
+                      }}<!-- ToDo: i18n -->
+                    </span>
+                  </span>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </template>
+      </template>
     </div>
     <ModalConfirm
       v-if="!loading && station !== null"
