@@ -1,14 +1,14 @@
 // eslint-disable-file
 <template>
   <div v-if="status">
-    <h3 v-if="showDate || isSingleStatus" class="mt-4">
+    <v-subheader v-if="showDate || isSingleStatus">
       {{ moment(statusData.train.origin.departure).format("dddd[,] LL") }}
-    </h3>
+    </v-subheader>
     <div v-if="polyline" class="card-img-top">
       <Map :poly-lines="polyline" class="map"></Map>
     </div>
     <v-card class="mb-2">
-      <v-card-text v-if="statusData.body" class="text-h5 font-weight-bold">
+      <v-card-text v-if="statusData.body" class="text-h6">
         <v-icon>mdi-format-quote-close</v-icon>
         {{ statusData.body }}
       </v-card-text>
@@ -16,7 +16,7 @@
         <v-timeline align-top dense class="ma-n5">
           <v-timeline-item color="red darken-3" small>
             <v-row class="pt-1">
-              <v-col cols="3">
+              <v-col class="col-2 col-lg-1 px-0">
                 <span
                   v-if="statusData.train.origin.isDepartureDelayed"
                   style="text-decoration: line-through"
@@ -32,7 +32,7 @@
                   {{ departure.format("LT") }}
                 </strong>
               </v-col>
-              <v-col>
+              <v-col class="ps-0 text--primary">
                 <strong>{{ statusData.train.origin.name }}</strong>
                 <div class="text-caption">
                   <span>
@@ -91,7 +91,9 @@
           <v-timeline-item v-if="!showLinerun && stopovers" color="grey" small>
             <v-btn small @click="showLinerun = true">
               <template v-if="nextStop != null">
-                {{ $i18n.get("_.stationboard.next-stop") }}
+                <span class="d-none d-md-inline">
+                  {{ $i18n.get("_.stationboard.next-stop") }}
+                </span>
                 <strong>{{ nextStop.name }}</strong>
               </template>
               <v-icon>mdi-chevron-down</v-icon>
@@ -106,7 +108,7 @@
                 :key="stop.id"
               >
                 <v-row class="pt-1">
-                  <v-col cols="3">
+                  <v-col class="col-2 col-lg-1 px-0">
                     <span
                       v-if="stop.isArrivalDelayed"
                       style="text-decoration: line-through"
@@ -118,7 +120,7 @@
                       {{ moment(stop.arrival).format("LT") }}
                     </strong>
                   </v-col>
-                  <v-col>
+                  <v-col class="ps-0 text--primary">
                     <strong>{{ stop.name }}</strong>
                   </v-col>
                 </v-row>
@@ -137,7 +139,7 @@
 
           <v-timeline-item color="red darken-3" small>
             <v-row class="pt-1">
-              <v-col cols="3">
+              <v-col class="col-2 col-lg-1 px-0">
                 <span
                   v-if="statusData.train.destination.isArrivalDelayed"
                   style="text-decoration: line-through"
@@ -153,7 +155,7 @@
                   {{ arrival.format("LT") }}
                 </strong>
               </v-col>
-              <v-col>
+              <v-col class="ps-0 text--primary">
                 <strong>{{ statusData.train.destination.name }}</strong>
               </v-col>
             </v-row>
