@@ -1,6 +1,13 @@
 <template>
   <v-toolbar color="#C72730" dense dark class="fixed-bar">
     <v-app-bar-nav-icon
+      v-if="this.$route.name === 'trains.trip'"
+      @click="$router.go(-1)"
+    >
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon
+      v-else
       class="navbar-toggler d-md-none"
       :aria-label="$i18n.get('_.Toggle navigation')"
       @click="$emit('offCanvas')"
