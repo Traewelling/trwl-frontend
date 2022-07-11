@@ -1,86 +1,78 @@
 <template>
   <LayoutBasicNoSidebar>
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-7">
-        <div
+    <v-row justify="center">
+      <v-col class="col-6">
+        <v-card
           v-if="userProfileSettings && userProfileSettings.email"
-          class="card mb-4"
+          elevation="7"
         >
-          <div class="card-header">{{ $i18n.get("_.support.create") }}</div>
-          <div class="card-body">
-            <form @submit.prevent="submitForm">
-              <div class="form-outline mb-4">
-                <input
-                  id="form-subject"
-                  v-model="form.subject"
-                  class="form-control"
-                  type="text"
-                />
-                <label class="form-label" for="form-subject">{{
-                  $i18n.get("_.subject")
-                }}</label>
-              </div>
-
-              <div class="form-outline mb-4">
-                <textarea
-                  id="form-message"
-                  v-model="form.message"
-                  class="form-control"
-                  rows="4"
-                ></textarea>
-                <label class="form-label" for="form-message">{{
-                  $i18n.get("_.how-can-we-help")
-                }}</label>
-              </div>
-
-              <LoadingButton
-                type="submit"
-                :disabled="formLoading"
-                class="btn btn-primary btn-block mb-4"
-              >
-                {{ $i18n.get("_.support.submit") }}
-              </LoadingButton>
-              <hr />
-              <small>
-                {{
-                  $i18n.choice("_.support.answer", 1, {
-                    address: userProfileSettings.email,
-                  })
-                }}
-              </small>
-            </form>
-          </div>
-        </div>
-
-        <div
-          class="alert alert-info"
+          <v-card-title>
+            {{ $i18n.get("_.support.create") }}
+          </v-card-title>
+          <v-card-text>
+            <v-text-field
+              v-model="form.subject"
+              :label="$i18n.get('_.subject')"
+            ></v-text-field>
+            <v-textarea
+              :label="$i18n.get('_.how-can-we-help')"
+              v-model="form.message"
+              rows="4"
+            ></v-textarea>
+            <v-btn
+              dark
+              block
+              type="submit"
+              color="blue"
+              :loading="formLoading"
+              class="mb-4"
+            >
+              {{ $i18n.get("_.support.submit") }}
+            </v-btn>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <small>
+              {{
+                $i18n.choice("_.support.answer", 1, {
+                  address: userProfileSettings.email,
+                })
+              }}
+            </small>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col class="col-6">
+        <v-alert
           v-if="userProfileSettings && userProfileSettings.email"
+          border="left"
+          type="info"
+          icon="mdi-shield-account"
         >
           <h5 class="fw-bold">
-            <i class="fas fa-user-shield"></i>
             {{ $i18n.get("_.support.privacy") }}
           </h5>
           {{ $i18n.get("_.support.privacy.description") }}
           {{ $i18n.get("_.support.privacy.description2") }}
-        </div>
+        </v-alert>
+
         <spinner v-else-if="loading"></spinner>
 
-        <div v-else>
-          <h4>{{ $i18n.get("support.create") }}</h4>
-          <hr />
-          <div class="alert alert-danger">
-            <p>{{ $i18n.get("support.email-required") }}</p>
-            <router-link
-              class="btn btn-sm btn-primary"
-              :to="{ name: 'settings' }"
-            >
-              <i class="fas fa-user-cog"></i>
-              {{ $i18n.get("go-to-settings") }}
-            </router-link>
-          </div>
-        </div>
-      </div>
-    </div>
+        <template v-else>
+          <h4>{{ $i18n.get("_.support.create") }}</h4>
+          <v-divider class="my-3" />
+          <v-alert border="left" type="error">
+            <p>{{ $i18n.get("_.support.email-required") }}</p>
+            <v-btn :to="{ name: 'settings' }">
+              <v-icon>mdi-cog</v-icon>
+              {{ $i18n.get("_.go-to-settings") }}
+            </v-btn>
+          </v-alert>
+        </template>
+      </v-col>
+    </v-row>
   </LayoutBasicNoSidebar>
 </template>
 
@@ -89,11 +81,10 @@ import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Spinner from "@/components/Spinner";
 import Support from "@/ApiClient/Support";
 import Settings from "@/ApiClient/Settings";
-import LoadingButton from "@/components/buttons/LoadingButton";
 
 export default {
   name: "Support",
-  components: { LoadingButton, Spinner, LayoutBasicNoSidebar },
+  components: { Spinner, LayoutBasicNoSidebar },
   metaInfo() {
     return {
       title: this.$i18n.get("_.support.create"),
