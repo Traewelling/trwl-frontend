@@ -1,7 +1,7 @@
 <template>
   <LayoutBasicNoSidebar>
     <v-row justify="center">
-      <v-col class="col-6">
+      <v-col class="col-md-7 col-lg-6">
         <v-card
           v-if="userProfileSettings && userProfileSettings.email"
           elevation="7"
@@ -13,10 +13,12 @@
             <v-text-field
               v-model="form.subject"
               :label="$i18n.get('_.subject')"
+              :rules="rules"
             ></v-text-field>
             <v-textarea
               :label="$i18n.get('_.how-can-we-help')"
               v-model="form.message"
+              :rules="rules"
               rows="4"
             ></v-textarea>
             <v-btn
@@ -26,6 +28,7 @@
               color="blue"
               :loading="formLoading"
               class="mb-4"
+              @click="submitForm"
             >
               {{ $i18n.get("_.support.submit") }}
             </v-btn>
@@ -44,7 +47,7 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col class="col-6">
+      <v-col class="col-md-7 col-lg-6">
         <v-alert
           v-if="userProfileSettings && userProfileSettings.email"
           border="left"
@@ -79,8 +82,8 @@
 <script>
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Spinner from "@/components/Spinner";
-import Support from "@/ApiClient/Support";
 import Settings from "@/ApiClient/Settings";
+import Support from "@/ApiClient/Support";
 
 export default {
   name: "Support",
@@ -89,6 +92,9 @@ export default {
     return {
       title: this.$i18n.get("_.support.create"),
       meta: [{ name: "robots", content: "index", vmid: "robots" }],
+      rules: {
+        required: (value) => !!value || "Required.",
+      },
     };
   },
   data() {
