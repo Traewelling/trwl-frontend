@@ -56,13 +56,12 @@
           <v-card
             class="mx-auto mt-2"
             :key="index"
-            v-else
             v-on:click="goToTrip(departure)"
           >
             <v-card-text>
               <v-row>
                 <v-col
-                  class="text-h5 col-4 col-md-3 col-lg-2 d-flex"
+                  class="text-subtitle-1 col-3 col-md-3 col-lg-2 d-flex"
                   :class="{
                     'text-decoration-line-through red--text text--darken-4':
                       departure.cancelled,
@@ -70,22 +69,32 @@
                 >
                   <v-row class="text-center" no-gutters>
                     <v-col class="pa-0 align-self-center">
-                      <img
-                        v-if="images.includes(departure.line.product)"
-                        :alt="departure.line.product"
-                        :src="`/img/${departure.line.product}.svg`"
-                        class="product-icon"
-                      />
-                      <i v-else aria-hidden="true" class="fa fa-train"></i>
-                    </v-col>
-                    <v-col class="pa-0 align-self-center">
-                      <span v-if="departure.line.name" class="ps-1">
-                        {{ departure.line.name }}
+                      <span
+                        v-if="departure.cancelled"
+                        class="red--text text--darken-4"
+                      >
+                        {{ $i18n.get("_.stationboard.stop-cancelled") }}
                       </span>
-                      <span v-else class="ps-1 align-self-center">
-                        {{ departure.line.fahrtNr }}
+                      <span v-else>
+                        <span
+                          :class="{
+                            'text-success': departure.delay === 0,
+                            'text-warning':
+                              departure.delay && departure.delay < 600,
+                            'red--text text--darken-4': departure.delay >= 600,
+                          }"
+                        >
+                          <span>{{ moment(departure.when).format("LT") }}</span>
+                        </span>
+                        <small
+                          v-if="departure.delay"
+                          class="grey--text text--darken-1 text-decoration-line-through"
+                        >
+                          {{ moment(departure.plannedWhen).format("LT") }}
+                        </small>
                       </span>
                     </v-col>
+                    <v-col class="pa-0 align-self-center"> </v-col>
                   </v-row>
                 </v-col>
                 <v-divider vertical />
@@ -95,34 +104,25 @@
                       'text-decoration-line-through red--text text--darken-4':
                         departure.cancelled,
                     }"
-                    class="text-wrap text--primary text-h6"
+                    class="text-wrap text--primary"
                   >
                     {{ departure.direction }}
                   </span>
                   <br />
-                  <span
-                    v-if="departure.cancelled"
-                    class="red--text text--darken-4"
-                  >
-                    {{ $i18n.get("_.stationboard.stop-cancelled") }}
-                  </span>
-                  <span v-else>
-                    <span
-                      :class="{
-                        'text-success': departure.delay === 0,
-                        'text-warning':
-                          departure.delay && departure.delay < 600,
-                        'red--text text--darken-4': departure.delay >= 600,
-                      }"
-                    >
-                      <span>{{ moment(departure.when).format("LT") }}</span>
+                  <span class="align-self-center text-subtitle-2">
+                    <img
+                      v-if="images.includes(departure.line.product)"
+                      :alt="departure.line.product"
+                      :src="`/img/${departure.line.product}.svg`"
+                      class="product-icon"
+                    />
+                    <i v-else aria-hidden="true" class="fa fa-train"></i>
+                    <span v-if="departure.line.name" class="ps-1">
+                      {{ departure.line.name }}
                     </span>
-                    <small
-                      v-if="departure.delay"
-                      class="grey--text text--darken-1 text-decoration-line-through"
-                    >
-                      {{ moment(departure.plannedWhen).format("LT") }}
-                    </small>
+                    <span v-else class="ps-1">
+                      {{ departure.line.fahrtNr }}
+                    </span>
                     <span v-if="departure.platform">
                       | {{ departure.platform
                       }}<!-- ToDo: i18n -->
