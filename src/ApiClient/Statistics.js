@@ -10,7 +10,7 @@ export default class Statistics {
   }
 
   static fetchPersonalData(from, until) {
-    return getBody("/statistics", { parmams: { from, until } });
+    return getBody("/statistics", { params: { from, until } });
   }
 
   static fetchGlobalData() {

@@ -3,14 +3,14 @@
     <div class="d-sm-flex mb-2">
       <h3 class="mb-0 mr-auto text-gray-800">{{ $i18n.get("_.stats") }}</h3>
       <div class="w-100"></div>
-      <div class="btn-group me-2 mb-1">
-        <button
+      <div class="me-2 mb-1">
+        <v-btn
           class="btn btn-primary text-nowrap"
           @click="generateExport('pdf')"
         >
-          <i class="fa fa-save" aria-hidden="true"></i>
+          <v-icon>mdi-content-save</v-icon>
           {{ $i18n.get("_.export.submit") }}
-        </button>
+        </v-btn>
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="px-3" color="primary" v-bind="attrs" v-on="on">
@@ -31,72 +31,42 @@
           </v-list>
         </v-menu>
       </div>
-      <div id="daterange" class="dropdown">
-        <button
-          id="dateRangeDropdown"
-          aria-expanded="false"
-          class="btn btn-primary dropdown-toggle"
-          data-mdb-toggle="dropdown"
-          type="button"
-        >
-          <i aria-hidden="true" class="fas fa-calendar"></i>&nbsp;
-          {{ $i18n.get("_.stats.range") }} ({{ this.dateRange }})
-        </button>
-        <ul aria-labelledby="dateRangeDropdown" class="dropdown-menu">
-          <li>
-            <a
-              class="dropdown-item"
-              href="#"
-              @click.prevent="fetchRecentDays(7)"
-            >
-              {{ $i18n.choice("_.stats.range.days", 1, { days: 7 }) }}
-            </a>
-          </li>
-          <li>
-            <a
-              class="dropdown-item"
-              href="#"
-              @click.prevent="fetchRecentDays(14)"
-            >
-              {{ $i18n.choice("_.stats.range.days", 1, { days: 14 }) }}
-            </a>
-          </li>
-          <li>
-            <a
-              class="dropdown-item"
-              href="#"
-              @click.prevent="fetchRecentDays(30)"
-            >
-              {{ $i18n.choice("_.stats.range.days", 1, { days: 30 }) }}
-            </a>
-          </li>
-          <li>
-            <a
-              class="dropdown-item"
-              href="#"
-              @click.prevent="fetchRecentDays(60)"
-            >
-              {{ $i18n.choice("_.stats.range.days", 1, { days: 60 }) }}
-            </a>
-          </li>
-          <li class="dropdown-divider"></li>
-          <li>
-            <a class="dropdown-item" href="#" @click.prevent="picker.show()">
-              {{ $i18n.choice("_.stats.range.picker") }}
-            </a>
-          </li>
-        </ul>
-      </div>
+      <v-menu offset-y :close-on-content-click="false">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on">
+            <v-icon>mdi-calendar</v-icon>&nbsp;
+            {{ $i18n.get("_.stats.range") }} ({{ dateRange }})
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="fetchRecentDays(7)">
+            {{ $i18n.choice("_.stats.range.days", 1, { days: 7 }) }}
+          </v-list-item>
+          <v-list-item @click="fetchRecentDays(14)">
+            {{ $i18n.choice("_.stats.range.days", 1, { days: 14 }) }}
+          </v-list-item>
+          <v-list-item @click="fetchRecentDays(30)">
+            {{ $i18n.choice("_.stats.range.days", 1, { days: 30 }) }}
+          </v-list-item>
+          <v-list-item @click="fetchRecentDays(60)">
+            {{ $i18n.choice("_.stats.range.days", 1, { days: 60 }) }}
+          </v-list-item>
+          <v-divider class="my-2" />
+          <v-list-item @click="picker.show()">
+            {{ $i18n.choice("_.stats.range.picker") }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
 
-    <div class="row">
-      <div class="col-lg-8">
-        <hr />
-        <div class="row">
-          <div class="col-md-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h5>{{ $i18n.get("_.stats.purpose") }}</h5>
+    <v-row>
+      <v-col class="col-lg-8">
+        <v-divider class="my-2" />
+        <v-row>
+          <v-col class="col-md-6 mb-4">
+            <v-card>
+              <v-card-title>{{ $i18n.get("_.stats.purpose") }}</v-card-title>
+              <v-card-text>
                 <p
                   v-if="travelPurpose.length <= 0"
                   class="text-danger font-weight-bold mt-2"
@@ -110,13 +80,13 @@
                   type="pie"
                   width="100%"
                 ></apexchart>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h5>{{ $i18n.get("_.stats.categories") }}</h5>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="col-md-6 mb-4">
+            <v-card>
+              <v-card-title>{{ $i18n.get("_.stats.categories") }}</v-card-title>
+              <v-card-text>
                 <p
                   v-if="travelCategories.length <= 0"
                   class="text-danger font-weight-bold mt-2"
@@ -130,13 +100,13 @@
                   type="pie"
                   width="100%"
                 ></apexchart>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h5>{{ $i18n.get("_.stats.companies") }}</h5>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-col class="col-md-6 mb-4">
+            <v-card>
+              <v-card-title>{{ $i18n.get("_.stats.companies") }}</v-card-title>
+              <v-card-text class="card-body">
                 <p
                   v-if="trainProviders.length <= 0"
                   class="text-danger font-weight-bold mt-2"
@@ -150,14 +120,14 @@
                   type="pie"
                   width="100%"
                 ></apexchart>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div class="col-12 mb-4">
-            <div class="card">
-              <div class="card-body">
-                <h5>{{ $i18n.get("_.stats.volume") }}</h5>
+              </v-card-text>
+            </v-card>
+          </v-col>
+          <v-divider class="my-2" />
+          <v-col class="col-12 mb-4">
+            <v-card>
+              <v-card-title>{{ $i18n.get("_.stats.volume") }}</v-card-title>
+              <v-card-text>
                 <p
                   v-if="travelTime.length <= 0"
                   class="text-danger font-weight-bold mt-2"
@@ -171,68 +141,68 @@
                   type="line"
                   width="100%"
                 ></apexchart>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <hr />
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-4 text-center">
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col class="col-lg-4">
+        <v-divider class="my-2" />
+        <v-card class="mb-4">
+          <v-card-text>
+            <v-row>
+              <v-col class="col-4 text-center">
                 <i aria-hidden="true" class="fas fa-ruler fa-4x mt-1"></i>
-              </div>
-              <div class="col-8 text-center">
-                <span class="font-weight-bold color-main fs-2">
+              </v-col>
+              <v-col class="col-8 text-center">
+                <span class="font-weight-bold text--primary text-h4">
                   {{ this.localizeDistance(this.globalData.distance) }} km
                 </span>
                 <br />
-                <small class="grey--text text--darken-1">{{
-                  $i18n.get("_.stats.global.distance")
-                }}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-4 text-center">
+                <small class="grey--text text--darken-1">
+                  {{ $i18n.get("_.stats.global.distance") }}
+                </small>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+        <v-card class="mb-4">
+          <v-card-text>
+            <v-row>
+              <v-col class="col-4 text-center">
                 <i aria-hidden="true" class="fas fa-clock fa-4x mt-1"></i>
-              </div>
-              <div class="col-8 text-center">
-                <span class="font-weight-bold color-main fs-2">
+              </v-col>
+              <v-col class="col-8 text-center">
+                <span class="font-weight-bold text--primary text-h4">
                   {{ fullTime(globalData.duration, true) }}
                 </span>
                 <br />
                 <small class="grey--text text--darken-1">{{
                   $i18n.get("_.stats.global.duration")
                 }}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card mb-4">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-4 text-center">
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+        <v-card class="mb-4">
+          <v-card-text>
+            <v-row>
+              <v-col class="col-4 text-center">
                 <i aria-hidden="true" class="fas fa-users fa-4x mt-1"></i>
-              </div>
-              <div class="col-8 text-center">
-                <span class="font-weight-bold color-main fs-2">
+              </v-col>
+              <v-col class="col-8 text-center">
+                <span class="font-weight-bold text--primary text-h4">
                   {{ globalData.activeUsers }} x
                 </span>
                 <br />
                 <small class="grey--text text--darken-1">{{
                   $i18n.get("_.stats.global.active")
                 }}</small>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+        <v-divider class="my-2" />
         <small class="grey--text text--darken-1">
           *{{
             $i18n.choice("_.stats.global.explain", 1, {
@@ -241,9 +211,9 @@
             })
           }}
         </small>
-        <hr />
-      </div>
-    </div>
+        <v-divider />
+      </v-col>
+    </v-row>
   </LayoutBasicNoSidebar>
 </template>
 
