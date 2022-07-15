@@ -1,82 +1,66 @@
 <template>
-  <form class="card-body" method="post" @submit.prevent="authenticate">
-    <h2 class="card-title">{{ $i18n.get("_.user.login") }}</h2>
-    <div class="d-flex flex-row align-items-center justify-content-center">
-      <button
-        aria-label="Twitter"
-        class="btn btn-primary btn-floating mx-1"
-        type="button"
-      >
-        <!--ToDo i18n?-->
-        <i aria-hidden="true" class="fab fa-twitter"></i>
-      </button>
-      <button
-        aria-label="Apple"
-        class="btn btn-primary btn-floating mx-1"
-        type="button"
-      >
-        <!--ToDo i18n?-->
-        <i aria-hidden="true" class="fab fa-apple"></i>
-      </button>
-      <button
-        aria-label="Mastodon"
-        class="btn btn-primary btn-floating mx-1"
-        type="button"
-      >
-        <!--ToDo i18n?-->
-        <i aria-hidden="true" class="fab fa-mastodon"></i>
-      </button>
-    </div>
-    <div class="divider d-flex align-items-center mb-4 mt-2">
-      <p class="text-center fw-bold mx-3 mb-0">Or</p>
-      <!--ToDo i18n-->
-    </div>
-    <div class="form-outline mb-4">
-      <input
-        id="login"
-        v-model="login"
-        autocapitalize="none"
-        autocomplete="username"
-        autofocus="autofocus"
-        class="form-control text-dark"
-        required
-        type="text"
-      />
-      <label class="form-label text-dark" for="login">
-        {{ $i18n.get("_.user.login-credentials") }}
-      </label>
-    </div>
-    <div class="form-outline mb-4">
-      <input
-        id="password"
-        v-model="password"
-        class="form-control text-dark"
-        required
-        type="password"
-      />
-      <label class="form-label text-dark" for="password">
-        {{ $i18n.get("_.user.password") }}
-      </label>
-    </div>
-    <div class="d-flex align-items-center justify-content-between">
-      <LoadingButton
-        class="btn btn-white"
-        type="submit"
-        :disabled="loginLoading"
-      >
-        {{ $i18n.get("_.user.login") }}
-      </LoadingButton>
-      <a class="text-dark" href="#">{{
-        $i18n.get("_.user.forgot-password")
-      }}</a>
-    </div>
-  </form>
+  <v-card>
+    <v-card-title>
+      {{ $i18n.get("_.user.login") }}
+    </v-card-title>
+    <v-card-text>
+      <v-row>
+        <v-col class="d-flex justify-center">
+          <v-btn color="blue" dark>
+            <v-icon>mdi-twitter</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex justify-center">
+          <v-btn color="black" dark>
+            <v-icon>mdi-apple</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex justify-center">
+          <v-btn color="blue darken-2" dark>
+            <v-icon>mdi-mastodon</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-divider />
+        </v-col>
+        <v-col class="text-center col-1">Or</v-col>
+        <!--ToDo i18n-->
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+      <v-form @submit.prevent="authenticate">
+        <v-text-field
+          :label="$i18n.get('_.user.login-credentials')"
+          v-model="login"
+          autocapitalize="none"
+          autocomplete="username"
+          autofocus="autofocus"
+          required
+        />
+        <v-text-field
+          type="password"
+          required
+          v-model="password"
+          :label="$i18n.get('_.user.password')"
+        />
+        <v-btn type="submit" block :loading="loginLoading">
+          {{ $i18n.get("_.user.login") }}
+        </v-btn>
+      </v-form>
+      <div class="text-center mt-2">
+        <a class="text-dark" href="#">
+          {{ $i18n.get("_.user.forgot-password") }}
+        </a>
+      </div>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
-import LoadingButton from "@/components/buttons/LoadingButton";
 export default {
   name: "Login",
-  components: { LoadingButton },
   data() {
     return {
       login: null,
