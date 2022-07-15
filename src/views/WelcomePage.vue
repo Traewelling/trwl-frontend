@@ -6,31 +6,26 @@
         <source src="/img/vid2.mp4" type="video/mp4" />
       </video>
     </div>
-    <div
-      class="d-flex w-100 h-100 mx-auto flex-column position-absolute text-white"
-    >
-      <main class="d-flex mx-auto mt-auto p-4 p-md-0 p-sm-0">
-        <div class="container">
-          <div class="row justify-content-between align-items-center">
-            <div class="col-md-6 mb-3">
-              <div class="mb-3 align-items-center">
-                <img alt="logo" class="logo" src="/img/icons/logo.svg" />
-                <span class="h1">#Träwelling</span>
-              </div>
-              <p>{{ $i18n.get("_.about.block1") }}</p>
-              <router-link :to="{ name: 'about' }" class="btn btn-white"
-                >{{ $i18n.get("_.menu.about") }}
-              </router-link>
-            </div>
-            <div class="col-md-4 card text-dark">
-              <Login></Login>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <FooterComponent class="w-100" :dashboard="true"></FooterComponent>
-    </div>
+    <v-row style="position: absolute" class="mx-lg-16 mt-md-16 mx-3 mt-5">
+      <v-col class="white--text col-lg-5 d-md-block">
+        <img alt="logo" class="logo" src="/img/icons/logo.svg" />
+        <span class="text-h3">#Träwelling</span>
+        <p>{{ $i18n.get("_.about.block1") }}</p>
+        <v-btn :to="{ name: 'about' }" color="white">
+          {{ $i18n.get("_.menu.about") }}
+        </v-btn>
+      </v-col>
+      <v-col class="offset-lg-3 offset-0 col-12 col-md-4">
+        <Login />
+      </v-col>
+    </v-row>
+    <v-row>
+      <FooterComponent
+        style="width: 100%; bottom: 10%; position: fixed"
+        class="white--text"
+        :dashboard="true"
+      />
+    </v-row>
   </div>
 </template>
 

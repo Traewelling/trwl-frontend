@@ -4,7 +4,7 @@
       <ChangeLanguageButton :dashboard="dashboard" class="float-end" />
       <nav class="grey--text text--darken-1 mb-0">
         <router-link
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           :to="{ name: 'about' }"
           class="footer-link"
         >
@@ -12,35 +12,35 @@
         </router-link>
         <router-link
           v-if="$store.state.authenticated"
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           :to="{ name: 'dashboard.global' }"
           class="footer-link"
         >
           {{ $i18n.get("_.menu.globaldashboard") }}
         </router-link>
         <router-link
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           class="footer-link"
           :to="{ name: 'events' }"
         >
           {{ $i18n.get("_.events") }}
         </router-link>
         <router-link
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           class="footer-link"
           :to="{ name: 'privacy' }"
         >
           {{ $i18n.get("_.menu.privacy") }}
         </router-link>
         <router-link
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           class="footer-link"
           :to="{ name: 'legal' }"
         >
           {{ $i18n.get("_.menu.legal-notice") }}
         </router-link>
         <a
-          :class="{ 'text-white': dashboard }"
+          :class="{ 'white--text': dashboard }"
           class="footer-link"
           href="https://blog.traewelling.de"
           target="blog"
