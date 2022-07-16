@@ -73,94 +73,108 @@
         </div>
       </div>
       <div class="col-md-4 col-lg-4">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="fs-4">
-              <em class="far fa-calendar-plus"></em>
-              {{ $i18n.get("_.events.request") }}
-            </h2>
-            <hr />
-            <form
+        <v-card>
+          <v-card-title class="text--primary">
+            <v-icon>mdi-calendar-plus</v-icon>
+            &nbsp;
+            {{ $i18n.get("_.events.request") }}
+          </v-card-title>
+          <v-card-text class="card-body">
+            <v-form
+              ref="form"
+              v-model="form.valid"
               v-if="$store.state.authenticated"
               @submit.prevent="submitProposal"
             >
               <div class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="event-requester-name"
+                <v-text-field
+                  :label="$i18n.get('_.events.name')"
+                  :rules="form.nameRules"
                   v-model="suggest.name"
-                  class="form-control"
                   required
                 />
-                <label class="form-label" for="event-requester-name">{{
-                  $i18n.get("_.events.name")
-                }}</label>
               </div>
               <div class="form-outline mb-4">
-                <input
-                  type="text"
-                  id="event-requester-host"
+                <v-text-field
+                  :rules="form.organiserRules"
+                  :label="$i18n.get('_.events.host')"
                   v-model="suggest.host"
-                  class="form-control"
                 />
-                <label class="form-label" for="event-requester-host">{{
-                  $i18n.get("_.events.host")
-                }}</label>
               </div>
               <div class="row">
                 <div class="col-md-6">
-                  <div class="form-outline mb-4">
-                    <input
-                      type="date"
-                      id="event-requester-begin"
+                  <v-menu
+                    v-model="menu.begin"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="suggest.begin"
+                        :label="$i18n.get('_.events.begin')"
+                        prepend-icon="mdi-calendar"
+                        :rules="form.beginRules"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
                       v-model="suggest.begin"
-                      class="form-control"
-                      required
-                    />
-                    <label class="form-label" for="event-requester-begin">
-                      {{ $i18n.get("_.events.begin") }}
-                    </label>
-                  </div>
+                      @input="menu.begin = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </div>
                 <div class="col-md-6">
-                  <div class="form-outline mb-4">
-                    <input
-                      type="date"
-                      id="event-requester-end"
+                  <v-menu
+                    v-model="menu.end"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="auto"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="suggest.end"
+                        :rules="form.endRules"
+                        :label="$i18n.get('_.events.end')"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
                       v-model="suggest.end"
-                      class="form-control"
-                      required
-                    />
-                    <label class="form-label" for="event-requester-end">
-                      {{ $i18n.get("_.events.end") }}
-                    </label>
-                  </div>
+                      @input="menu.end = false"
+                    ></v-date-picker>
+                  </v-menu>
                 </div>
               </div>
               <div class="form-outline mb-4">
-                <input
-                  type="string"
-                  id="event-requester-url"
+                <v-text-field
                   v-model="suggest.url"
-                  class="form-control"
+                  :rules="form.websiteRules"
+                  :label="$i18n.get('_.events.url')"
                 />
-                <label class="form-label" for="event-requester-url">{{
-                  $i18n.get("_.events.url")
-                }}</label>
               </div>
-              <LoadingButton class="btn btn-primary" :disabled="suggestLoading">
+              <v-btn type="submit" block :loading="suggestLoading">
                 {{ $i18n.get("_.events.request-button") }}
-              </LoadingButton>
-              <hr />
+              </v-btn>
+              <v-divider class="my-2" />
               <small class="grey--text text--darken-1">{{
                 $i18n.get("_.events.notice")
               }}</small>
-            </form>
+            </v-form>
             <p v-else class="text-trwl bold">
               {{ $i18n.get("_.auth.required") }}
             </p>
-          </div>
-        </div>
+          </v-card-text>
+        </v-card>
       </div>
     </div>
   </LayoutBasicNoSidebar>
@@ -170,11 +184,10 @@
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Event from "@/ApiClient/Event";
 import Spinner from "@/components/Spinner";
-import LoadingButton from "@/components/buttons/LoadingButton";
 
 export default {
   name: "Events",
-  components: { LoadingButton, Spinner, LayoutBasicNoSidebar },
+  components: { Spinner, LayoutBasicNoSidebar },
   metaInfo() {
     return {
       title: this.$i18n.get("_.events.live"),
@@ -188,6 +201,18 @@ export default {
       links: null,
       suggestLoading: false,
       suggest: {},
+      menu: {
+        begin: false,
+        end: false,
+      },
+      form: {
+        valid: false,
+        nameRules: [(v) => !!v || "Required"],
+        beginRules: [(v) => !!v || "Required"],
+        endRules: [(v) => !!v || "Required"],
+        organiserRules: [(v) => !!v || "Required"],
+        websiteRules: [(v) => !!v || "Required"],
+      }
     };
   },
   created() {
@@ -210,6 +235,10 @@ export default {
       });
     },
     submitProposal() {
+      this.$refs.form.validate();
+      if (!this.form.valid) {
+        return;
+      }
       this.suggestLoading = true;
       const formData = {};
       Object.assign(formData, this.suggest);
