@@ -1,63 +1,35 @@
 <template>
   <LayoutBasicNoSidebar>
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-8 mb-2">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="fs-4" id="heading-live-upcoming">
-              <em class="far fa-calendar-alt"></em>
-              {{ $i18n.get("_.events.live-and-upcoming") }}
-            </h2>
-            <hr />
+    <v-row class="justify-content-center">
+      <v-col class="col-md-8 col-lg-8 mb-2">
+        <v-card>
+          <v-card-title>
+            <v-icon>mdi-calendar-month</v-icon>
+            &nbsp;
+            {{ $i18n.get("_.events.live-and-upcoming") }}
+          </v-card-title>
+          <v-card-text>
             <p v-if="upcomingEvents.length === 0 && !loading" class="text-trwl">
               {{ $i18n.get("_.events.no-upcoming") }}
               {{ $i18n.get("_.events.request-question") }}
             </p>
             <div v-else-if="!loading" class="table-responsive">
-              <table class="table" aria-describedby="heading-live-upcoming">
-                <tbody>
-                  <tr v-for="event in upcomingEvents" :key="event.id">
-                    <td>
-                      {{ event.name }}
-                      <small
-                        v-if="event.station"
-                        class="grey--text text--darken-1"
-                      >
-                        <br />
-                        {{ $i18n.get("_.events.closestStation") }}:
-                        <router-link
-                          :to="{
-                            name: 'trains.stationboard',
-                            query: { station: event.station.name },
-                          }"
-                        >
-                          {{ event.station.name }}
-                        </router-link>
-                      </small>
-                    </td>
-                    <td
-                      v-if="
-                        moment(event.begin).isSame(moment(event.end), 'day')
-                      "
-                    >
-                      {{ moment(event.begin).format("LL") }}
-                    </td>
-                    <td v-else>
-                      {{ moment(event.begin).format("LL") }}
-                      - {{ moment(event.end).format("LL") }}
-                    </td>
-                    <td>
-                      <router-link
-                        :to="{ name: 'event', params: { slug: event.slug } }"
-                        class="btn btn-primary btn-sm"
-                      >
-                        {{ $i18n.get("_.menu.show-more") }}
-                        <em class="fas fa-angle-double-right"></em>
-                      </router-link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <v-sheet tile height="54" class="d-flex">
+                <v-btn icon class="ma-2" @click="$refs.calendar.prev()">
+                  <v-icon>mdi-chevron-left</v-icon>
+                </v-btn>
+                <v-spacer />
+                <v-btn icon class="ma-2" @click="$refs.calendar.next()">
+                  <v-icon>mdi-chevron-right</v-icon>
+                </v-btn>
+              </v-sheet>
+              <v-calendar
+                ref="calendar"
+                :weekdays="calendar.weekday"
+                :events="calendar.events"
+                v-model="calendar.value"
+                @click:event="goToEvent"
+              ></v-calendar>
             </div>
             <spinner v-if="loading"></spinner>
             <div v-if="links && links.next" class="text-center">
@@ -69,10 +41,10 @@
                 <i aria-hidden="true" class="fas fa-caret-down"></i>
               </button>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 col-lg-4">
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col class="col-md-4 col-lg-4">
         <v-card>
           <v-card-title class="text--primary">
             <v-icon>mdi-calendar-plus</v-icon>
@@ -175,8 +147,8 @@
             </p>
           </v-card-text>
         </v-card>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </LayoutBasicNoSidebar>
 </template>
 
@@ -184,6 +156,7 @@
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Event from "@/ApiClient/Event";
 import Spinner from "@/components/Spinner";
+import moment from "moment";
 
 export default {
   name: "Events",
@@ -212,7 +185,12 @@ export default {
         endRules: [(v) => !!v || "Required"],
         organiserRules: [(v) => !!v || "Required"],
         websiteRules: [(v) => !!v || "Required"],
-      }
+      },
+      calendar: {
+        weekday: [1, 2, 3, 4, 5, 6, 0],
+        value: "",
+        events: [],
+      },
     };
   },
   created() {
@@ -223,6 +201,7 @@ export default {
       this.loading = true;
       this.fetchMoreData(this.links.next).then((data) => {
         this.upcomingEvents = this.upcomingEvents.concat(data.data);
+        this.updateCalendar(this.upcomingEvents);
         this.links = data.links;
         this.loading = false;
       });
@@ -230,6 +209,7 @@ export default {
     fetchData() {
       Event.upcoming().then((data) => {
         this.upcomingEvents = data.data;
+        this.updateCalendar(data.data);
         this.links = data.links;
         this.loading = false;
       });
@@ -252,6 +232,17 @@ export default {
           this.suggestLoading = false;
           console.error(error);
         });
+    },
+    updateCalendar(data) {
+      this.calendar.events = data.map((obj) => {
+        obj["start"] = moment(obj["begin"]).format("YYYY-MM-DD");
+        obj["end"] = moment(obj["end"]).format("YYYY-MM-DD");
+        return obj;
+      });
+    },
+    goToEvent(event) {
+      console.log(event.event);
+      this.$router.push({ name: "event", params: { slug: event.event.slug } });
     },
   },
 };
