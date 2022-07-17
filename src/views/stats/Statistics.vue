@@ -1,8 +1,8 @@
 <template>
   <LayoutBasicNoSidebar>
     <div class="d-sm-flex mb-2">
-      <h3 class="mb-0 mr-auto text-gray-800">{{ $i18n.get("_.stats") }}</h3>
-      <div class="w-100"></div>
+      <span class="mb-0 mr-auto text-h3">{{ $i18n.get("_.stats") }}</span>
+      <v-spacer />
       <div class="me-2 mb-1">
         <v-btn
           class="btn btn-primary text-nowrap"
@@ -60,10 +60,10 @@
     </div>
 
     <v-row>
-      <v-col class="col-lg-8">
+      <v-col class="col-md-8 col-12">
         <v-divider class="my-2" />
         <v-row>
-          <v-col class="col-md-6 mb-4">
+          <v-col class="col-12 col-sm-6 mb-4">
             <v-card>
               <v-card-title>{{ $i18n.get("_.stats.purpose") }}</v-card-title>
               <v-card-text>
@@ -83,7 +83,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col class="col-md-6 mb-4">
+          <v-col class="col-12 col-sm-6 mb-4">
             <v-card>
               <v-card-title>{{ $i18n.get("_.stats.categories") }}</v-card-title>
               <v-card-text>
@@ -103,7 +103,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col class="col-md-6 mb-4">
+          <v-col class="col-12 col-sm-6 mb-4">
             <v-card>
               <v-card-title>{{ $i18n.get("_.stats.companies") }}</v-card-title>
               <v-card-text class="card-body">
@@ -123,8 +123,10 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-divider class="my-2" />
+        </v-row>
+        <v-row>
           <v-col class="col-12 mb-4">
+            <v-divider class="my-2" />
             <v-card>
               <v-card-title>{{ $i18n.get("_.stats.volume") }}</v-card-title>
               <v-card-text>
