@@ -1,7 +1,7 @@
 <template>
   <LayoutBasicNoSidebar>
     <v-row class="justify-content-center">
-      <v-col class="col-md-8 col-lg-8 mb-2">
+      <v-col class="col-12 col-md-8 col-lg-8 mb-2">
         <v-card>
           <v-card-title>
             <v-icon>mdi-calendar-month</v-icon>
