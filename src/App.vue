@@ -1,6 +1,8 @@
 <template>
   <v-app>
-    <router-view data-app></router-view>
+    <v-container fluid class="m-0 pa-0">
+      <router-view data-app></router-view>
+    </v-container>
   </v-app>
 </template>
 
@@ -65,10 +67,6 @@ $body-bg: #f8fafc;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
-body {
-  background: rgb(248, 250, 252);
-  overflow-x: hidden;
-}
 
 tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, 0.05);

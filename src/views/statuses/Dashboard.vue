@@ -1,62 +1,60 @@
 <template>
   <LayoutBasic>
-    <div class="col-sm-12 col-md-7">
-      <StationForm class="d-none d-md-block" />
-      <Spinner v-if="loading" class="mt-5" />
-      <div
-        v-if="futureStatuses.length > 0 && !loading"
-        id="accordionFutureCheckIns"
-        class="accordion accordion-flush mt-5 mb-0"
-      >
-        <div class="accordion-item">
-          <h1 id="flush-headingOne" class="accordion-header">
-            <button
-              aria-controls="future-check-ins"
-              aria-expanded="false"
-              class="accordion-button collapsed px-0"
-              data-mdb-target="#future-check-ins"
-              data-mdb-toggle="collapse"
-              type="button"
-            >
-              {{ $i18n.get("_.dashboard.future") }}
-            </button>
-          </h1>
-          <div
-            id="future-check-ins"
-            aria-labelledby="flush-headingOne"
-            class="accordion-collapse collapse"
-            data-mdb-parent="#accordionFutureCheckIns"
+    <StationForm class="d-none d-md-block" />
+    <Spinner v-if="loading" class="mt-5" />
+    <div
+      v-if="futureStatuses.length > 0 && !loading"
+      id="accordionFutureCheckIns"
+      class="accordion accordion-flush mt-5 mb-0"
+    >
+      <div class="accordion-item">
+        <h1 id="flush-headingOne" class="accordion-header">
+          <button
+            aria-controls="future-check-ins"
+            aria-expanded="false"
+            class="accordion-button collapsed px-0"
+            data-mdb-target="#future-check-ins"
+            data-mdb-toggle="collapse"
+            type="button"
           >
-            <div class="accordion-body p-0">
-              <Status
-                v-for="status in futureStatuses"
-                v-bind:key="status.id"
-                :show-date="showDate(status, statuses)"
-                :status="status"
-                v-bind:stopovers="stopovers"
-              />
-            </div>
+            {{ $i18n.get("_.dashboard.future") }}
+          </button>
+        </h1>
+        <div
+          id="future-check-ins"
+          aria-labelledby="flush-headingOne"
+          class="accordion-collapse collapse"
+          data-mdb-parent="#accordionFutureCheckIns"
+        >
+          <div class="accordion-body p-0">
+            <Status
+              v-for="status in futureStatuses"
+              v-bind:key="status.id"
+              :show-date="showDate(status, statuses)"
+              :status="status"
+              v-bind:stopovers="stopovers"
+            />
           </div>
         </div>
       </div>
-      <div v-if="statuses">
-        <Status
-          v-for="status in statuses"
-          v-bind:key="status.id"
-          :show-date="showDate(status, statuses)"
-          :status="status"
-          v-bind:stopovers="stopovers"
-        />
+    </div>
+    <div v-if="statuses">
+      <Status
+        v-for="status in statuses"
+        v-bind:key="status.id"
+        :show-date="showDate(status, statuses)"
+        :status="status"
+        v-bind:stopovers="stopovers"
+      />
 
-        <div v-if="links && links.next" class="text-center">
-          <button
-            aria-label="$i18n.get('_.menu.show-more')"
-            class="btn btn-primary btn-lg btn-floating mt-4"
-            @click.prevent="fetchMore"
-          >
-            <i aria-hidden="true" class="fas fa-caret-down"></i>
-          </button>
-        </div>
+      <div v-if="links && links.next" class="text-center">
+        <button
+          aria-label="$i18n.get('_.menu.show-more')"
+          class="btn btn-primary btn-lg btn-floating mt-4"
+          @click.prevent="fetchMore"
+        >
+          <i aria-hidden="true" class="fas fa-caret-down"></i>
+        </button>
       </div>
     </div>
     <CheckinSuccessModal

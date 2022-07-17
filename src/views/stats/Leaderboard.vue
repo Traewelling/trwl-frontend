@@ -1,44 +1,40 @@
 <template>
   <LayoutBasic>
-    <v-col md="9" lg="9">
-      <v-card>
-        <v-toolbar flat dense>
-          <v-toolbar-title>{{
-            $i18n.get("_.menu.leaderboard")
-          }}</v-toolbar-title>
-          <v-spacer />
-          <v-btn
-            text
-            color="primary"
-            :to="{ name: 'leaderboard.month', params: { month: month } }"
-          >
-            {{ $i18n.get("_.leaderboard.month.title") }}
-          </v-btn>
-        </v-toolbar>
-        <v-divider class="my-0" />
-        <v-card-text class="p-0">
-          <v-tabs v-model="tab" background-color="transparent" grow>
-            <template v-for="item in tabs">
-              <v-tab :key="item" v-if="item.show">
-                {{ item.title }}
-              </v-tab>
-            </template>
-          </v-tabs>
+    <v-card>
+      <v-toolbar flat dense>
+        <v-toolbar-title>{{ $i18n.get("_.menu.leaderboard") }}</v-toolbar-title>
+        <v-spacer />
+        <v-btn
+          text
+          color="primary"
+          :to="{ name: 'leaderboard.month', params: { month: month } }"
+        >
+          {{ $i18n.get("_.leaderboard.month.title") }}
+        </v-btn>
+      </v-toolbar>
+      <v-divider class="my-0" />
+      <v-card-text class="p-0">
+        <v-tabs v-model="tab" background-color="transparent" grow>
+          <template v-for="item in tabs">
+            <v-tab :key="item" v-if="item.show">
+              {{ item.title }}
+            </v-tab>
+          </template>
+        </v-tabs>
 
-          <v-tabs-items v-model="tab">
-            <v-tab-item v-for="item in tabs" :key="item">
-              <LeaderboardTable v-if="!item.loading" :users="item.data" />
-              <Spinner v-else />
-            </v-tab-item>
-          </v-tabs-items>
-        </v-card-text>
-        <v-divider class="my-0" />
-        <v-card-actions>
-          <v-icon>mdi-help-circle-outline</v-icon>
-          {{ $i18n.get("_.leaderboard.notice") }}
-        </v-card-actions>
-      </v-card>
-    </v-col>
+        <v-tabs-items v-model="tab">
+          <v-tab-item v-for="item in tabs" :key="item">
+            <LeaderboardTable v-if="!item.loading" :users="item.data" />
+            <Spinner v-else />
+          </v-tab-item>
+        </v-tabs-items>
+      </v-card-text>
+      <v-divider class="my-0" />
+      <v-card-actions>
+        <v-icon>mdi-help-circle-outline</v-icon>
+        {{ $i18n.get("_.leaderboard.notice") }}
+      </v-card-actions>
+    </v-card>
   </LayoutBasic>
 </template>
 <script>
