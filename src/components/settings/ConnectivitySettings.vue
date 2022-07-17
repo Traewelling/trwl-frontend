@@ -143,7 +143,7 @@
       :confirm-text="$i18n.get('_.menu.close')"
       :large="true"
       :title-text="$i18n.get('_.settings.ics.modal')"
-      body-class="p-0"
+      body-class="pa-0"
       confirm-button-color="blue"
     >
       <Spinner v-if="icsLoading"></Spinner>
@@ -153,7 +153,7 @@
       >
         {{ $i18n.get("_.settings.no-ics-tokens") }}
       </p>
-      <div v-else class="table-responsive p-0">
+      <div v-else class="table-responsive pa-0">
         <table :aria-label="$i18n.get('_.settings.title-ics')" class="table">
           <thead>
             <tr>
@@ -197,7 +197,7 @@
       :confirm-text="$i18n.get('_.settings.deleteallsessions')"
       :large="true"
       :title-text="$i18n.get('_.settings.title-sessions')"
-      body-class="p-0"
+      body-class="pa-0"
       confirm-button-color="red"
       v-on:confirm="deleteSessions"
     >
@@ -205,7 +205,7 @@
       <p v-else-if="sessions.length === 0" class="text-danger text-center pt-3">
         {{ $i18n.get("_.settings.no-tokens") }}
       </p>
-      <div v-else class="table-responsive p-0">
+      <div v-else class="table-responsive pa-0">
         <table
           :aria-label="$i18n.get('_.settings.title-sessions')"
           class="table"
@@ -243,7 +243,7 @@
       :confirm-text="$i18n.get('_.settings.delete-all-tokens')"
       :large="true"
       :title-text="$i18n.get('_.settings.title-tokens')"
-      body-class="p-0"
+      body-class="pa-0"
       confirm-button-color="red"
       v-on:confirm="revokeTokens"
     >
@@ -251,7 +251,7 @@
       <p v-else-if="tokens.length === 0" class="text-danger text-center pt-3">
         {{ $i18n.get("_.settings.no-tokens") }}
       </p>
-      <div v-else class="table-responsive p-0">
+      <div v-else class="table-responsive pa-0">
         <table
           :aria-label="$i18n.get('_.settings.title-sessions')"
           class="table"

@@ -26,7 +26,7 @@
           class="accordion-collapse collapse"
           data-mdb-parent="#accordionFutureCheckIns"
         >
-          <div class="accordion-body p-0">
+          <div class="accordion-body pa-0">
             <Status
               v-for="status in futureStatuses"
               v-bind:key="status.id"

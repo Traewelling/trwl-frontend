@@ -8,7 +8,7 @@
             {{ $i18n.get("_.menu.settings") }}
           </router-link>
         </div>
-        <div class="card-body p-0">
+        <div class="card-body pa-0">
           <ul id="myTab" class="nav nav-tabs nav-fill" role="tablist">
             <li class="nav-item">
               <a

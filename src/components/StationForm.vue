@@ -51,7 +51,7 @@
             v-text="$i18n.get('_.stationboard.last-stations')"
           />
           <template v-for="(station, index) in history">
-            <v-divider class="m-0" :key="index" />
+            <v-divider class="ma-0" :key="index" />
             <v-list-item
               :key="station.ibnr"
               active-class="custom-active-class"

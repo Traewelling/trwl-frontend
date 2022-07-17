@@ -6,7 +6,7 @@
     confirm-button-color="green"
     header-class="green white--text"
   >
-    <div class="p-0 m-0">
+    <div class="pa-0 ma-0">
       <p class="text-center">
         {{
           $i18n.choice(

@@ -13,8 +13,8 @@
         </v-btn>
       </v-toolbar>
       <v-divider class="my-0" />
-      <v-card-text class="p-0">
-        <v-tabs v-model="tab" background-color="transparent" grow>
+      <v-card-text class="pa-0">
+        <v-tabs v-model="tab" background-color="transparent">
           <template v-for="item in tabs">
             <v-tab :key="item" v-if="item.show">
               {{ item.title }}

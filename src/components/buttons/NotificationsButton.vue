@@ -35,7 +35,7 @@
             </v-icon>
           </v-btn>
         </v-toolbar>
-        <v-card-text class="p-0 overflow-x-hidden">
+        <v-card-text class="pa-0 overflow-x-hidden">
           <Spinner v-if="loading" class="overflow-x-hidden" />
           <v-list three-line v-if="!loading">
             <v-list-item-group
