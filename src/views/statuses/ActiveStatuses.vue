@@ -1,16 +1,14 @@
 <template>
   <LayoutBasicNoSidebar>
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card sticky-top">
-          <Map
-            :poly-lines="polylines"
-          ></Map>
-        </div>
-      </div>
-      <div class="col-md-8 col-lg-6">
+    <v-row class="justify-content-center">
+      <v-col class="col-12 col-md-8 col-lg-6">
+        <v-card style="position: sticky; top: 76px">
+          <Map :poly-lines="polylines" />
+        </v-card>
+      </v-col>
+      <v-col class="col-md-8 col-lg-6">
+        <span class="mt-4 text-h4 mb-4">{{ $i18n.get("_.menu.active") }}</span>
         <Spinner v-if="loading" class="mt-5" />
-
         <div v-if="error" class="error">
           <p>{{ error }}</p>
 
@@ -20,8 +18,7 @@
             </button>
           </p>
         </div>
-        <div v-if="statuses">
-          <h4 class="mt-4">{{ $i18n.get("_.menu.active") }}</h4>
+        <div v-if="statuses" class="mt-3">
           <Status
             v-for="status in statuses"
             v-bind:key="status.id"
@@ -29,8 +26,8 @@
             v-bind:stopovers="stopovers"
           ></Status>
         </div>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </LayoutBasicNoSidebar>
 </template>
 
