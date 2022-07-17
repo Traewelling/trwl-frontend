@@ -8,18 +8,16 @@
         height="20%"
         width="20%"
       />
-      <div class="text-white px-4">
-        <h2 class="card-title font-bold">
-          <strong
-            >{{ user.displayName }}
-            <i
-              v-if="user.privateProfile"
-              aria-hidden="true"
-              class="fas fa-user-lock"
-            />
-          </strong>
+      <div class="white--text px-4">
+        <span class="text-h4 font-weight-bold">
+          <span>
+            {{ user.displayName }}
+            <v-icon color="white" class="text-h4" v-if="user.privateProfile"
+              >mdi-account-lock</v-icon
+            >
+          </span>
           <br />
-          <small class="font-weight-light">@{{ user.username }}</small>
+          <span class="font-weight-light text-h5">@{{ user.username }}</span>
           <FollowButton
             :user="user"
             v-on:updateUser="updateUser"
@@ -29,17 +27,18 @@
             :user="user"
             v-on:updateUser="updateUser"
           ></MuteButton>
-        </h2>
-        <h2>
+        </span>
+        <br />
+        <span class="text-h5">
           <span class="font-weight-bold">
-            <i aria-hidden="true" class="fa fa-route d-inline" />&nbsp;
+            <v-icon color="white">mdi-map-marker-distance</v-icon>&nbsp;
             {{ localizeDistance(user.trainDistance) }}
           </span>
           <span class="small font-weight-lighter">km</span>
           <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" class="font-weight-bold ps-sm-2">
-                <i aria-hidden="true" class="fa fa-stopwatch d-inline" />&nbsp;
+                <v-icon color="white">mdi-clock-time-five</v-icon>&nbsp;
                 {{ fullTime(user.trainDuration, true) }}
               </span>
             </template>
@@ -47,43 +46,32 @@
           </v-tooltip>
 
           <span class="font-weight-bold ps-sm-2">
-            <i aria-hidden="true" class="fa fa-dice-d20 d-inline" />&nbsp;{{
-              localizeThousands(user.points)
-            }}
+            <v-icon color="white">mdi-language-ruby</v-icon>&nbsp;
+            {{ localizeThousands(user.points) }}
           </span>
-          <span class="small font-weight-lighter">{{
-            $i18n.get("_.profile.points-abbr")
-          }}</span>
+          <span class="small font-weight-lighter">
+            {{ $i18n.get("_.profile.points-abbr") }}
+          </span>
           <span v-if="user.twitterUrl" class="font-weight-bold ps-sm-2">
-            <a
-              :href="user.twitterUrl"
-              class="text-white"
-              rel="me"
-              target="_blank"
-            >
-              <i aria-hidden="true" class="fab fa-twitter d-inline" />
+            <a :href="user.twitterUrl" rel="me" target="_blank">
+              <v-icon color="white">mdi-twitter</v-icon>
             </a>
           </span>
           <span v-if="user.mastodonUrl" class="font-weight-bold ps-sm-2">
-            <a
-              :href="user.mastodonUrl"
-              class="text-white"
-              rel="me"
-              target="_blank"
-            >
-              <i aria-hidden="true" class="fab fa-mastodon d-inline" />
+            <a :href="user.mastodonUrl" rel="me" target="_blank">
+              <v-icon color="white">mdi-mastodon</v-icon>
             </a>
           </span>
-        </h2>
+        </span>
       </div>
     </template>
     <Spinner v-if="loading || statusesLoading" class="mt-5" />
 
-    <div
+    <v-row
       v-if="!statusesLoading && !loading"
-      class="row justify-content-center mt-5"
+      class="justify-content-center mt-5"
     >
-      <div v-if="user.muted" class="col-md-8 col-lg-7 text-center mb-5">
+      <v-col v-if="user.muted" class="col-md-8 col-lg-7 text-center mb-5">
         <header>
           <h3>{{ $i18n.get("_.user.muted.heading") }}</h3>
         </header>
@@ -97,8 +85,8 @@
           bigButton="true"
           v-on:updateUser="updateUser"
         ></MuteButton>
-      </div>
-      <div
+      </v-col>
+      <v-col
         v-else-if="user.userInvisibleToMe"
         class="col-md-8 col-lg-7 text-center mb-5"
       >
@@ -113,13 +101,13 @@
             })
           }}
         </h5>
-      </div>
-      <div v-else-if="statuses.length > 0" class="col-md-8 col-lg-7">
+      </v-col>
+      <v-col v-else-if="statuses.length > 0" class="col-md-8 col-lg-7">
         <header>
-          <h3>
+          <span class="text-h3">
             {{ $i18n.get("_.profile.last-journeys-of") }}
             {{ user.displayName }}:
-          </h3>
+          </span>
         </header>
 
         <div v-if="statuses">
@@ -141,14 +129,13 @@
             </button>
           </div>
         </div>
-      </div>
-      <div v-else class="col-md-8 col-lg-7">
-        <h3 class="text-danger">
-          strtr({{ $i18n.get("_.profile.no-statuses") }}, [':username' =>
-          $user->name])
-        </h3>
-      </div>
-    </div>
+      </v-col>
+      <v-col v-else class="col-md-8 col-lg-7">
+        <span class="text-h3 red--text text--darken-3">
+          {{ $i18n.choice("_.profile.no-statuses", 1, { username: username }) }}
+        </span>
+      </v-col>
+    </v-row>
   </HeroLayout>
 </template>
 

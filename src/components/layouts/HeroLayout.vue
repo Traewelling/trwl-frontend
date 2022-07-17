@@ -2,15 +2,8 @@
   <div>
     <NavbarComponent v-on:offCanvas="drawer = !drawer" />
     <main class="py-4">
-      <div
-        class="px-4 py-5 mt-n4"
-        style="
-          background-image: url('/images/covers/profile-background.png');
-          background-position: center;
-          background-color: #c5232c;
-        "
-      >
-        <div class="container">
+      <div class="px-4 py-5 mt-n4 hero-header">
+        <div class="container white--text">
           <slot name="hero"></slot>
         </div>
       </div>
@@ -46,4 +39,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.hero-header {
+  background-image: url("/img/covers/profile-background.png");
+  background-position: center;
+  background-color: #c5232c;
+  background-size: cover;
+}
+</style>

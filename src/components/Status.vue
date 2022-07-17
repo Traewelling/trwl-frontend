@@ -42,20 +42,16 @@
                       :src="`/img/${statusData.train.category}.svg`"
                       class="product-icon"
                     />
-                    <i
-                      v-else
-                      aria-hidden="true"
-                      class="fa fa-train d-inline"
-                    ></i>
+                    <v-icon v-else size="1rem">mdi-train-variant</v-icon>
                     {{ statusData.train.lineName }}
                   </span>
                   <span class="ps-2">
-                    <i aria-hidden="true" class="fa fa-route d-inline"></i>
-                    &nbsp;{{ localizeDistance(statusData.train.distance)
-                    }}<small>km</small>
+                    <v-icon size="1rem">mdi-map-marker-distance</v-icon>
+                    &nbsp;{{ localizeDistance(statusData.train.distance) }}
+                    <small>km</small>
                   </span>
                   <span class="ps-2">
-                    <i aria-hidden="true" class="fa fa-stopwatch d-inline"></i>
+                    <v-icon size="1rem">mdi-clock-time-five</v-icon>
                     &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
                   </span>
                   <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
