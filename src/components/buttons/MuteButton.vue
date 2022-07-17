@@ -1,26 +1,36 @@
 <template>
-  <a
-    v-if="userData.muted"
-    :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
-    :data-mdb-toggle="!showText ? 'tooltip' : false"
-    :title="$i18n.get('_.user.unmute-tooltip')"
-    href="#"
-    @click.prevent="unmute"
-  >
-    <i aria-hidden="true" class="far fa-eye"></i>
-    <span v-if="showText">{{ $i18n.get("_.user.unmute-tooltip") }}</span>
-  </a>
-  <a
-    v-else-if="showButton"
-    :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
-    :data-mdb-toggle="!showText ? 'tooltip' : false"
-    :title="$i18n.get('_.user.mute-tooltip')"
-    href="#"
-    @click.prevent="mute"
-  >
-    <i aria-hidden="true" class="far fa-eye-slash"></i>
-    <span v-if="showText">{{ $i18n.get("_.user.mute-tooltip") }}</span>
-  </a>
+  <v-tooltip top v-if="userData.muted" :disabled="showText">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        color="blue"
+        :text="dropdown"
+        dark
+        v-bind="attrs"
+        v-on="on"
+        @click.prevent="unmute"
+      >
+        <v-icon>mdi-eye</v-icon>
+        <span v-if="showText" class="text-wrap">{{ $i18n.get("_.user.unmute-tooltip") }}</span>
+      </v-btn>
+    </template>
+    <span>{{ $i18n.get("_.user.unmute-tooltip") }}</span>
+  </v-tooltip>
+  <v-tooltip v-else top :disabled="showText">
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        :text="dropdown"
+        color="blue"
+        dark
+        v-bind="attrs"
+        v-on="on"
+        @click.prevent="mute"
+      >
+        <v-icon>mdi-eye-off</v-icon>
+        <span v-if="showText" class="text-caption">{{ $i18n.get("_.user.mute-tooltip") }}</span>
+      </v-btn>
+    </template>
+    <span>{{ $i18n.get("_.user.mute-tooltip") }}</span>
+  </v-tooltip>
 </template>
 
 <script>

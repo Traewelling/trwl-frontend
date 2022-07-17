@@ -1,50 +1,59 @@
 <template>
-  <a
+  <v-btn
     v-if="userData.id === $store.state.user.id"
-    :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
-    href="#"
+    :text="dropdown"
+    color="blue"
+    dark
+    @click="$router.push({ name: 'settings' })"
   >
     {{ $i18n.get("_.profile.settings") }}
-  </a>
-  <a
+  </v-btn>
+  <v-btn
     v-else-if="userData.privateProfile && userData.followPending"
-    aria-disabled="true"
+    :text="dropdown"
+    disabled
+    color="blue"
+    dark
     :class="{
       'btn btn-sm btn-primary disabled': !dropdown,
       'dropdown-item': dropdown,
     }"
-    href="#"
   >
-    <i v-if="dropdown" aria-hidden="true" class="fas fa-user-clock"></i>
+    <v-icon v-if="dropdown">mdi-account-clock</v-icon>
     {{ $i18n.get("_.profile.follow_req.pending") }}
-  </a>
-  <a
+  </v-btn>
+  <v-btn
     v-else-if="userData.privateProfile && !userData.following"
+    :text="dropdown"
     :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
-    href="#"
+    color="blue"
+    dark
     @click.prevent="follow"
   >
-    <i v-if="dropdown" aria-hidden="true" class="fas fa-user-plus"></i>
+    <v-icon v-if="dropdown">mdi-account-plus</v-icon>
     {{ $i18n.get("_.profile.follow_req") }}
-  </a>
-  <a
+  </v-btn>
+  <v-btn
     v-else-if="!userData.following"
+    :text="dropdown"
     :class="{ 'btn btn-sm btn-primary': !dropdown, 'dropdown-item': dropdown }"
-    href="#"
+    color="blue"
+    dark
     @click.prevent="follow"
   >
-    <i v-if="dropdown" aria-hidden="true" class="fas fa-user-plus"></i>
+    <v-icon v-if="dropdown">mdi-account-plus</v-icon>
     {{ $i18n.get("_.profile.follow") }}
-  </a>
-  <a
+  </v-btn>
+  <v-btn
     v-else
+    :text="dropdown"
     :class="{ 'btn btn-sm btn-danger': !dropdown, 'dropdown-item': dropdown }"
-    href="#"
+    color="error"
     @click.prevent="unfollow"
   >
-    <i v-if="dropdown" aria-hidden="true" class="fas fa-user-minus"></i>
+    <v-icon v-if="dropdown">mdi-account-minus</v-icon>
     {{ $i18n.get("_.profile.unfollow") }}
-  </a>
+  </v-btn>
 </template>
 
 <script>

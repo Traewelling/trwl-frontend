@@ -12,17 +12,19 @@
         <span class="text-h4 font-weight-bold">
           <span>
             {{ user.displayName }}
-            <v-icon color="white" class="text-h4" v-if="user.privateProfile"
-              >mdi-account-lock</v-icon
-            >
+            <v-icon color="white" class="text-h4" v-if="user.privateProfile">
+              mdi-account-lock
+            </v-icon>
           </span>
           <br />
           <span class="font-weight-light text-h5">@{{ user.username }}</span>
           <FollowButton
+            class="mx-2"
             :user="user"
             v-on:updateUser="updateUser"
           ></FollowButton>
           <MuteButton
+            class="ms-2"
             v-if="!user.privateProfile"
             :user="user"
             v-on:updateUser="updateUser"
@@ -67,19 +69,19 @@
     </template>
     <Spinner v-if="loading || statusesLoading" class="mt-5" />
 
-    <v-row
-      v-if="!statusesLoading && !loading"
-      class="justify-content-center mt-5"
-    >
-      <v-col v-if="user.muted" class="col-md-8 col-lg-7 text-center mb-5">
-        <header>
-          <h3>{{ $i18n.get("_.user.muted.heading") }}</h3>
-        </header>
-        <h5>
+    <v-row v-if="!statusesLoading && !loading" class="mt-5" align="stretch">
+      <v-col
+        v-if="user.muted"
+        class="col-md-8 col-lg-7 text-center mb-5 offset-md-2"
+      >
+        <p class="text-h4 font-weight-bold">
+          {{ $i18n.get("_.user.muted.heading") }}
+        </p>
+        <p class="text-h6">
           {{
             $i18n.choice("_.user.muted.text", 1, { username: user.username })
           }}
-        </h5>
+        </p>
         <MuteButton
           :user="user"
           bigButton="true"
@@ -88,27 +90,28 @@
       </v-col>
       <v-col
         v-else-if="user.userInvisibleToMe"
-        class="col-md-8 col-lg-7 text-center mb-5"
+        class="col-md-8 col-lg-7 text-center mb-5 offset-md-2"
       >
-        <header>
-          <h3>{{ $i18n.get("_.profile.private-profile-text") }}</h3>
-        </header>
-        <h5>
+        <p class="text-h4 font-weight-bold">
+          {{ $i18n.get("_.profile.private-profile-text") }}
+        </p>
+        <p class="text-h6">
           {{
             $i18n.choice("_.profile.private-profile-information-text", 1, {
               username: user.username,
               request: $i18n.get("_.profile.follow_req"),
             })
           }}
-        </h5>
+        </p>
       </v-col>
-      <v-col v-else-if="statuses.length > 0" class="col-md-8 col-lg-7">
-        <header>
-          <span class="text-h3">
-            {{ $i18n.get("_.profile.last-journeys-of") }}
-            {{ user.displayName }}:
-          </span>
-        </header>
+      <v-col
+        v-else-if="statuses.length > 0"
+        class="col-md-8 col-lg-7 offset-md-2 offset-0"
+      >
+        <p class="text-h4">
+          {{ $i18n.get("_.profile.last-journeys-of") }}
+          {{ user.displayName }}:
+        </p>
 
         <div v-if="statuses">
           <Status
@@ -130,7 +133,7 @@
           </div>
         </div>
       </v-col>
-      <v-col v-else class="col-md-8 col-lg-7">
+      <v-col v-else class="col-md-8 col-lg-7 d-flex justify-center">
         <span class="text-h3 red--text text--darken-3">
           {{ $i18n.choice("_.profile.no-statuses", 1, { username: username }) }}
         </span>
