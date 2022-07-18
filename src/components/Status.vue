@@ -195,8 +195,7 @@
               {{ moment(statusData.createdAt).fromNow() }}
             </router-link>
           </v-list-item-content>
-
-          <v-row align="center" justify="end">
+          <v-row align="center" justify="end" style="max-width: 45%">
             <v-icon
               @click="likeStatus"
               class="mr-1"
