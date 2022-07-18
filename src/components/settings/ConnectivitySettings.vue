@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card-text>
     <h2>{{ $i18n.get("_.settings.tab.connectivity") }}</h2>
     <!-- ToDo -->
     <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
@@ -282,7 +282,7 @@
         </table>
       </div>
     </ModalConfirm>
-  </v-card>
+  </v-card-text>
 </template>
 
 <script>

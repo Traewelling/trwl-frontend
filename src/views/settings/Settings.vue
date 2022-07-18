@@ -1,27 +1,33 @@
 <template>
   <LayoutBasicNoSidebar footerclass="pt-5">
-    <h1>{{ $i18n.get("_.menu.settings") }}</h1>
-    <v-tabs background-color="transparent" class="col-md-12 col-lg-8 ml-9">
-      <v-tab>
-        {{ this.$i18n.get("_.settings.tab.profile") }}
-      </v-tab>
-      <v-tab>
-        {{ this.$i18n.get("_.settings.tab.account") }}
-      </v-tab>
-      <v-tab>
-        {{ this.$i18n.get("_.settings.tab.connectivity") }}
-      </v-tab>
+    <span class="text-h3">{{ $i18n.get("_.menu.settings") }}</span>
+    <v-row>
+      <v-col class="col-md-12 col-lg-8 ml-9">
+        <v-card>
+          <v-tabs background-color="transparent">
+            <v-tab>
+              {{ this.$i18n.get("_.settings.tab.profile") }}
+            </v-tab>
+            <v-tab>
+              {{ this.$i18n.get("_.settings.tab.account") }}
+            </v-tab>
+            <v-tab>
+              {{ this.$i18n.get("_.settings.tab.connectivity") }}
+            </v-tab>
 
-      <v-tab-item>
-        <ProfileSettings v-model="userProfileSettings" />
-      </v-tab-item>
-      <v-tab-item>
-        <AccountSettings v-model="userProfileSettings" />
-      </v-tab-item>
-      <v-tab-item>
-        <ConnectivitySettings v-model="userProfileSettings" />
-      </v-tab-item>
-    </v-tabs>
+            <v-tab-item>
+              <ProfileSettings v-model="userProfileSettings" />
+            </v-tab-item>
+            <v-tab-item>
+              <AccountSettings v-model="userProfileSettings" />
+            </v-tab-item>
+            <v-tab-item>
+              <ConnectivitySettings v-model="userProfileSettings" />
+            </v-tab-item>
+          </v-tabs>
+        </v-card>
+      </v-col>
+    </v-row>
   </LayoutBasicNoSidebar>
 </template>
 

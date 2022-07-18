@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card-text>
     <h2>{{ $i18n.get("_.settings.heading.account") }}</h2>
 
     <h6 class="text-uppercase grey--text text--darken-1 border-bottom my-5">
@@ -177,7 +177,7 @@
     </v-row>
     <DeleteAccountModal :username="value.username" ref="delete">
     </DeleteAccountModal>
-  </v-card>
+  </v-card-text>
 </template>
 
 <script>
