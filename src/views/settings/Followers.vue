@@ -1,71 +1,37 @@
 <template>
   <LayoutBasicNoSidebar>
-    <div class="col-md-9 col-lg-9">
-      <div class="card">
-        <div class="card-header">
-          <router-link :to="{ name: 'settings' }" class="text-black-50">
-            <i class="fas fa-arrow-left" aria-hidden="true"></i> &nbsp;
+    <v-col class="col-md-9 col-lg-9">
+      <v-card>
+        <v-app-bar flat>
+          <router-link
+            :to="{ name: 'settings' }"
+            class="black--text text-decoration-none"
+          >
+            <v-icon>mdi-arrow-left</v-icon>&nbsp;
             {{ $i18n.get("_.menu.settings") }}
           </router-link>
-        </div>
-        <div class="card-body pa-0">
-          <ul id="myTab" class="nav nav-tabs nav-fill" role="tablist">
-            <li class="nav-item">
-              <a
-                id="followers-tab"
-                aria-controls="home"
-                aria-selected="true"
-                class="nav-link active px-4"
-                data-mdb-toggle="tab"
-                href="#followers"
-                role="tab"
-              >
-                {{ $i18n.get("_.menu.settings.myFollower") }}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                id="requests-tab"
-                aria-controls="profile"
-                aria-selected="false"
-                class="nav-link px-4"
-                data-mdb-toggle="tab"
-                href="#requests"
-                role="tab"
-              >
-                {{ $i18n.get("_.menu.settings.follower-requests") }}
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                id="followings-tab"
-                aria-controls="contact"
-                aria-selected="false"
-                class="nav-link px-4"
-                data-mdb-toggle="tab"
-                href="#followings"
-                role="tab"
-              >
-                {{ $i18n.get("_.menu.settings.followings") }}
-              </a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div
-              id="followers"
-              class="tab-pane fade show active table-responsive"
-              role="tabpanel"
-            >
+        </v-app-bar>
+        <v-card-text class="pa-0">
+          <v-tabs>
+            <v-tab>
+              {{ $i18n.get("_.menu.settings.myFollower") }}
+            </v-tab>
+            <v-tab>
+              {{ $i18n.get("_.menu.settings.follower-requests") }}
+            </v-tab>
+            <v-tab>
+              {{ $i18n.get("_.menu.settings.followings") }}
+            </v-tab>
+            <v-tab-item>
+              <spinner v-if="followersLoading"></spinner>
               <FollowTable
-                v-if="followers.length > 0"
+                v-else-if="followers.length > 0"
                 :users="followers"
                 :followers="true"
               ></FollowTable>
-              <p v-else class="m-3">
-                <strong class="text-danger">
-                  <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ $i18n.get("_.settings.follower.no-follower") }}
-                </strong>
+              <p v-else class="mt-3 pa-3 font-weight-bold red--text">
+                <v-icon color="red">mdi-account-off</v-icon>
+                {{ $i18n.get("_.settings.follower.no-follower") }}
               </p>
               <div
                 v-if="
@@ -85,23 +51,17 @@
                   <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </div>
-              <spinner v-if="followersLoading"></spinner>
-            </div>
-            <div
-              id="requests"
-              class="tab-pane fade table-responsive"
-              role="tabpanel"
-            >
+            </v-tab-item>
+            <v-tab-item>
+              <spinner v-if="followRequestsLoading"></spinner>
               <FollowTable
-                v-if="followRequests.length > 0"
+                v-else-if="followRequests.length > 0"
                 :users="followRequests"
                 request="true"
               ></FollowTable>
-              <p v-else class="m-3">
-                <strong class="text-danger">
-                  <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ $i18n.get("_.settings.follower.no-requests") }}
-                </strong>
+              <p v-else class="mt-3 font-weight-bold red--text pa-3">
+                <v-icon color="red">mdi-account-off</v-icon>
+                {{ $i18n.get("_.settings.follower.no-requests") }}
               </p>
               <div
                 v-if="
@@ -122,22 +82,16 @@
                   <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </div>
-              <spinner v-if="followRequestsLoading"></spinner>
-            </div>
-            <div
-              id="followings"
-              class="tab-pane fade table-responsive"
-              role="tabpanel"
-            >
+            </v-tab-item>
+            <v-tab-item>
+              <spinner v-if="followingsLoading"></spinner>
               <FollowTable
-                v-if="followings.length > 0"
+                v-else-if="followings.length > 0"
                 :users="followings"
               ></FollowTable>
-              <p v-else class="m-3">
-                <strong class="text-danger">
-                  <i class="fas fa-users-slash" aria-hidden="true"></i>
-                  {{ $i18n.get("_.settings.follower.no-followings") }}
-                </strong>
+              <p v-else class="mt-3 pa-3 font-weight-bold red--text">
+                <v-icon color="red">mdi-account-off</v-icon>
+                {{ $i18n.get("_.settings.follower.no-followings") }}
               </p>
               <div
                 v-if="
@@ -156,13 +110,11 @@
                   <v-icon>mdi-menu-down</v-icon>
                 </v-btn>
               </div>
-              <spinner v-if="followingsLoading"></spinner>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer grey--text text--darken-1"></div>
-      </div>
-    </div>
+            </v-tab-item>
+          </v-tabs>
+        </v-card-text>
+      </v-card>
+    </v-col>
   </LayoutBasicNoSidebar>
 </template>
 
