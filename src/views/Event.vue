@@ -1,85 +1,106 @@
 <template>
   <HeroLayout>
     <template v-slot:hero>
-      <div class="row justify-content-center">
-        <div class="text-white col-md-8 col-lg-7">
-          <h1 class="card-title font-bold">
-            <strong>
-              {{ event.name }}
-              <code class="text-white">#{{ event.hashtag }}</code>
-            </strong>
-          </h1>
-          <h3>
-            <span class="font-weight-bold">
-              <i aria-hidden="true" class="fa fa-route d-inline" />&nbsp;
-              {{ event.trainDistance.toFixed(0) }}
-            </span>
-            <span class="small font-weight-lighter">km</span>
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <span v-bind="attrs" v-on="on">
-                  <i
-                    aria-hidden="true"
-                    class="fa fa-stopwatch d-inline"
-                  />&nbsp;
-                  {{ fullTime(event.trainDuration, true) }}
-                </span>
-              </template>
-              <span>{{ fullTime(event.trainDuration) }}</span>
-            </v-tooltip>
+      <div class="white--text px-4">
+        <p class="text-h4 font-weight-bold">
+          <strong>
+            {{ event.name }}
+            <code>#{{ event.hashtag }}</code>
+          </strong>
+        </p>
+        <v-row class="text-h5 py-1">
+          <v-col
+            v-if="event.host"
+            class="col-auto font-weight-bold ps-sm-2 py-0"
+          >
+            <v-icon color="white">mdi-account</v-icon>&nbsp;{{ event.host }}
+          </v-col>
+          <v-col class="col-auto font-weight-bold py-0">
+            <v-icon color="white">mdi-map-marker-distance</v-icon>&nbsp;
+            {{ localizeDistance(details.trainDistance) }}
+            <small class="small font-weight-lighter">km</small>
+          </v-col>
+          <v-tooltip v-if="details.trainDuration" top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-col
+                v-bind="attrs"
+                v-on="on"
+                class="col-auto font-weight-bold ps-sm-2 py-0"
+              >
+                <v-icon color="white">mdi-clock-time-five</v-icon>&nbsp;
+                {{ fullTime(details.trainDuration, true) }}
+              </v-col>
+            </template>
+            <span>{{ fullTime(details.trainDuration) }}</span>
+          </v-tooltip>
 
-            <br class="d-block d-sm-none" />
-            <span class="font-weight-bold ps-sm-2">
-              <i aria-hidden="true" class="fa fa-user" />&nbsp;{{ event.host }}
-            </span>
-            <span class="font-weight-bold ps-sm-2 text-nowrap">
-              <i aria-hidden="true" class="fa fa-link" />&nbsp;
-              <a :href="event.url" class="text-white">{{ event.url }}</a>
-            </span>
-          </h3>
-          <h2>
-            <span class="font-weight-bold"
-              ><i aria-hidden="true" class="fa fa-train"
-            /></span>
-            <span class="font-weight-bold">
-              <a class="text-white" href="#">{{ event.station.name }}</a>
-            </span>
-          </h2>
-        </div>
+          <v-col
+            v-if="event.url"
+            class="col-12 font-weight-bold py-0 ps-sm-2 text-nowrap"
+          >
+            <v-icon color="white">mdi-link</v-icon>&nbsp;
+            <a :href="event.url" class="white--text">{{ event.url }}</a>
+          </v-col>
+        </v-row>
+        <v-row v-if="event.station">
+          <v-col class="col-12 text-h5 ps-sm-2 py-0 font-weight-bold">
+            <v-icon color="white">mdi-bus-stop</v-icon>&nbsp;
+            <router-link
+              class="white--text"
+              :to="{
+                name: 'trains.stationboard',
+                query: { station: event.station.name },
+              }"
+            >
+              {{ event.station.name }}
+            </router-link>
+          </v-col>
+        </v-row>
       </div>
     </template>
     <Spinner v-if="loading || statusesLoading" class="mt-5" />
-    <div v-else class="row justify-content-center mt-5">
-      <div v-if="statuses.length > 0" class="col-md-8 col-lg-7">
+    <v-row v-else class="mt-5" align="stretch">
+      <v-col
+        v-if="statuses.length > 0"
+        class="col-md-8 col-lg-7 offset-md-2 offset-0"
+      >
         <div v-if="statuses">
           <Status
             v-for="status in statuses"
             v-bind:key="status.id"
             :status="status"
+            v-bind:stopovers="stopovers"
           ></Status>
           <div v-if="links && links.next" class="text-center">
-            <button
-              aria-label="$i18n.get('_.menu.show-more')"
-              class="btn btn-primary btn-lg btn-floating mt-4"
+            <v-btn
+              fab
+              dark
+              color="primary"
+              :aria-label="$i18n.get('_.menu.show-more')"
+              class="mt-4"
               @click.prevent="fetchMore"
+              :loading="loadingMore"
             >
-              <i aria-hidden="true" class="fas fa-caret-down"></i>
-            </button>
+              <v-icon>mdi-menu-down</v-icon>
+            </v-btn>
           </div>
         </div>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </HeroLayout>
 </template>
 
 <script>
 import Status from "@/components/Status";
 
-import { EventModel, StatusModel } from "@/ApiClient/APImodels";
+import { EventDetails, EventModel, StatusModel } from "@/ApiClient/APImodels";
 import HeroLayout from "@/components/layouts/HeroLayout";
 import Spinner from "@/components/Spinner";
 import Event from "@/ApiClient/Event";
 import fullTime from "@/helpers/timeHelpers/fullTime";
+import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
+import localizeThousands from "@/helpers/timeHelpers/localizeThousands";
+import ApiStatus from "@/ApiClient/Status";
 
 export default {
   name: "Event",
@@ -87,10 +108,16 @@ export default {
     return {
       username: this.$route.params.username,
       loading: false,
+      loadingMore: false,
       statusesLoading: false,
+      stopovers: null,
       event: EventModel,
+      details: EventDetails,
       statuses: [StatusModel],
       links: null,
+      localizeDistance,
+      localizeThousands,
+      fullTime,
     };
   },
   metaInfo() {
@@ -107,7 +134,6 @@ export default {
     this.fetchData();
   },
   methods: {
-    fullTime,
     fetchData() {
       this.error = null;
       this.loading = true;
@@ -116,9 +142,19 @@ export default {
           this.loading = false;
           this.event = data;
           this.fetchStatuses();
+          this.fetchDetails();
         })
         .catch((error) => {
           this.loading = false;
+          console.error(error);
+        });
+    },
+    fetchDetails() {
+      Event.fetchDetails(this.$route.params.slug)
+        .then((data) => {
+          this.details = data;
+        })
+        .catch((error) => {
           console.error(error);
         });
     },
@@ -130,18 +166,40 @@ export default {
           this.statusesLoading = false;
           this.statuses = data.data;
           this.links = data.links;
+          this.fetchStopovers(data.data);
         })
         .catch((error) => {
           this.statusesLoading = false;
           console.error(error);
         });
     },
-    fetchMore() {
-      this.fetchMoreData(this.links.next).then((data) => {
-        this.statuses = this.statuses.concat(data.data);
-        this.links = data.links;
-        this.fetchStopovers(data.data);
+    fetchStopovers() {
+      let tripIds = "";
+      this.statuses.forEach((status) => {
+        tripIds += status.train.trip + ",";
       });
+      ApiStatus.fetchStopovers(tripIds)
+        .then((data) => {
+          this.stopovers = data;
+        })
+        .catch((error) => {
+          this.loading = false;
+          console.error(error);
+        });
+    },
+    fetchMore() {
+      this.loadingMore = true;
+      this.fetchMoreData(this.links.next)
+        .then((data) => {
+          this.loadingMore = false;
+          this.statuses = this.statuses.concat(data.data);
+          this.links = data.links;
+          this.fetchStopovers(data.data);
+        })
+        .catch((error) => {
+          this.loadingMore = false;
+          console.error(error);
+        });
     },
   },
 };

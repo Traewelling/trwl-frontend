@@ -5,6 +5,9 @@ export default class Event {
     return getContent(`/event/${slug}`);
   }
 
+  static fetchDetails(slug) {
+    return getContent(`/event/${slug}/details`);
+  }
   static fetchStatuses(slug) {
     return getBody(`/event/${slug}/statuses`);
   }

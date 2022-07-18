@@ -9,8 +9,6 @@ export let EventModel = {
   url: "",
   begin: "",
   end: "",
-  trainDistance: 0,
-  trainDuration: 0,
   station: {
     id: 0,
     name: "",
@@ -19,6 +17,13 @@ export let EventModel = {
     ibnr: 0,
     rilIdentifier: null,
   },
+};
+
+export let EventDetails = {
+  id: 0,
+  slug: "",
+  trainDistance: 0,
+  trainDuration: 0,
 };
 
 export let Stopover = {

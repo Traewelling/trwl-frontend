@@ -68,32 +68,6 @@ axios.interceptors.response.use(
 );
 
 Vue.prototype.$appName = "Träwelling";
-
-new Vue({
-  router,
-  store,
-  created() {
-    const userInfo = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    const authenticated = localStorage.getItem("authenticated");
-
-    if (!authenticated) {
-      this.$store.dispatch("fetchUserData");
-      this.$store.dispatch("fetchLastStation");
-    }
-    if (userInfo) {
-      this.$store.commit("setUserData", JSON.parse(userInfo));
-    }
-    if (token) {
-      this.$store.commit("setUserToken", JSON.parse(token));
-    }
-    this.$store.dispatch("fetchLocale");
-  },
-  vuetify,
-  auth: Object(),
-  render: (h) => h(App),
-}).$mount("#app");
-
 Vue.mixin({
   methods: {
     apiErrorHandler: (response) => {
@@ -137,3 +111,28 @@ Vue.mixin({
     },
   },
 });
+
+new Vue({
+  router,
+  store,
+  created() {
+    const userInfo = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    const authenticated = localStorage.getItem("authenticated");
+
+    if (!authenticated) {
+      this.$store.dispatch("fetchUserData");
+      this.$store.dispatch("fetchLastStation");
+    }
+    if (userInfo) {
+      this.$store.commit("setUserData", JSON.parse(userInfo));
+    }
+    if (token) {
+      this.$store.commit("setUserToken", JSON.parse(token));
+    }
+    this.$store.dispatch("fetchLocale");
+  },
+  vuetify,
+  auth: Object(),
+  render: (h) => h(App),
+}).$mount("#app");
