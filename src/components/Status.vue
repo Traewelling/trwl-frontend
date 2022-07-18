@@ -13,8 +13,8 @@
       <v-card-text>
         <v-timeline align-top dense class="ma-n5">
           <v-timeline-item color="red darken-3" small>
-            <v-row class="pt-1">
-              <v-col class="col-2 col-lg-1 px-0">
+            <v-row class="pt-1 station-entry">
+              <v-col class="col-3 col-lg-1 px-0">
                 <span
                   v-if="statusData.train.origin.isDepartureDelayed"
                   style="text-decoration: line-through"
@@ -32,8 +32,30 @@
               </v-col>
               <v-col class="ps-0 text--primary">
                 <strong>{{ statusData.train.origin.name }}</strong>
-                <div class="text-caption">
-                  <span>
+                <v-row class="text-caption pt-3">
+                  <v-col class="col-auto py-0">
+                    <v-icon size="1rem">mdi-map-marker-distance</v-icon>
+                    &nbsp;{{ localizeDistance(statusData.train.distance) }}
+                    <small>km</small>
+                  </v-col>
+                  <v-col class="col-auto py-0">
+                    <v-icon size="1rem">mdi-clock-time-five</v-icon>
+                    &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
+                  </v-col>
+                  <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-col v-bind="attrs" v-on="on">
+                        <i
+                          :class="travelReason[statusData.business].icon"
+                          aria-hidden="true"
+                        ></i>
+                      </v-col>
+                    </template>
+                    <span>
+                      {{ $i18n.get(travelReason[statusData.business].desc) }}
+                    </span>
+                  </v-tooltip>
+                  <v-col class="col-auto py-0">
                     <img
                       v-if="categories.indexOf(statusData.train.category) > -1"
                       :alt="statusData.train.category"
@@ -41,33 +63,10 @@
                       class="product-icon"
                     />
                     <v-icon v-else size="1rem">mdi-train-variant</v-icon>
-                    {{ statusData.train.lineName }}
-                  </span>
-                  <span class="ps-2">
-                    <v-icon size="1rem">mdi-map-marker-distance</v-icon>
-                    &nbsp;{{ localizeDistance(statusData.train.distance) }}
-                    <small>km</small>
-                  </span>
-                  <span class="ps-2">
-                    <v-icon size="1rem">mdi-clock-time-five</v-icon>
-                    &nbsp;{{ hoursAndMinutes(statusData.train.duration) }}
-                  </span>
-                  <v-tooltip top v-if="statusData.business > 0" class="pl-sm-2">
-                    <template v-slot:activator="{ on, attrs }">
-                      <span v-bind="attrs" v-on="on">
-                        <i
-                          :class="travelReason[statusData.business].icon"
-                          aria-hidden="true"
-                        ></i>
-                      </span>
-                    </template>
-                    <span>
-                      {{ $i18n.get(travelReason[statusData.business].desc) }}
-                    </span>
-                  </v-tooltip>
-                  <br />
-                  <span v-if="statusData.event != null" class="pl-sm-2">
-                    <i aria-hidden="true" class="fa fa-calendar-day"></i>
+                    &nbsp;{{ statusData.train.lineName }}
+                  </v-col>
+                  <v-col v-if="statusData.event != null" class="col-auto py-0">
+                    <v-icon size="1rem">mdi-calendar</v-icon>&nbsp;
                     <router-link
                       :to="{
                         name: 'event',
@@ -76,8 +75,8 @@
                     >
                       {{ statusData.event.name }}
                     </router-link>
-                  </span>
-                </div>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
           </v-timeline-item>
@@ -107,7 +106,7 @@
                 :key="stop.id"
               >
                 <v-row class="pt-1">
-                  <v-col class="col-2 col-lg-1 px-0">
+                  <v-col class="col-3 col-lg-1 px-0">
                     <span
                       v-if="stop.isArrivalDelayed"
                       style="text-decoration: line-through"
@@ -137,8 +136,8 @@
           </v-expand-transition>
 
           <v-timeline-item color="red darken-3" small>
-            <v-row class="pt-1">
-              <v-col class="col-2 col-lg-1 px-0">
+            <v-row class="pt-1 station-entry">
+              <v-col class="col-3 col-lg-1 px-0">
                 <span
                   v-if="statusData.train.destination.isArrivalDelayed"
                   style="text-decoration: line-through"
@@ -500,6 +499,11 @@ export default {
 .v-timeline::before {
   top: 50px;
   height: calc(100% - 100px);
+}
+
+.station-entry {
+  position: relative;
+  left: -10px;
 }
 
 .map {
