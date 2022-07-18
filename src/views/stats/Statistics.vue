@@ -31,7 +31,7 @@
           </v-list>
         </v-menu>
       </div>
-      <v-menu offset-y :close-on-content-click="false">
+      <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn v-bind="attrs" v-on="on">
             <v-icon>mdi-calendar</v-icon>&nbsp;
@@ -52,9 +52,35 @@
             {{ $i18n.choice("_.stats.range.days", 1, { days: 60 }) }}
           </v-list-item>
           <v-divider class="my-2" />
-          <v-list-item @click="picker.show()">
-            {{ $i18n.choice("_.stats.range.picker") }}
-          </v-list-item>
+          <v-dialog
+            ref="dialog"
+            v-model="picker"
+            :return-value.sync="dates"
+            persistent
+            width="290px"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-list-item v-bind="attrs" v-on="on">
+                {{ $i18n.choice("_.stats.range.picker") }}
+              </v-list-item>
+            </template>
+            <v-date-picker v-model="dates" scrollable range>
+              <v-spacer></v-spacer>
+              <v-btn text color="primary" @click="picker = false">
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="
+                  $refs.dialog.save(dates);
+                  fetchPersonalData();
+                "
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-dialog>
         </v-list>
       </v-menu>
     </div>
@@ -222,7 +248,6 @@
 <script>
 import VueApexCharts from "vue-apexcharts";
 import moment from "moment";
-import LitePicker from "litepicker";
 import LayoutBasicNoSidebar from "@/components/layouts/BasicNoSidebar";
 import Statistics from "@/ApiClient/Statistics";
 import localizeDistance from "@/helpers/timeHelpers/localizeDistance";
@@ -241,9 +266,11 @@ export default {
       localizeThousands,
       fullTime,
       loading: true,
-      picker: null,
-      from: moment().subtract(1, "month").toISOString(),
-      until: moment().toISOString(),
+      picker: false,
+      dates: [
+        moment().subtract(1, "month").toISOString(),
+        moment().toISOString(),
+      ],
       fromGlobal: 0,
       untilGlobal: 0,
       emptySeries: [
@@ -330,26 +357,11 @@ export default {
   mounted() {
     this.fetchGlobalData();
     this.fetchPersonalData();
-    this.picker = new LitePicker({
-      element: document.getElementById("daterange"),
-      singleMode: false,
-      lang: this.$i18n.getLocale(),
-      tooltipNumber: (totalDays) => {
-        return totalDays - 1;
-      },
-      setup: (picker) => {
-        picker.on("selected", (date1, date2) => {
-          this.from = moment(date1.toDateString()).toISOString();
-          this.until = moment(date2.toDateString()).toISOString();
-          this.fetchPersonalData();
-        });
-      },
-    });
   },
   computed: {
     dateRange() {
-      let from = moment(this.from);
-      let until = moment(this.until);
+      let from = moment(this.dates[0]);
+      let until = moment(this.dates[1]);
       let diff = from.diff(until, "day");
 
       return moment.duration(diff, "days").humanize();
@@ -357,7 +369,7 @@ export default {
   },
   methods: {
     generateExport(type) {
-      Statistics.export(this.from, this.until, type)
+      Statistics.export(this.dates[0], this.dates[1], type)
         .then((res) => {
           const { data, headers } = res;
           let fileName = "export." + type;
@@ -385,19 +397,19 @@ export default {
         });
     },
     fetchRecentDays(delta) {
-      this.from = moment().subtract(delta, "days").toISOString();
-      this.until = moment().toISOString();
+      this.dates[0] = moment().subtract(delta, "days").toISOString();
+      this.dates[1] = moment().toISOString();
       this.fetchPersonalData();
     },
     fetchPersonalData() {
-      Statistics.fetchPersonalData(this.from, this.until)
+      Statistics.fetchPersonalData(this.dates[0], this.dates[1])
         .then((data) => {
           this.travelPurpose = data.data.purpose;
           this.trainProviders = data.data.operators;
           this.travelCategories = data.data.categories;
           this.travelTime = data.data.time;
-          this.from = data.meta.from;
-          this.until = data.meta.until;
+          this.dates[0] = data.meta.from;
+          this.dates[1] = data.meta.until;
           this.loading = false;
           this.updatePurpose();
           this.updateCategories();
