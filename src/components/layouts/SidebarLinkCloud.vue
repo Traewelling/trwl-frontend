@@ -1,9 +1,12 @@
 <template>
-  <v-container>
+  <v-container max-width="265px">
     <p>
-      <router-link v-for="link in linkCloud" :to="link.route" :key="link.route">
-        {{ link.text }}
-      </router-link>
+      <span v-for="(link, index) in linkCloud" :key="link.route">
+        <router-link :to="link.route" class="text-decoration-none">
+          {{ link.text }}
+        </router-link>
+        <span v-if="index + 1 < linkCloud.length">/</span>
+      </span>
     </p>
     <p v-html="$i18n.get('_.menu.developed')" />
     <p class="mb-0">&copy; {{ moment().format("Y") }} Tr&auml;welling</p>

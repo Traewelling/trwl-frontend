@@ -16,14 +16,12 @@
         </v-row>
       </v-container>
       <MobileFooterNav />
-      <FooterComponent :hideFooter="false" />
     </v-main>
   </div>
 </template>
 
 <script>
 import NavbarComponent from "./NavbarComponent";
-import FooterComponent from "./FooterComponent";
 import MobileFooterNav from "./MobileFooterNav";
 import OffCanvasNavigation from "./OffCanvasNavigation";
 import SidebarNav from "./SidebarNav";
@@ -34,7 +32,6 @@ export default {
     SidebarNav,
     OffCanvasNavigation,
     MobileFooterNav,
-    FooterComponent,
     NavbarComponent,
   },
   data: () => {
