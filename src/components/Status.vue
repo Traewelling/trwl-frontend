@@ -82,7 +82,11 @@
             </v-row>
           </v-timeline-item>
 
-          <v-timeline-item v-if="!showLinerun && stopovers" color="grey" small>
+          <v-timeline-item
+            v-if="!showLinerun && cutStopOvers.length"
+            color="grey"
+            small
+          >
             <v-btn small @click="showLinerun = true">
               <template v-if="nextStop != null">
                 <span class="d-none d-md-inline">
@@ -93,12 +97,13 @@
               <v-icon>mdi-chevron-down</v-icon>
             </v-btn>
           </v-timeline-item>
-          <v-expand-transition v-if="stopovers">
+          <v-expand-transition v-if="cutStopOvers && cutStopOvers.length">
             <transition-group v-show="showLinerun">
               <v-timeline-item
                 color="grey"
+                v-show="showLinerun"
                 small
-                v-for="stop in this.stopovers[this.statusData.train.trip].slice(1, -1)"
+                v-for="stop in this.cutStopOvers"
                 :key="stop.id"
               >
                 <v-row class="pt-1">
@@ -365,6 +370,20 @@ export default {
         this.arrival.isAfter() &&
         this.nextStop() !== null
       );
+    },
+    cutStopOvers() {
+      if (this.stopovers && this.statusData.train.trip in this.stopovers) {
+        let stopOvers = this.stopovers[this.statusData.train.trip];
+        if (stopOvers && stopOvers.length > 0) {
+          return stopOvers.filter((stopover) => {
+            let arrival = moment(stopover.arrival);
+            return (
+              arrival.isAfter(this.departure) && arrival.isBefore(this.arrival)
+            );
+          });
+        }
+      }
+      return null;
     },
     nextStop() {
       if (
