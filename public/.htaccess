@@ -1,0 +1,18 @@
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# Optimisation - prevent rewritten requests for the front-controller being reprocessed
+RewriteRule ^index\.html$ - [L]
+RewriteRule ^platform\.html$ - [L]
+
+# Prevent static resources being routed through the app
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Any URLs that start "/platform" (whole path segment only) are sent to "/platform.html"
+RewriteRule ^platform($|/) platform.html [L]
+
+# All other URLs are sent to "/index.html"
+RewriteRule . index.html [L]
