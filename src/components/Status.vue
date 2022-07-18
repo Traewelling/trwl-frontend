@@ -83,7 +83,7 @@
           </v-timeline-item>
 
           <v-timeline-item
-            v-if="!showLinerun && cutStopOvers.length"
+            v-if="!showLinerun && cutStopOvers && cutStopOvers.length"
             color="grey"
             small
           >

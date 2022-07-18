@@ -122,13 +122,17 @@
         </div>
         <div class="mt-5">
           <div v-if="links && links.next" class="text-center">
-            <button
+            <v-btn
+              fab
+              dark
+              color="primary"
               :aria-label="$i18n.get('_.menu.show-more')"
-              class="btn btn-primary btn-lg btn-floating mt-4"
-              @click.prevent="fetchMore"
+              class="mt-4"
+              :loading="loadingMore"
+              @click="fetchMore"
             >
-              <i aria-hidden="true" class="fas fa-caret-down"></i>
-            </button>
+              <v-icon>mdi-menu-down</v-icon>
+            </v-btn>
           </div>
         </div>
       </v-col>
@@ -160,6 +164,7 @@ export default {
     return {
       username: this.$route.params.username,
       loading: false,
+      loadingMore: false,
       statusesLoading: false,
       user: ProfileModel,
       statuses: [StatusModel],
@@ -254,10 +259,16 @@ export default {
         });
     },
     fetchMore() {
-      this.fetchMoreData(this.links.next).then((data) => {
-        this.statuses = this.statuses.concat(data.data);
-        this.links = data.links;
-      });
+      this.loadingMore = true;
+      this.fetchMoreData(this.links.next)
+        .then((data) => {
+          this.loadingMore = false;
+          this.statuses = this.statuses.concat(data.data);
+          this.links = data.links;
+        })
+        .catch(() => {
+          this.loadingMore = false;
+        });
     },
   },
 };

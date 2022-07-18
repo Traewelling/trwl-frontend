@@ -73,13 +73,17 @@
                 "
                 class="text-center"
               >
-                <button
-                  aria-label="$i18n.get('_.menu.show-more')"
-                  class="btn btn-primary btn-lg btn-floating my-1"
-                  @click.prevent="fetchMoreFollowers"
+                <v-btn
+                  fab
+                  dark
+                  color="primary"
+                  :aria-label="$i18n.get('_.menu.show-more')"
+                  class="my-1"
+                  @click="fetchMoreFollowers"
+                  :loading="loadingMore"
                 >
-                  <i aria-hidden="true" class="fas fa-caret-down"></i>
-                </button>
+                  <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
               </div>
               <spinner v-if="followersLoading"></spinner>
             </div>
@@ -107,13 +111,16 @@
                 "
                 class="text-center"
               >
-                <button
-                  aria-label="$i18n.get('_.menu.show-more')"
-                  class="btn btn-primary btn-lg btn-floating my-1"
-                  @click.prevent="fetchMoreFollowRequests"
+                <v-btn
+                  fab
+                  dark
+                  color="primary"
+                  :aria-label="$i18n.get('_.menu.show-more')"
+                  class="my-1"
+                  @click="fetchMoreFollowRequests"
                 >
-                  <i aria-hidden="true" class="fas fa-caret-down"></i>
-                </button>
+                  <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
               </div>
               <spinner v-if="followRequestsLoading"></spinner>
             </div>
@@ -138,13 +145,16 @@
                 "
                 class="text-center"
               >
-                <button
-                  aria-label="$i18n.get('_.menu.show-more')"
-                  class="btn btn-primary btn-lg btn-floating my-1"
-                  @click.prevent="fetchMoreFollowings"
+                <v-btn
+                  fab
+                  dark
+                  color="primary"
+                  :aria-label="$i18n.get('_.menu.show-more')"
+                  class="my-1"
+                  @click="fetchMoreFollowings"
                 >
-                  <i aria-hidden="true" class="fas fa-caret-down"></i>
-                </button>
+                  <v-icon>mdi-menu-down</v-icon>
+                </v-btn>
               </div>
               <spinner v-if="followingsLoading"></spinner>
             </div>

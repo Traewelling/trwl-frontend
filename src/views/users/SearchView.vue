@@ -74,13 +74,16 @@
         </div>
       </div>
       <div v-if="links && links.next" class="text-center">
-        <button
-          aria-label="$i18n.get('_.menu.show-more')"
-          class="btn btn-primary btn-lg btn-floating mt-4"
-          @click.prevent="fetchMore"
+        <v-btn
+          fab
+          dark
+          color="primary"
+          :aria-label="$i18n.get('_.menu.show-more')"
+          class="mt-4"
+          @click="fetchMore"
         >
-          <i aria-hidden="true" class="fas fa-caret-down"></i>
-        </button>
+          <v-icon>mdi-menu-down</v-icon>
+        </v-btn>
       </div>
     </div>
   </LayoutBasic>

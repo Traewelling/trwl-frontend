@@ -78,7 +78,7 @@
               color="primary"
               :aria-label="$i18n.get('_.menu.show-more')"
               class="mt-4"
-              @click.prevent="fetchMore"
+              @click="fetchMore"
               :loading="loadingMore"
             >
               <v-icon>mdi-menu-down</v-icon>
