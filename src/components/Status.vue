@@ -4,10 +4,8 @@
     <v-subheader v-if="showDate || isSingleStatus">
       {{ moment(statusData.train.origin.departure).format("dddd[,] LL") }}
     </v-subheader>
-    <div v-if="polyline" class="card-img-top">
-      <Map :poly-lines="polyline" class="map"></Map>
-    </div>
-    <v-card class="mb-2">
+    <v-card class="mb-2" style="position: sticky">
+      <Map v-if="polyline" :poly-lines="polyline" class="map"></Map>
       <v-card-text v-if="statusData.body" class="text-h6">
         <v-icon>mdi-format-quote-close</v-icon>
         {{ statusData.body }}
