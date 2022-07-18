@@ -19,13 +19,15 @@
       </router-link>
     </template>
     <v-divider />
-    <ChangeLanguageButton :navbar="true" />
+    <ChangeLanguageButton :sidebar="true" />
     <v-list-item
       v-if="$store.state.authenticated"
       link
       @click="$store.dispatch('logout')"
     >
-      <v-icon>mdi-logout</v-icon>
+      <v-list-item-icon>
+        <v-icon>mdi-logout</v-icon>
+      </v-list-item-icon>
       {{ $i18n.get("_.menu.logout") }}
     </v-list-item>
   </v-list>

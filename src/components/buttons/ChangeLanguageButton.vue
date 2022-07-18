@@ -1,7 +1,15 @@
 <template>
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
-      <v-btn :text="navbar" v-bind="attrs" v-on="on">
+      <v-list-item v-if="sidebar" link v-bind="attrs" v-on="on" class="px-0">
+        <v-list-item-icon>
+          <v-icon>mdi-earth</v-icon>
+        </v-list-item-icon>
+        <span>
+          {{ $i18n.get("_.settings.language.set") }}
+        </span>
+      </v-list-item>
+      <v-btn v-else :text="navbar" v-bind="attrs" v-on="on" class="float-end">
         <v-icon dark>mdi-earth</v-icon>
         <span :class="{ 'd-none d-md-inline': !navbar, 'd-inline': navbar }">
           {{ $i18n.get("_.settings.language.set") }}
@@ -31,7 +39,7 @@ export default {
     };
   },
   props: {
-    dashboard: {
+    sidebar: {
       type: Boolean,
       default: false,
     },
