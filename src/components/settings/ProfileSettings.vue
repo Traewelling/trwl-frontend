@@ -3,19 +3,21 @@
     <p class="text-h4">{{ $i18n.get("_.settings.heading.profile") }}</p>
 
     <v-subheader>{{ $i18n.get("_.settings.picture") }}</v-subheader>
-    <v-row>
+    <v-row align="center">
       <v-col class="col-3">
-        <img
-          ref="profilepicture"
-          :alt="$i18n.get('_.settings.picture')"
-          :src="$store.state.user.profilePicture"
-          class="rounded-circle w-100 d-block"
-        />
+        <v-avatar size="200">
+          <img
+            ref="profilepicture"
+            :alt="$i18n.get('_.settings.picture')"
+            :src="$store.state.user.profilePicture"
+            class="rounded-circle w-100 d-block"
+          />
+        </v-avatar>
       </v-col>
-      <v-col class="col-8 d-flex align-items-center">
-        <button class="btn btn-primary me-1" @click="toggleShowUpload">
+      <v-col>
+        <v-btn color="blue" dark @click="toggleShowUpload">
           {{ $i18n.get("_.settings.upload-image") }}
-        </button>
+        </v-btn>
         <button
           v-if="value.profile_picture_set"
           class="btn btn-outline-danger"
@@ -30,53 +32,45 @@
     </v-row>
 
     <v-subheader>{{ $i18n.get("_.settings.title-profile") }}</v-subheader>
-    <div class="form-floating mb-3">
-      <input
-        id="username"
-        v-model="value.username"
-        class="form-control"
+    <v-col class="col-12 col-md-4 mb-3">
+      <v-text-field
         placeholder="@Gertrud"
-        type="text"
+        counter="25"
+        v-model="value.username"
         @change="profileSettingsChange"
+        :label="$i18n.get('_.user.username')"
       />
-      <label for="username">{{ $i18n.get("_.user.username") }}</label>
-    </div>
-    <div class="form-floating mb-3">
-      <input
-        id="displayname"
+    </v-col>
+    <v-col class="col-12 col-md-4 mb-3">
+      <v-text-field
         v-model="value.name"
-        class="form-control"
         placeholder="Gertrud"
-        type="text"
+        counter="50"
         @change="profileSettingsChange"
+        required
+        :label="$i18n.get('_.user.displayname')"
       />
-      <label for="displayname">{{ $i18n.get("_.user.displayname") }}</label>
-    </div>
+    </v-col>
 
     <v-subheader>
       {{ $i18n.get("_.settings.title-privacy") }}
     </v-subheader>
 
     <v-row>
-      <v-col>
-        <label aria-label="visibilityDropdown" class="form-check-label">
-          {{ $i18n.get("_.menu.settings.myFollower") }}
-        </label>
-      </v-col>
-      <v-col>
-        <v-btn dark color="blue" :to="{ name: 'followers' }" class="float-end">
+      <v-col class="col-auto">
+        <v-btn dark color="blue" :to="{ name: 'followers' }">
           {{ $i18n.get("_.settings.follower.manage") }}
         </v-btn>
+      </v-col>
+      <v-col>
+        <label aria-label="visibilityDropdown" class="v-label theme--light">
+          {{ $i18n.get("_.menu.settings.myFollower") }}
+        </label>
       </v-col>
     </v-row>
 
     <v-row class="mt-3 pt-3">
-      <v-col>
-        <label aria-label="visibilityDropdown" class="form-check-label">
-          {{ $i18n.get("_.settings.visibility.default") }}
-        </label>
-      </v-col>
-      <v-col>
+      <v-col class="col-auto">
         <FADropdown
           id="visibilityDropdown"
           v-model="value.default_status_visibility"
@@ -87,58 +81,40 @@
           @input="profileSettingsChange"
         ></FADropdown>
       </v-col>
-    </v-row>
-    <v-row class="mt-3 pt-3">
-      <v-col class="col-9 col-md-11">
-        <label class="form-check-label" for="privateProfileSwitch">
-          {{ $i18n.get("_.user.private-profile") }}<br />
-          <span class="small grey--text text--darken-1">{{
-            $i18n.get("_.settings.visibility.disclaimer")
-          }}</span>
+      <v-col>
+        <label aria-label="visibilityDropdown" class="v-label theme--light">
+          {{ $i18n.get("_.settings.visibility.default") }}
         </label>
       </v-col>
-      <v-col class="form-check form-switch">
-        <input
-          id="privateProfileSwitch"
+    </v-row>
+    <v-row class="mt-3 pt-3">
+      <v-col>
+        <v-switch
           v-model="value.private_profile"
-          class="form-check-input float-end"
-          type="checkbox"
           @change="profileSettingsChange"
-        />
-      </v-col>
-    </v-row>
-    <v-row class="mt-3 pt-3">
-      <v-col class="col-9 col-md-11">
-        <label class="form-check-label" for="preventIndexSwitch">
-          {{ $i18n.get("_.settings.prevent-indexing") }}<br />
-          <span class="grey--text text--darken-1 small">
-            {{ $i18n.get("_.settings.search-engines.description") }}
-          </span>
-        </label>
-      </v-col>
-      <v-col class="form-check form-switch">
-        <input
-          id="preventIndexSwitch"
-          v-model="value.prevent_index"
-          class="form-check-input float-end"
-          type="checkbox"
-          @change="profileSettingsChange"
+          :label="$i18n.get('_.user.private-profile')"
+          :hint="$i18n.get('_.settings.visibility.disclaimer')"
+          persistent-hint
         />
       </v-col>
     </v-row>
     <v-row class="mt-3 pt-3">
       <v-col>
-        <label class="form-check-label" for="dblSwitch">
-          {{ $i18n.get("_.user.always-dbl") }}
-        </label>
-      </v-col>
-      <v-col class="form-check form-switch">
-        <input
-          id="dblSwitch"
-          v-model="value.always_dbl"
-          class="form-check-input float-end"
-          type="checkbox"
+        <v-switch
+          v-model="value.prevent_index"
           @change="profileSettingsChange"
+          :label="$i18n.get('_.settings.prevent-indexing')"
+          :hint="$i18n.get('_.settings.search-engines.description')"
+          persistent-hint
+        />
+      </v-col>
+    </v-row>
+    <v-row class="mt-3 pt-3">
+      <v-col>
+        <v-switch
+          v-model="value.always_dbl"
+          @click="profileSettingsChange"
+          :label="$i18n.get('_.user.always-dbl')"
         />
       </v-col>
     </v-row>

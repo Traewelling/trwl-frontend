@@ -1,7 +1,7 @@
 <template>
   <LayoutBasicNoSidebar footerclass="pt-5">
     <span class="text-h3">{{ $i18n.get("_.menu.settings") }}</span>
-    <v-row>
+    <v-row class="mt-2">
       <v-col class="col-md-12 col-lg-8 ml-9">
         <v-card>
           <v-tabs background-color="transparent">
